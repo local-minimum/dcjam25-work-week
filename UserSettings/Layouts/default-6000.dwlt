@@ -119,7 +119,7 @@ MonoBehaviour:
   m_MinSize: {x: 300, y: 100}
   m_MaxSize: {x: 24288, y: 16192}
   vertical: 0
-  controlID: 45
+  controlID: 38
   draggingID: 0
 --- !u!114 &6
 MonoBehaviour:
@@ -145,7 +145,7 @@ MonoBehaviour:
   m_MinSize: {x: 200, y: 100}
   m_MaxSize: {x: 16192, y: 16192}
   vertical: 1
-  controlID: 46
+  controlID: 39
   draggingID: 0
 --- !u!114 &7
 MonoBehaviour:
@@ -171,7 +171,7 @@ MonoBehaviour:
   m_MinSize: {x: 200, y: 50}
   m_MaxSize: {x: 16192, y: 8096}
   vertical: 0
-  controlID: 47
+  controlID: 40
   draggingID: 0
 --- !u!114 &8
 MonoBehaviour:
@@ -252,7 +252,7 @@ MonoBehaviour:
   m_MinSize: {x: 200, y: 50}
   m_MaxSize: {x: 16192, y: 8096}
   vertical: 0
-  controlID: 125
+  controlID: 123
   draggingID: 0
 --- !u!114 &11
 MonoBehaviour:
@@ -514,7 +514,7 @@ MonoBehaviour:
       scrollPos: {x: 0, y: 0}
       m_SelectedIDs: 
       m_LastClickedID: 0
-      m_ExpandedIDs: e254f6ffac61f6ffc461f6fffc64f6ff3a68f6ffe2cdf6fffacef6ff02e4f6ff1ae4f6ff56e7f6ff9aeaf6ffae53f7ffcc54f7ff20c2f7ffaec2f7ff3cc3f7ffcac3f7ff58c4f7ffbaabf8ffd2abf8ff0aaff8ff48b2f8ff6c17f9ff8418f9ff2a50f9ff421bfaff501bfaffbe28faffcc28faff9238faff7441faff90b1faff5a21fbfffc23fbffc832fbff82fefbff7202fcffe402fcffd607fcff8609fcfff00bfcffac11fcffc411fcff161efcff7221fcff3424fcff182cfcff342cfcffd24dfcff344efcff9e4ffcffbc52fcff5c5bfcff885efcfff864fcff0070fcff1870fcffb270fcffc0d4fcffe4d6fcff00d9fcff00dbfcfff0dcfcff9edefcff66e2fcff08e4fcff58e5fcffe0e6fcff56e9fcff90eafcff9aebfcff98ecfcff92edfcff8aeffcff7af0fcffaef3fcff98f5fcffdcfefcff1cfffcff0c09fdffa44cfdffae4cfdff22f6fdff5405feffc083feffe889feff688ffeff0899feffc899feff2e9cfeff94a1feffeab3feff84b4feff88b4feffceb4feff0eb5feff42b5feff64b5feffa2c0feff4cc1feff9cc1feffb0c1feffd0c1feff7401ffff8404ffff9c07ffff500affff540affff220cffff260dffff660dfffff211ffff0c18ffff7238ffffe43fffff4444ffffce45ffff8663fffff4e1ffff6cf8ffff7af8ffffc4faffff20a6000026a60000a2a6000042a80000aa9d0100b09d0100be9d01002c9e0100169f01001ea001009ca0010008ee0a006eef0a0002f00a005ef20a0036f30a0022c70d00d8d60d00f2da0d0046de0d00bef40d005cf60d0022f70d0048010e00b00a0e0052100e00bc100e009c110e0074150e005e651500
+      m_ExpandedIDs: 7cebffff
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -1122,7 +1122,7 @@ MonoBehaviour:
   m_Position:
     m_Target: {x: 0, y: 0, z: 0}
     speed: 2
-    m_Value: {x: 258.44305, y: 144.91328, z: 0}
+    m_Value: {x: 0, y: 0, z: 0}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -1170,15 +1170,15 @@ MonoBehaviour:
   m_Rotation:
     m_Target: {x: -0.08717229, y: 0.89959055, z: -0.21045254, w: -0.3726226}
     speed: 2
-    m_Value: {x: -0, y: 0, z: -0, w: -1}
+    m_Value: {x: -0.08717229, y: 0.89959055, z: -0.21045254, w: -0.3726226}
   m_Size:
     m_Target: 10
     speed: 2
-    m_Value: 451.2096
+    m_Value: 10
   m_Ortho:
     m_Target: 0
     speed: 2
-    m_Value: 1
+    m_Value: 0
   m_CameraSettings:
     m_Speed: 1.0005001
     m_SpeedNormalized: 0.50000006
@@ -1255,7 +1255,7 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Scenes
+    - Packages/se.localminimum.lmcore/Runtime/TiledDungeonBuilder/Story
     m_Globs: []
     m_ProductIds: 
     m_AnyWithAssetOrigin: 0
@@ -1265,16 +1265,16 @@ MonoBehaviour:
   m_ViewMode: 1
   m_StartGridSize: 16
   m_LastFolders:
-  - Assets/Scenes
+  - Packages/se.localminimum.lmcore/Runtime/TiledDungeonBuilder/Story
   m_LastFoldersGridSize: 16
-  m_LastProjectPath: C:\Users\Admin\Documents\Unity\LD57 - Depths
+  m_LastProjectPath: C:\Users\Admin\Documents\Unity\DCJam25 - Work week
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 31}
-    m_SelectedIDs: 8eb30000
-    m_LastClickedID: 45966
-    m_ExpandedIDs: 
+    scrollPos: {x: 0, y: 0}
+    m_SelectedIDs: feae0000
+    m_LastClickedID: 44798
+    m_ExpandedIDs: 0000000022ab0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1303,7 +1303,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 
+    m_ExpandedIDs: 0000000022ab0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
