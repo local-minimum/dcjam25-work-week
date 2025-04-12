@@ -1,0 +1,269 @@
+{
+    "Map/SizeTest": {
+        "height": 4300,
+        "width": 2
+    },
+    "activeFile": "",
+    "automapping.whileDrawing": true,
+    "expandedProjectPaths": [
+        ".",
+        "Automapping"
+    ],
+    "file.lastUsedOpenFilter": "All Files (*)",
+    "fileStates": {
+        ":/automap-tiles.tsx": {
+            "scaleInDock": 1
+        },
+        "Automapping/AutomappingDungeons.tmx": {
+            "scale": 0.75,
+            "selectedLayer": 2,
+            "viewCenter": {
+                "x": 437.33333333333337,
+                "y": 398
+            }
+        },
+        "Mapping.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 2
+        },
+        "Office.tmx": {
+            "expandedGroupLayers": [
+                12,
+                2
+            ],
+            "expandedObjectLayers": [
+                10,
+                26,
+                11,
+                4,
+                45,
+                44,
+                43,
+                12,
+                22,
+                2
+            ],
+            "scale": 16,
+            "selectedLayer": 24,
+            "viewCenter": {
+                "x": 698.9375,
+                "y": 617.90625
+            }
+        },
+        "Rules/AutomappingDungeons.tmx": {
+            "scale": 0.33,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 359.09090909090924,
+                "y": 1528.787878787879
+            }
+        },
+        "Rules/ModernDungeonAutomapping-1.tmx": {
+            "scale": 0.665185546875,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 511.88724950451444,
+                "y": 511.88724950451456
+            }
+        },
+        "Rules/ModernDungeonAutomapping-1corners.tmx": {
+            "scale": 1,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 497.5,
+                "y": 245.5
+            }
+        },
+        "Rules/ModernDungeonAutomapping-2.tmx": {
+            "scale": 0.665185546875,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 511.13557953461066,
+                "y": 511.88724950451456
+            }
+        },
+        "Rules/ModernDungeonAutomapping-2corners.tmx": {
+            "scale": 1,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 627.5,
+                "y": 100.5
+            }
+        },
+        "Rules/ModernDungeonAutomapping-3.tmx": {
+            "scale": 0.665185546875,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 511.88724950451444,
+                "y": 511.88724950451456
+            }
+        },
+        "Rules/ModernDungeonAutomapping-3corners.tmx": {
+            "scale": 1,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 492.5,
+                "y": 148.5
+            }
+        },
+        "Rules/ModernDungeonAutomapping-4.tmx": {
+            "scale": 0.665185546875,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 511.88724950451444,
+                "y": 511.88724950451456
+            }
+        },
+        "Rules/ModernDungeonAutomapping-4corners.tmx": {
+            "scale": 1,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 475.5,
+                "y": 159.5
+            }
+        },
+        "Rules/ModernDungeonAutomapping-5.tmx": {
+            "scale": 0.665185546875,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 511.88724950451444,
+                "y": 511.88724950451456
+            }
+        },
+        "Rules/ModernDungeonAutomapping-5corners.tmx": {
+            "scale": 1.5,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 189.66666666666666,
+                "y": 195
+            }
+        },
+        "Rules/ModernDungeonAutomapping.tmx": {
+            "scale": 0.75,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 512.6666666666666,
+                "y": 511.3333333333333
+            }
+        },
+        "Rules/ModernDungeonAutomapping0.tmx": {
+            "scale": 2,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 512.25,
+                "y": 512.25
+            }
+        },
+        "Rules/ModernDungeonAutomapping0corners.tmx": {
+            "scale": 0.75,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 592.6666666666667,
+                "y": 153.99999999999994
+            }
+        },
+        "Rules/ModernDungeonAutomapping1.tmx": {
+            "scale": 0.665185546875,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 511.88724950451444,
+                "y": 511.88724950451456
+            }
+        },
+        "Rules/ModernDungeonAutomapping1corners.tmx": {
+            "scale": 1,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 490.5,
+                "y": 178.5
+            }
+        },
+        "Rules/ModernDungeonAutomapping2.tmx": {
+            "scale": 0.665185546875,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 512.6389194744183,
+                "y": 511.88724950451456
+            }
+        },
+        "Rules/ModernDungeonAutomapping2corners.tmx": {
+            "scale": 1,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 461.5,
+                "y": 67.5
+            }
+        },
+        "Rules/ModernDungeonAutomapping3.tmx": {
+            "scale": 0.665185546875,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 511.88724950451444,
+                "y": 511.88724950451456
+            }
+        },
+        "Rules/ModernDungeonAutomapping3corners.tmx": {
+            "scale": 1,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 354,
+                "y": 172.5
+            }
+        },
+        "Rules/ModernDungeonAutomapping4.tmx": {
+            "scale": 0.665185546875,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 511.88724950451444,
+                "y": 511.88724950451456
+            }
+        },
+        "Rules/ModernDungeonAutomapping4corners.tmx": {
+            "scale": 1,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 472.5,
+                "y": 70.5
+            }
+        },
+        "Rules/ModernDungeonAutomapping5.tmx": {
+            "scale": 0.665185546875,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 512.6389194744183,
+                "y": 511.88724950451456
+            }
+        },
+        "Rules/ModernDungeonAutomapping5corners.tmx": {
+            "scale": 1,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 483.5,
+                "y": 262.5
+            }
+        }
+    },
+    "last.imagePath": "C:/Users/Admin/Documents/Unity/DCJam25 - Work week/Assets/Tiled",
+    "map.height": 32,
+    "map.lastUsedFormat": "tmx",
+    "map.width": 32,
+    "openFiles": [
+    ],
+    "project": "Office.tiled-project",
+    "property.type": "Direction",
+    "recentFiles": [
+        "Mapping.tsx",
+        "DemoLevel.tmx",
+        "Level1.tmx",
+        "Rules/ModernDungeonAutomapping0corners.tmx",
+        "Rules/ModernDungeonAutomapping1corners.tmx",
+        "Rules/ModernDungeonAutomapping-1corners.tmx",
+        "Rules/ModernDungeonAutomapping2corners.tmx",
+        "Rules/ModernDungeonAutomapping-2corners.tmx",
+        "Rules/ModernDungeonAutomapping-3corners.tmx",
+        "Rules/ModernDungeonAutomapping4corners.tmx",
+        "Rules/ModernDungeonAutomapping-4corners.tmx",
+        "Rules/ModernDungeonAutomapping5corners.tmx"
+    ],
+    "tileset.lastUsedFormat": "tsx"
+}
