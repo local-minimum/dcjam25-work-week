@@ -255,7 +255,7 @@
      <property name="Style" value="Cubicle"/>
     </properties>
    </object>
-   <object id="61" type="Style" x="668" y="731.333" width="138" height="42">
+   <object id="61" type="Style" x="642" y="731.333" width="164" height="42">
     <properties>
      <property name="Style" value="Kitchen"/>
     </properties>
@@ -310,7 +310,7 @@
      <property name="Style" value="Storage"/>
     </properties>
    </object>
-   <object id="71" type="Style" x="601.667" y="697.333" width="74" height="78.6667">
+   <object id="71" type="Style" x="601.667" y="732.333" width="43" height="43.6667">
     <properties>
      <property name="Style" value="LunchRoom"/>
     </properties>
