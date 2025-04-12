@@ -3,7 +3,7 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "",
+    "activeFile": "Office.tmx",
     "automapping.whileDrawing": true,
     "expandedProjectPaths": [
         ".",
@@ -28,26 +28,26 @@
         },
         "Office.tmx": {
             "expandedGroupLayers": [
-                12,
-                2
+                2,
+                12
             ],
             "expandedObjectLayers": [
-                10,
-                26,
-                11,
+                22,
+                2,
+                12,
                 4,
+                26,
+                43,
                 45,
                 44,
-                43,
-                12,
-                22,
-                2
+                11,
+                10
             ],
-            "scale": 16,
-            "selectedLayer": 24,
+            "scale": 1,
+            "selectedLayer": 6,
             "viewCenter": {
-                "x": 698.9375,
-                "y": 617.90625
+                "x": 737,
+                "y": 621.5
             }
         },
         "Rules/AutomappingDungeons.tmx": {
@@ -248,11 +248,14 @@
     "map.lastUsedFormat": "tmx",
     "map.width": 32,
     "openFiles": [
+        "Office.tmx",
+        "Mapping.tsx"
     ],
     "project": "Office.tiled-project",
     "property.type": "string",
     "recentFiles": [
         "Mapping.tsx",
+        "Office.tmx",
         "DemoLevel.tmx",
         "Level1.tmx",
         "Rules/ModernDungeonAutomapping0corners.tmx",
@@ -262,8 +265,7 @@
         "Rules/ModernDungeonAutomapping-2corners.tmx",
         "Rules/ModernDungeonAutomapping-3corners.tmx",
         "Rules/ModernDungeonAutomapping4corners.tmx",
-        "Rules/ModernDungeonAutomapping-4corners.tmx",
-        "Rules/ModernDungeonAutomapping5corners.tmx"
+        "Rules/ModernDungeonAutomapping-4corners.tmx"
     ],
     "tileset.lastUsedFormat": "tsx"
 }
