@@ -3,11 +3,9 @@ using UnityEngine;
 
 namespace LMCore.Crawler
 {
-    public interface IDungeon
+    public interface IDungeon  : IGridSizeProvider
     {
         public string MapName { get; }
-
-        public float GridSize { get; }
 
         public IDungeonNode this[Vector3Int coordinates] { get; }
         public bool HasNodeAt(Vector3Int coordinates);

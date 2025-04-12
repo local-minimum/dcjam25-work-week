@@ -114,7 +114,8 @@ namespace LMCore.Crawler
                 return _node.GetEdge(Edge);
             }
 
-            return _coordinates.ToPosition(dungeon.GridSize) + Edge.AsLookVector3D().ToDirection(dungeon.GridSize * 0.5f);
+            return _coordinates.ToPosition(dungeon.GridSize, dungeon.GridHeight) + 
+                Edge.AsLookVector3D().ToDirection(dungeon.GridSize * 0.5f, dungeon.GridHeight * 0.5f);
         }
 
         public bool IsSame(MovementCheckpoint other)

@@ -92,7 +92,8 @@ namespace LMCore.TiledDungeon
             var dungeon = Node.Dungeon;
 
             var size = dungeon.GridSize;
-            var size3D = new Vector3(size, size, size);
+            var height = dungeon.GridHeight;
+            var size3D = new Vector3(size, height, size);
 
             Gizmos.color = Color.green;
 

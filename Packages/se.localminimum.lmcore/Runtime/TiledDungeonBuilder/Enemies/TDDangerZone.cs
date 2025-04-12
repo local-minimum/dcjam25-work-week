@@ -195,7 +195,8 @@ namespace LMCore.TiledDungeon
             if (dungeon == null || !enabled) return;
 
             var size = dungeon.GridSize;
-            var size3D = new Vector3(size, size, size);
+            var height = dungeon.GridHeight;
+            var size3D = new Vector3(size, height, size);
 
             var color = Color.red;
 

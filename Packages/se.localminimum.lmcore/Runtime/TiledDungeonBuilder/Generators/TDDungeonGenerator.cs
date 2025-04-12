@@ -16,7 +16,7 @@ namespace LMCore.TiledDungeon
             // Shouldn't create same twice, no reason for this to happen though...
             if (dungeon.HasNodeAt(coordinates)) return;
 
-            var node = GameObject.Instantiate(dungeon.Prefab, parent);
+            var node = GameObject.Instantiate(dungeon.NodePrefab, parent);
 
             node.Coordinates = coordinates;
             dungeon[coordinates] = node;

@@ -192,7 +192,8 @@ namespace LMCore.TiledDungeon
             Debug.Log(string.Join(", ", Config.Modifications.Select(v => v)));
         }
 
-        public Vector3 CenterPosition => Coordinates.ToPosition(Dungeon.GridSize) + (Vector3.up * Dungeon.GridSize * 0.5f);
+        public Vector3 CenterPosition => 
+            Coordinates.ToPosition(Dungeon.GridSize, Dungeon.GridHeight) + (Vector3.up * Dungeon.GridHeight * 0.5f);
 
         TDContainer _container;
         TDContainer Container
@@ -1059,7 +1060,7 @@ namespace LMCore.TiledDungeon
             var a = GetAnchor(anchor);
             if (a != null) return a.CenterPosition;
 
-            return CenterPosition + anchor.AsLookVector3D().ToDirection(Dungeon.GridSize * 0.5f);
+            return CenterPosition + anchor.AsLookVector3D().ToDirection(Dungeon.GridSize * 0.5f, Dungeon.GridHeight * 0.5f);
         }
 
         public Vector3 GetEdge(Direction anchor, Direction edge)
@@ -1068,8 +1069,8 @@ namespace LMCore.TiledDungeon
             if (a != null) return a.GetEdgePosition(edge);
 
             return CenterPosition
-                + anchor.AsLookVector3D().ToDirection(Dungeon.GridSize * 0.5f)
-                + edge.AsLookVector3D().ToDirection(Dungeon.GridSize * 0.5f);
+                + anchor.AsLookVector3D().ToDirection(Dungeon.GridSize * 0.5f, Dungeon.GridHeight * 0.5f)
+                + edge.AsLookVector3D().ToDirection(Dungeon.GridSize * 0.5f, Dungeon.GridHeight * 0.5f);
         }
     }
 }

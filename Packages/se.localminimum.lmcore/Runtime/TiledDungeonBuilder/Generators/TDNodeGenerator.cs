@@ -1224,7 +1224,7 @@ namespace LMCore.TiledDungeon
                 config.RoofRule
             ));
 
-            node.transform.localPosition = node.Coordinates.ToPosition(dungeon.GridSize);
+            node.transform.localPosition = node.Coordinates.ToPosition(dungeon.GridSize, dungeon.GridHeight);
             node.name = $"TileNode Elevation {node.Coordinates.y} ({node.Coordinates.x}, {node.Coordinates.z})";
 
             var down = ConfigureCube(node, config);

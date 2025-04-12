@@ -87,7 +87,7 @@ namespace LMCore.TiledDungeon.DungeonFeatures
         /// World position of a virtual node center misaligned with the dungeon grid
         /// </summary>
         public Vector3 VirtualNodeCenter =>
-            transform.position + ((Dungeon?.GridSize ?? 3f) * 0.5f * Vector3.up);
+            transform.position + ((Dungeon?.GridHeight ?? 3f) * 0.5f * Vector3.up);
 
         protected string PrefixLogMessage(string message) => $"{Interaction} Moving Platform {Coordinates} (origin {StartCoordinates}): {message}";
 
@@ -1001,9 +1001,9 @@ namespace LMCore.TiledDungeon.DungeonFeatures
                 moveProgress = 0f;
             }
             phase = Phase.Moving;
-            var startPosition = moveStartCoordinates.ToPosition(Dungeon.GridSize);
+            var startPosition = moveStartCoordinates.ToPosition(Dungeon.GridSize, Dungeon.GridHeight);
             var targetCoordinates = MoveDirection.Translate(moveStartCoordinates);
-            var targetPosition = targetCoordinates.ToPosition(Dungeon.GridSize);
+            var targetPosition = targetCoordinates.ToPosition(Dungeon.GridSize, Dungeon.GridHeight);
 
             ActivePhaseFunction = () =>
             {

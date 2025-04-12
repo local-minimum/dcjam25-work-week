@@ -48,11 +48,16 @@ namespace LMCore.TiledDungeon
         float gridScale = 3f;
         public float GridSize => gridScale;
 
+        [SerializeField, Range(0, 10)]
+        float gridHeight;
+
+        public float GridHeight => gridHeight <= 0f ? gridScale : gridHeight;
+
         [SerializeField]
         bool inferRoof = true;
 
-        [SerializeField]
-        public TDNode Prefab;
+        [SerializeField, Tooltip("Node prefab")]
+        public TDNode NodePrefab;
 
         [Header("Tiled")]
         [SerializeField] TiledMap map;
@@ -365,11 +370,11 @@ namespace LMCore.TiledDungeon
         public Vector3 Position(GridEntity entity) =>
             HasNodeAt(entity.Coordinates) ?
                 this[entity.Coordinates].GetEdge(entity.AnchorDirection) :
-                entity.Coordinates.ToPosition(GridSize) + entity.AnchorDirection.AsLookVector3D().ToDirection(GridSize * 0.5f);
+                entity.Coordinates.ToPosition(GridSize, GridHeight) + entity.AnchorDirection.AsLookVector3D().ToDirection(GridSize * 0.5f, GridHeight * 0.5f);
 
         public Vector3 Position(Vector3Int coordinates, Direction anchor, bool rotationRespectsAnchorDirection) =>
             HasNodeAt(coordinates) ? this[coordinates].GetEdge(anchor) :
-            coordinates.ToPosition(GridSize) + anchor.AsLookVector3D().ToDirection(GridSize * 0.5f);
+            coordinates.ToPosition(GridSize, GridHeight) + anchor.AsLookVector3D().ToDirection(GridSize * 0.5f, GridHeight * 0.5f);
 
         void OnLoadGameSave(GameSave save)
         {

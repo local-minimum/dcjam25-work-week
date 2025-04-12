@@ -352,13 +352,13 @@ namespace LMCore.Extensions
         /// Returns float world position
         /// </summary>
         /// <param name="scale">Size of each int space step in the world coordinates space</param>
-        public static Vector3 ToPosition(this Vector3Int coords, float scale = 3, bool invertZ = false) =>
-            new Vector3(coords.x * scale, coords.y * scale, invertZ ? coords.z * -scale : coords.z * scale);
+        public static Vector3 ToPosition(this Vector3Int coords, float scale = 3, float scaleY = 3, bool invertZ = false) =>
+            new Vector3(coords.x * scale, coords.y * scaleY, invertZ ? coords.z * -scale : coords.z * scale);
 
         public static Vector3 ToDirectionFromXZPlane(this Vector2Int direction) => new Vector3(direction.x, 0, direction.y);
 
         public static Vector3 ToDirection(this Vector3Int direction) => new Vector3(direction.x, direction.y, direction.z);
-        public static Vector3 ToDirection(this Vector3Int direction, float scale) => new Vector3(direction.x * scale, direction.y * scale, direction.z * scale);
+        public static Vector3 ToDirection(this Vector3Int direction, float scale, float heightScale) => new Vector3(direction.x * scale, direction.y * heightScale, direction.z * scale);
 
         #endregion World
 

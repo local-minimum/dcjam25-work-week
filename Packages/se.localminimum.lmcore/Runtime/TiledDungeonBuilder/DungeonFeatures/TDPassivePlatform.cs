@@ -18,7 +18,7 @@ namespace LMCore.TiledDungeon.DungeonFeatures
         public Transform Backside;
 
         public Vector3 VirtualNodeCenter =>
-            transform.position + ((Dungeon?.GridSize ?? 3f) * 0.5f * Vector3.up);
+            transform.position + ((Dungeon?.GridHeight ?? 3f) * 0.5f * Vector3.up);
 
         protected string PrefixLogMessage(string message) =>
             $"Plassive Platform to '{movingPlatformId}' @ {Coordinates}: {message}";

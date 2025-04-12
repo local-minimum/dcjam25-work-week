@@ -185,6 +185,17 @@ namespace LMCore.Crawler
             }
         }
 
+        float HalfGridHeight
+        {
+            get
+            {
+                var d = Dungeon;
+                if (d == null) return 1.5f;
+
+                return d.GridHeight * 0.5f;
+            }
+        }
+
         public IMovingCubeFace ManagingMovingCubeFace { get; set; }
 
 
@@ -287,13 +298,15 @@ namespace LMCore.Crawler
             get
             {
                 var halfSize = HalfGridSize;
+                var halfHeight = HalfGridHeight;
+
                 var s = Sentinels;
                 if (s != null && s.ContainsKey(Direction.None))
                 {
                     return s[Direction.None].Position;
                 }
 
-                var offset = CubeFace.AsLookVector3D().ToDirection(halfSize + baseOffset);
+                var offset = CubeFace.AsLookVector3D().ToDirection(halfSize + baseOffset, halfHeight + baseOffset);
 
                 if (ManagingMovingCubeFace != null)
                 {
@@ -324,7 +337,7 @@ namespace LMCore.Crawler
 
             if (Sentinels.ContainsKey(direction)) return Sentinels[direction].Position;
 
-            return CenterPosition + direction.AsLookVector3D().ToDirection(HalfGridSize);
+            return CenterPosition + direction.AsLookVector3D().ToDirection(HalfGridSize, HalfGridHeight);
         }
         #endregion
 
