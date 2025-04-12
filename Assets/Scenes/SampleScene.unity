@@ -610,15 +610,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   providesMatchPattern: .*
   warnIfPrefabIsMissing: 1
-  Wall: {fileID: 0}
-  Floor: {fileID: 0}
-  Celing: {fileID: 0}
+  Wall: {fileID: 1577274846269911501, guid: 4fa4840af15e7a04cbe05c6d19b0f70b, type: 3}
+  Floor: {fileID: 3487232565462367904, guid: 645228a7ff4160b47a1b76e3297a5f34, type: 3}
+  Celing: {fileID: 6384400148850771444, guid: a08a8653d196e0d44aca2db4490d5b53, type: 3}
   CornerWedge: {fileID: 0}
   WallCrack: {fileID: 0}
   IllusoryWall: {fileID: 0}
   IllusoryCeiling: {fileID: 0}
   IllusoryFloor: {fileID: 0}
-  Fence: {fileID: 0}
+  Fence: {fileID: 3026056147469114277, guid: 161e9a56439a70848a82642e4e6c303d, type: 3}
   Alcove: {fileID: 0}
   Hole: {fileID: 0}
   TrapDoor: {fileID: 0}
