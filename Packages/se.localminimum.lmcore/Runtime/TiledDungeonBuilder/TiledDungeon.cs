@@ -53,8 +53,10 @@ namespace LMCore.TiledDungeon
 
         public float GridHeight => gridHeight <= 0f ? gridScale : gridHeight;
 
-        [SerializeField]
+        [SerializeField, Tooltip("Will use node side up of tile cube")]
         bool inferRoof = true;
+        [SerializeField, Tooltip("Will have roof/ceiling no matter what")]
+        bool forceRoof = false;
 
         [SerializeField, Tooltip("Node prefab")]
         public TDNode NodePrefab;
@@ -196,6 +198,7 @@ namespace LMCore.TiledDungeon
 
         TiledNodeRoofRule Roofing(TDNode aboveNode, bool topLayer)
         {
+            if (forceRoof) return TiledNodeRoofRule.ForcedSet;
             if (!inferRoof) return TiledNodeRoofRule.CustomProps;
 
             if (aboveNode == null)

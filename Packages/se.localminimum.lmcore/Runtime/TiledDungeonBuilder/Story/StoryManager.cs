@@ -82,8 +82,10 @@ namespace LMCore.TiledDungeon.Narrative
 
         private void Start()
         {
-            if (ActiveStory == null)
+            if (ActiveStory == null && StoryUIRoot != null)
+            {
                 StoryUIRoot.SetActive(false);
+            }
         }
 
         private void OnEnable()
@@ -133,11 +135,17 @@ namespace LMCore.TiledDungeon.Narrative
             }
 
             OnStoryPhaseChange?.Invoke(StoryPhase.Start, story);
-            NextButton.onClick.AddListener(ContinueStory);
+            if (NextButton != null)
+            {
+                NextButton.onClick.AddListener(ContinueStory);
+            }
 
             ActiveStory = story;
             this.trigger = trigger;
-            StoryUIRoot.SetActive(true);
+            if (StoryUIRoot != null)
+            {
+                StoryUIRoot.SetActive(true);
+            }
             ContinueStory(resume, false);
         }
 
@@ -153,21 +161,30 @@ namespace LMCore.TiledDungeon.Narrative
             showStoryParts = null;
 
             Debug.Log(PrefixLogMessage("Hiding options area since there are none"));
-            if (!ActiveStory.canContinue)
+            if (NextButton != null && !ActiveStory.canContinue)
             {
                 NextButton.onClick.RemoveListener(ContinueStory);
                 NextButton.onClick.AddListener(EndStory);
             }
 
             AllowClicks = false;
-            NextButton.gameObject.SetActive(true);
-            StartCoroutine(DelaySelectFirst(NextButton.gameObject));
+            if (NextButton != null)
+            {
+                NextButton.gameObject.SetActive(true);
+                StartCoroutine(DelaySelectFirst(NextButton.gameObject));
+            }
         }
 
         void HideAllProgressOptions()
         {
-            NextButton.gameObject.SetActive(false);
-            OptionsRoot.gameObject.SetActive(false);
+            if (NextButton != null)
+            {
+                NextButton.gameObject.SetActive(false);
+            }
+            if (OptionsRoot != null)
+            {
+                OptionsRoot.gameObject.SetActive(false);
+            }
             for (int i = 0, l = Options.Count; i < l; i++)
             {
                 Options[i].gameObject.SetActive(false);
@@ -179,7 +196,10 @@ namespace LMCore.TiledDungeon.Narrative
             blockPresentation = false;
 
             Debug.Log(PrefixLogMessage("Showing options"));
-            OptionsRoot.gameObject.SetActive(true);
+            if (OptionsRoot != null)
+            {
+                OptionsRoot.gameObject.SetActive(true);
+            }
             var nOptionsBefore = Options.Count;
             StoryOption option = null;
 
@@ -243,8 +263,13 @@ namespace LMCore.TiledDungeon.Narrative
                     option.gameObject.SetActive(true);
                 }
             }
-            LayoutRebuilder.ForceRebuildLayoutImmediate(OptionsRoot);
-            var group = OptionsRoot.GetComponent<VerticalLayoutGroup>();
+
+            if (OptionsRoot != null)
+            {
+                LayoutRebuilder.ForceRebuildLayoutImmediate(OptionsRoot);
+                // XXX: Why was this here
+                // var group = OptionsRoot.GetComponent<VerticalLayoutGroup>();
+            }
         }
 
         IEnumerator<WaitForSeconds> DelaySelectFirst(GameObject target)
@@ -255,10 +280,13 @@ namespace LMCore.TiledDungeon.Narrative
 
             yield return new WaitForSeconds(0.02f);
 
-            var bg = OptionsRoot.GetComponentInChildren<ButtonGroup>();
-            if (bg != null)
+            if (OptionsRoot != null)
             {
-                bg.ForceSyncSelected();
+                var bg = OptionsRoot.GetComponentInChildren<ButtonGroup>();
+                if (bg != null)
+                {
+                    bg.ForceSyncSelected();
+                }
             }
 
             AllowClicks = true;
@@ -268,7 +296,9 @@ namespace LMCore.TiledDungeon.Narrative
         {
             yield return new WaitForSeconds(delay);
             option.gameObject.SetActive(true);
-            LayoutRebuilder.ForceRebuildLayoutImmediate(OptionsRoot);
+            if (OptionsRoot != null) { 
+                LayoutRebuilder.ForceRebuildLayoutImmediate(OptionsRoot);
+            }
         }
 
         void ShowProgressOptions()
@@ -451,8 +481,14 @@ namespace LMCore.TiledDungeon.Narrative
             var story = ActiveStory;
             ActiveStory = null;
             trigger = null;
-            NextButton.onClick.RemoveListener(EndStory);
-            StoryUIRoot.SetActive(false);
+            if (NextButton != null)
+            {
+                NextButton.onClick.RemoveListener(EndStory);
+            }
+            if (StoryUIRoot != null)
+            {
+                StoryUIRoot.SetActive(false);
+            }
             OnStoryPhaseChange?.Invoke(StoryPhase.End, story);
         }
 

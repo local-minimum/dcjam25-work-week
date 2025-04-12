@@ -61,7 +61,7 @@ namespace LMCore.UI
         {
             get
             {
-                if (_canvas == null)
+                if (_canvas == null && CursorTransform != null)
                 {
                     _canvas = CursorTransform.GetComponentInParent<Canvas>(true);
                 }
@@ -85,14 +85,18 @@ namespace LMCore.UI
             else if (!virtualMouse.added)
             {
                 InputSystem.AddDevice(virtualMouse);
+
             }
 
-            InputUser.PerformPairingWithDevice(virtualMouse, playerInput.user);
-
-            if (CursorTransform != null)
+            if (virtualMouse != null)
             {
-                Vector2 position = CursorTransform.anchoredPosition;
-                InputState.Change(virtualMouse.position, position);
+                InputUser.PerformPairingWithDevice(virtualMouse, playerInput.user);
+
+                if (CursorTransform != null)
+                {
+                    Vector2 position = CursorTransform.anchoredPosition;
+                    InputState.Change(virtualMouse.position, position);
+                }
             }
         }
 
@@ -112,7 +116,7 @@ namespace LMCore.UI
 
         private void UpdateMotion()
         {
-            if (!Ready || !CursorTransform.gameObject.activeSelf) return;
+            if (!Ready || CursorTransform == null || !CursorTransform.gameObject.activeSelf) return;
 
 
             Vector2 deltaValue = Gamepad.current.leftStick.ReadValue();
@@ -176,8 +180,11 @@ namespace LMCore.UI
 
         void SyncVisibility()
         {
-            // Only show custom cursor when mode allows custom cursor
-            CursorTransform.gameObject.SetActive(CustomCursorShouldBeVisible);
+            if (CursorTransform != null)
+            {
+                // Only show custom cursor when mode allows custom cursor
+                CursorTransform.gameObject.SetActive(CustomCursorShouldBeVisible);
+            }
 
             // Always show native cursor when we are not on a custom cursor control scheme
             // but also show it when behavior is disabled and disabled behavior not set to keep
@@ -227,7 +234,7 @@ namespace LMCore.UI
         /// <param name="position">Mouse position coordinates</param>
         void AnchorCursor(Vector2 position)
         {
-            if (CursorTransform == null) return;
+            if (CursorTransform == null || canvas == null) return;
 
             Vector2 anchoredPosition;
 

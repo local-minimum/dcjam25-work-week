@@ -1021,21 +1021,25 @@ namespace LMCore.TiledDungeon
                             direction,
                             node.NodeStyle);
 
-                        alcove.name = direction.ToString();
+                        if (alcove != null)
+                        {
+                            alcove.name = direction.ToString();
 
-                        ConfigureContainer(
-                            node,
-                            alcove,
-                            direction,
-                            direction.Inverse(),
-                            TiledConfiguration.instance.AlcoveClass,
-                            neighbourConfig,
-                            false,
-                            false);
+                            ConfigureContainer(
+                                node,
+                                alcove,
+                                direction,
+                                direction.Inverse(),
+                                TiledConfiguration.instance.AlcoveClass,
+                                neighbourConfig,
+                                false,
+                                false);
 
-                        ApplyAnchorRotation(alcove, direction, config);
+                            ApplyAnchorRotation(alcove, direction, config);
 
-                        continue;
+                            continue;
+                        }
+
                     }
                     else if (ConfigureWallSpike(node, config, direction) || ConfigureShooter(node, config, direction))
                     {

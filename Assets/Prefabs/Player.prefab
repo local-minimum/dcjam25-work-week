@@ -104,25 +104,25 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   Abilities:
-    turnDurationScaleFactor: 0
-    refusedMidpointMaxInterpolation: 0
-    refusedMidpointReversingMaxInterpolation: 0
-    minScaleHeight: 0
-    maxScaleHeight: 0
-    minForwardJump: 0
-    maxForwardJump: 0
-    jumpHeight: 0
-    walkingStepsPerTransition: 0
-    climbingStepsPerTransition: 0
-    stairsStepsPerTransition: 0
-    transportaionModes: 4
+    turnDurationScaleFactor: 0.55
+    refusedMidpointMaxInterpolation: 0.45
+    refusedMidpointReversingMaxInterpolation: 0.3
+    minScaleHeight: 0.1
+    maxScaleHeight: 0.8
+    minForwardJump: 0.1
+    maxForwardJump: 1
+    jumpHeight: 0.7
+    walkingStepsPerTransition: 2
+    climbingStepsPerTransition: 2
+    stairsStepsPerTransition: 2
+    transportaionModes: 118
   EntityType: 0
   _anchor: {fileID: 0}
   _anchorDirection: 5
   _Coordinates: {x: 0, y: 0, z: 0}
   _LookDirection: 0
-  _lookTarget: {fileID: 0}
-  TransportationMode: 4
+  _lookTarget: {fileID: 2521829942505558077}
+  TransportationMode: 0
 --- !u!114 &5562225020957604619
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -590,6 +590,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4952686663154918377}
+  - {fileID: 2521829942505558077}
   m_Father: {fileID: 548299357336418206}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &8813067194493852235
@@ -684,6 +685,37 @@ MonoBehaviour:
   stacks: []
   predefinedEquipmentStacks: 
   predefinedAreSingleItem: 0
+--- !u!1 &7067348105830865544
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2521829942505558077}
+  m_Layer: 0
+  m_Name: LookTarget
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2521829942505558077
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7067348105830865544}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.4, z: 0.65}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7219157129515034343}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8331519054589083895
 GameObject:
   m_ObjectHideFlags: 0
