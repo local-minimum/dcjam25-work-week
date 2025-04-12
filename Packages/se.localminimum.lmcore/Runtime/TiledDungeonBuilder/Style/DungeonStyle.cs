@@ -86,6 +86,9 @@ namespace LMCore.TiledDungeon.Style
         GameObject KeyDoor;
 
         [SerializeField]
+        GameObject ThinWallDoor;
+
+        [SerializeField]
         GameObject Grate;
 
         [SerializeField]
@@ -206,6 +209,7 @@ namespace LMCore.TiledDungeon.Style
             if (classId == TiledConfiguration.InstanceOrCreate().AlcoveClass) return InstantiateWithRotation(parent, Alcove, direction);
             if (classId == TiledConfiguration.InstanceOrCreate().FenceClass) return InstantiateWithRotation(parent, Fence, direction);
             if (classId == TiledConfiguration.InstanceOrCreate().ThinWall) return InstantiateWithRotation(parent, ThinWall, direction);
+            if (classId == TiledConfiguration.InstanceOrCreate().ThinWallDoor) return InstantiateWithRotation(parent, ThinWallDoor, direction);
             if (classId == TiledConfiguration.InstanceOrCreate().ShooterClass) return InstantiateWithRotation(parent, Shooter, direction);
             if (classId == TiledConfiguration.InstanceOrCreate().WallSpikeTrapClass)
             {

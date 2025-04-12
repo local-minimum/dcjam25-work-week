@@ -395,7 +395,7 @@ namespace LMCore.TiledDungeon
 
                 if (outcome.Either(MovementOutcome.Refused, MovementOutcome.Blocked))
                 {
-                    // Debug.LogWarning(PrefixLogMessage($"There is no valid neighbour ({outcome}) in the {direction} for {originAnchor}"));
+                    Debug.LogWarning(PrefixLogMessage($"There is no valid neighbour ({outcome}) in the {direction} for {originAnchor}"));
                     targetCoordinates = targetAnchor == null ? origin : targetAnchor.Node.Coordinates;
                     return outcome;
                 }
@@ -438,9 +438,10 @@ namespace LMCore.TiledDungeon
                 /*
             if (withPush)
             {
+                */
                 Debug.LogWarning(PrefixLogMessage(
                     $"Simple translation refused for {entity.name} {origin}({direction})->{targetCoordinates}, " +
-                    $"AllowExit({AllowExit(entity, direction)}) Target({translationTarget !=null}) " +
+                    $"AllowExit({AllowExit(entity, direction, withPush)}) Target({translationTarget !=null}) " +
                     $"AllowEntry({(translationTarget?.AllowsEntryFrom(entity, direction.Inverse(), checkOccupancyRules, withPush: withPush) ?? false)})"));
                 Debug.LogWarning(PrefixLogMessage(
                     $"(!HasSide({!HasSide(direction, SideCheckMode.Exit)}) || " +
@@ -449,6 +450,7 @@ namespace LMCore.TiledDungeon
                     $"{direction} == Direction.Down && HasFloorHole({HasFloorHole})) && " +
                     $"!temporaryExitBlocker.Overrides({direction}) [{!temporaryExitBlocker.Overrides(direction)}] && " +
                     $"!BlockEdgeTraversal(entity, {direction}, SideCheckMode.Exit) [{!BlockEdgeTraversal(entity, direction, SideCheckMode.Exit)}]"));
+                /*
             }
                 */
 
@@ -586,6 +588,8 @@ namespace LMCore.TiledDungeon
 
             var flying = entity != null && entity.TransportationMode.HasFlag(TransportationMode.Flying);
 
+            var pushResque = FallingEntityPushResque(entity, direction);
+
             if (modifications.Any(mod =>
             {
                 var modDirection = mod.Tile.CustomProperties
@@ -612,13 +616,30 @@ namespace LMCore.TiledDungeon
                 Debug.Log(PrefixLogMessage($"Walkability: {walkability}"));
                 */
                 return walkability == TDEnumAspect.Never;
-            })) return true && !FallingEntityPushResque(entity, direction);
+            })) return true && !pushResque;
 
-            return Config.FirstValue(TiledConfiguration.instance.FenceClass, p =>
+            // XXX: What did this do?
+            /*
+            if (Config.FirstValue(TiledConfiguration.instance.FenceClass, p =>
                 p.Aspect(
                     flying ? TiledConfiguration.InstanceOrCreate().FlyabilityKey : TiledConfiguration.InstanceOrCreate().WalkabilityKey,
                     TDEnumAspect.Always
-                )) == TDEnumAspect.Never && !FallingEntityPushResque(entity, direction);
+                )) == TDEnumAspect.Never)
+            {
+                return !pushResque;
+            }
+
+            if (Config.FirstValue(TiledConfiguration.instance.ThinWall, p =>
+                p.Aspect(
+                    flying ? TiledConfiguration.InstanceOrCreate().FlyabilityKey : TiledConfiguration.InstanceOrCreate().WalkabilityKey,
+                    TDEnumAspect.Always
+                )) == TDEnumAspect.Never)
+            {
+                return !pushResque;
+            }
+            */
+
+            return false;
         }
 
         public bool AllowExit(GridEntity entity, Direction direction, bool forced) =>

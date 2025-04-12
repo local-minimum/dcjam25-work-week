@@ -1209,45 +1209,65 @@
  <tile id="144" type="ThinWall">
   <properties>
    <property name="Direction" propertytype="Direction" value="North"/>
+   <property name="Flyability" propertytype="Aspect" value="Never"/>
+   <property name="Walkability" propertytype="Aspect" value="Never"/>
   </properties>
  </tile>
  <tile id="145" type="ThinWall">
   <properties>
    <property name="Direction" propertytype="Direction" value="East"/>
+   <property name="Flyability" propertytype="Aspect" value="Never"/>
+   <property name="Walkability" propertytype="Aspect" value="Never"/>
   </properties>
  </tile>
  <tile id="146" type="ThinWall">
   <properties>
    <property name="Direction" propertytype="Direction" value="South"/>
+   <property name="Flyability" propertytype="Aspect" value="Never"/>
+   <property name="Walkability" propertytype="Aspect" value="Never"/>
   </properties>
  </tile>
  <tile id="147" type="ThinWall">
   <properties>
    <property name="Direction" propertytype="Direction" value="West"/>
+   <property name="Flyability" propertytype="Aspect" value="Never"/>
+   <property name="Walkability" propertytype="Aspect" value="Never"/>
   </properties>
  </tile>
- <tile id="148" type="ThinnWall Door">
+ <tile id="148" type="ThinWall Door">
   <properties>
    <property name="Anchor" propertytype="Direction" value="South"/>
    <property name="Direction" propertytype="Direction" value="West"/>
+   <property name="Flyability" propertytype="Aspect" value="Sometimes"/>
+   <property name="Interaction" propertytype="Interaction" value="Closed"/>
+   <property name="Walkability" propertytype="Aspect" value="Sometimes"/>
   </properties>
  </tile>
- <tile id="149" type="ThinnWall Door">
+ <tile id="149" type="ThinWall Door">
   <properties>
    <property name="Anchor" propertytype="Direction" value="West"/>
    <property name="Direction" propertytype="Direction" value="North"/>
+   <property name="Flyability" propertytype="Aspect" value="Sometimes"/>
+   <property name="Interaction" propertytype="Interaction" value="Closed"/>
+   <property name="Walkability" propertytype="Aspect" value="Sometimes"/>
   </properties>
  </tile>
- <tile id="150" type="ThinnWall Door">
+ <tile id="150" type="ThinWall Door">
   <properties>
    <property name="Anchor" propertytype="Direction" value="North"/>
    <property name="Direction" propertytype="Direction" value="East"/>
+   <property name="Flyability" propertytype="Aspect" value="Sometimes"/>
+   <property name="Interaction" propertytype="Interaction" value="Closed"/>
+   <property name="Walkability" propertytype="Aspect" value="Sometimes"/>
   </properties>
  </tile>
- <tile id="151" type="ThinnWall Door">
+ <tile id="151" type="ThinWall Door">
   <properties>
    <property name="Anchor" propertytype="Direction" value="East"/>
    <property name="Direction" propertytype="Direction" value="South"/>
+   <property name="Flyability" propertytype="Aspect" value="Sometimes"/>
+   <property name="Interaction" propertytype="Interaction" value="Closed"/>
+   <property name="Walkability" propertytype="Aspect" value="Sometimes"/>
   </properties>
  </tile>
  <tile id="163">
@@ -1255,28 +1275,40 @@
    <property name="Anchor" propertytype="Direction" value="North"/>
   </properties>
  </tile>
- <tile id="164" type="ThinnWall Door">
+ <tile id="164" type="ThinWall Door">
   <properties>
    <property name="Anchor" propertytype="Direction" value="None"/>
    <property name="Direction" propertytype="Direction" value="West"/>
+   <property name="Flyability" propertytype="Aspect" value="Sometimes"/>
+   <property name="Interaction" propertytype="Interaction" value="Closed"/>
+   <property name="Walkability" propertytype="Aspect" value="Sometimes"/>
   </properties>
  </tile>
- <tile id="165" type="ThinnWall Door">
+ <tile id="165" type="ThinWall Door">
   <properties>
    <property name="Anchor" propertytype="Direction" value="East"/>
    <property name="Direction" propertytype="Direction" value="North"/>
+   <property name="Flyability" propertytype="Aspect" value="Sometimes"/>
+   <property name="Interaction" propertytype="Interaction" value="Closed"/>
+   <property name="Walkability" propertytype="Aspect" value="Sometimes"/>
   </properties>
  </tile>
- <tile id="166" type="ThinnWall Door">
+ <tile id="166" type="ThinWall Door">
   <properties>
    <property name="Anchor" propertytype="Direction" value="South"/>
    <property name="Direction" propertytype="Direction" value="East"/>
+   <property name="Flyability" propertytype="Aspect" value="Sometimes"/>
+   <property name="Interaction" propertytype="Interaction" value="Closed"/>
+   <property name="Walkability" propertytype="Aspect" value="Sometimes"/>
   </properties>
  </tile>
- <tile id="167" type="ThinnWall Door">
+ <tile id="167" type="ThinWall Door">
   <properties>
    <property name="Anchor" propertytype="Direction" value="West"/>
    <property name="Direction" propertytype="Direction" value="South"/>
+   <property name="Flyability" propertytype="Aspect" value="Sometimes"/>
+   <property name="Interaction" propertytype="Interaction" value="Closed"/>
+   <property name="Walkability" propertytype="Aspect" value="Sometimes"/>
   </properties>
  </tile>
 </tileset>

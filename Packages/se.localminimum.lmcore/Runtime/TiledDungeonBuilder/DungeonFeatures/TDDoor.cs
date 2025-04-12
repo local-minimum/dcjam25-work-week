@@ -166,7 +166,7 @@ namespace LMCore.TiledDungeon.DungeonFeatures
                     .First()
                     .Tile
                     .CustomProperties
-                    .Orientation(TiledConfiguration.instance.TraversalAxisKey)
+                    .Orientation(TiledConfiguration.instance.TraversalAxisKey, TDEnumOrientation.None)
                     .AsAxis();
             }
         }

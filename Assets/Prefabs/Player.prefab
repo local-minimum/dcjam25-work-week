@@ -122,7 +122,7 @@ MonoBehaviour:
   _Coordinates: {x: 0, y: 0, z: 0}
   _LookDirection: 0
   _lookTarget: {fileID: 2521829942505558077}
-  TransportationMode: 0
+  TransportationMode: 4
 --- !u!114 &5562225020957604619
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -389,6 +389,7 @@ namespace LMCore.TiledDungeon
             var fenceWalls = node.modifications
                 .Where(mod => mod.Tile.Type == TiledConfiguration.instance.FenceClass || mod.Tile.Type == TiledConfiguration.instance.ThinWall);
 
+            // TODO: Enable object distinctions for  if it has the same direction as the fence / wall or not
             var customSettings = node.Config
                 .GetObjectProps(o => o.Type == TiledConfiguration.instance.FenceClass || o.Type == TiledConfiguration.instance.ThinWall)
                 .ToList();
@@ -555,6 +556,57 @@ namespace LMCore.TiledDungeon
                 }
 
                 ApplyAnchorRotation(go, direction, config);
+            }
+        }
+
+        static void ConfigureThinWallDoors(TDNode node, TDNodeConfig config)
+        {
+            var doors = node.modifications
+                .Where(mod => mod.Tile.Type == TiledConfiguration.instance.ThinWallDoor);
+
+            // TODO: Enable object distinctions for  if it has the same direction as the fence / wall or not
+            var customSettings = node.Config
+                .GetObjectProps(o => o.Type == TiledConfiguration.instance.ThinWallDoor)
+                .ToList();
+
+            foreach (var doorMod in doors)
+            {
+                var direction = doorMod.Tile.CustomProperties.Direction(TiledConfiguration.instance.DirectionKey).AsDirection();
+
+                var setting = customSettings
+                    .FirstOrDefault(s => s.Direction(TiledConfiguration.instance.DirectionKey, TDEnumDirection.None).AsDirection().Either(direction, Direction.None));
+
+                var interactionLimitationDirection = customSettings.Select(
+                    props => props == null ?
+                        TDEnumDirection.None :
+                        props.Direction(TiledConfiguration.instance.InteractionDirectionKey, TDEnumDirection.None)
+                ).FirstOrDefault().AsDirection();
+
+                Debug.Log($"Node {node} needs a thin wall door in direction {direction}");
+                var go = node.Dungeon.Style.Get(
+                    node.transform,
+                    doorMod.Tile.Type,
+                    direction,
+                    node.NodeStyle
+                );
+
+                var edge = doorMod.Tile.CustomProperties
+                    .Direction(TiledConfiguration.instance.DirectionKey, TDEnumDirection.None)
+                    .AsDirection();
+
+                var door = go != null ? go.GetComponent<TDDoor>() : null;
+
+                if (door != null)
+                {
+                    door.Configure(
+                        new TileModification[] { doorMod },
+                        edge,
+                        interactionLimitationDirection
+                    );
+                } else
+                {
+                    Debug.LogWarning($"Thin door wall door didn't get any door GO({go}) DOOR({door})");
+                }
             }
         }
 
@@ -1240,6 +1292,7 @@ namespace LMCore.TiledDungeon
             ConfigureGrates(node);
             ConfigureObstructions(node);
             ConfigureDoors(node, config);
+            ConfigureThinWallDoors(node, config);
             ConfigureLadders(node, config);
             ConfigureFireplace(node, down);
             ConfigureFencesAndThinWalls(node, down);
