@@ -384,14 +384,18 @@ namespace LMCore.TiledDungeon
             }
         }
 
-        static void ConfigureFence(TDNode node, Transform parent)
+        static void ConfigureFencesAndThinWalls(TDNode node, Transform parent)
         {
-            var fences = node.modifications.Where(mod => mod.Tile.Type == TiledConfiguration.instance.FenceClass);
-            var customSettings = node.Config.GetObjectProps(o => o.Type == TiledConfiguration.instance.FenceClass).ToList();
+            var fenceWalls = node.modifications
+                .Where(mod => mod.Tile.Type == TiledConfiguration.instance.FenceClass || mod.Tile.Type == TiledConfiguration.instance.ThinWall);
 
-            foreach (var fence in fences)
+            var customSettings = node.Config
+                .GetObjectProps(o => o.Type == TiledConfiguration.instance.FenceClass || o.Type == TiledConfiguration.instance.ThinWall)
+                .ToList();
+
+            foreach (var fenceWall in fenceWalls)
             {
-                var direction = fence.Tile.CustomProperties.Direction(TiledConfiguration.instance.DirectionKey).AsDirection();
+                var direction = fenceWall.Tile.CustomProperties.Direction(TiledConfiguration.instance.DirectionKey).AsDirection();
 
                 var setting = customSettings
                     .FirstOrDefault(s => s.Direction(TiledConfiguration.instance.DirectionKey, TDEnumDirection.None).AsDirection().Either(direction, Direction.None));
@@ -408,7 +412,7 @@ namespace LMCore.TiledDungeon
                 {
                     var go = node.Dungeon.Style.Get(
                         node.transform,
-                        TiledConfiguration.instance.FenceClass,
+                        fenceWall.Tile.Type,
                         direction,
                         node.NodeStyle
                     );
@@ -1238,7 +1242,7 @@ namespace LMCore.TiledDungeon
             ConfigureDoors(node, config);
             ConfigureLadders(node, config);
             ConfigureFireplace(node, down);
-            ConfigureFence(node, down);
+            ConfigureFencesAndThinWalls(node, down);
             ConfigureTeleporter(node);
             ConfigureWallButtons(node);
             ConfigurePillar(node, config);

@@ -250,7 +250,7 @@
     "openFiles": [
     ],
     "project": "Office.tiled-project",
-    "property.type": "Direction",
+    "property.type": "string",
     "recentFiles": [
         "Mapping.tsx",
         "DemoLevel.tmx",

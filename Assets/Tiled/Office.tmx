@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="32" height="32" tilewidth="32" tileheight="32" infinite="0" nextlayerid="46" nextobjectid="59">
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="32" height="32" tilewidth="32" tileheight="32" infinite="0" nextlayerid="46" nextobjectid="73">
  <tileset firstgid="1" source="Mapping.tsx"/>
  <group id="2" name="Office">
   <properties>
@@ -250,6 +250,76 @@
     <property name="Elevation" type="int" value="0"/>
     <property name="Imported" type="bool" value="true"/>
    </properties>
+   <object id="59" type="Style" x="346.667" y="686.667" width="205.333" height="153.333">
+    <properties>
+     <property name="Style" value="Cubicle"/>
+    </properties>
+   </object>
+   <object id="61" type="Style" x="668" y="731.333" width="138" height="42">
+    <properties>
+     <property name="Style" value="Kitchen"/>
+    </properties>
+   </object>
+   <object id="60" type="Style" x="346.667" y="456.667" width="205.333" height="153.333">
+    <properties>
+     <property name="Style" value="Cubicle"/>
+    </properties>
+   </object>
+   <object id="62" type="Style" x="602.667" y="791.333" width="150.666" height="108">
+    <properties>
+     <property name="Style" value="Bathroom"/>
+    </properties>
+   </object>
+   <object id="63" type="Style" x="151.333" y="249.333" width="143.333" height="172">
+    <properties>
+     <property name="Style" value="MeetingRoom"/>
+    </properties>
+   </object>
+   <object id="64" type="Style" x="153.667" y="443.333" width="143.333" height="204">
+    <properties>
+     <property name="Style" value="MeetingRoom"/>
+    </properties>
+   </object>
+   <object id="65" type="Style" x="600.333" y="313.333" width="209.333" height="172">
+    <properties>
+     <property name="Style" value="BossRoom"/>
+    </properties>
+   </object>
+   <object id="66" type="Style" x="341" y="249.333" width="210" height="172">
+    <properties>
+     <property name="Style" value="Reception"/>
+    </properties>
+   </object>
+   <object id="67" type="Style" x="342.333" y="156" width="210" height="106.667">
+    <properties>
+     <property name="Style" value="EntryHall"/>
+    </properties>
+   </object>
+   <object id="68" type="Style" x="477" y="124" width="40.6667" height="42.6667">
+    <properties>
+     <property name="Style" value="Elevator"/>
+    </properties>
+   </object>
+   <object id="69" type="Style" x="280.333" y="891.333" width="236.667" height="73.3333">
+    <properties>
+     <property name="Style" value="EmergencyExit"/>
+    </properties>
+   </object>
+   <object id="70" type="Style" x="221.667" y="666" width="70.6667" height="42">
+    <properties>
+     <property name="Style" value="Storage"/>
+    </properties>
+   </object>
+   <object id="71" type="Style" x="601.667" y="697.333" width="74" height="78.6667">
+    <properties>
+     <property name="Style" value="LunchRoom"/>
+    </properties>
+   </object>
+   <object id="72" type="Style" x="602.333" y="509.666" width="232" height="187.334">
+    <properties>
+     <property name="Style" value="LunchRoom"/>
+    </properties>
+   </object>
   </objectgroup>
  </group>
 </map>
