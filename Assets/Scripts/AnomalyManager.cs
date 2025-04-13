@@ -35,28 +35,46 @@ public class AnomalyManager : Singleton<AnomalyManager, AnomalyManager>, IOnLoad
             foreach (var hist in history)
             {
                 if (hist == null) continue;
-                if (!roomCount.ContainsKey(hist.room))
+
+                foreach (var room in hist.room.AllFlags())
                 {
-                    roomCount[hist.room] = 0;
-                } else
-                {
-                    roomCount[hist.room]++;
+                    if (!roomCount.ContainsKey(room))
+                    {
+                        roomCount[room] = 0;
+                    } else
+                    {
+                        roomCount[room]++;
+                    }
                 }
             }
 
-            var unsued = anomalies.Where(a => !history.Contains(a)).ToList();
+            System.Func<OfficeRoom, float> roomOrder = (OfficeRoom room) =>
+            {
+                float sum = 0;
+                foreach (var pureRoom in room.AllFlags())
+                {
+                    if (roomCount.TryGetValue(pureRoom, out var value))
+                    {
+                        sum += value;
+                    }
+                }
 
-            // TODO: Order by suitable difficulty
+                return sum;
+            };
+
+            var unsued = anomalies.Where(a => !history.Contains(a)).ToList();
 
             if (unsued.Count > 0)
             {
                 return unsued
-                    .OrderBy(a => roomCount.TryGetValue(a.room, out int count) ? count : 0);
+                    .OrderBy(a => Mathf.Abs(a.difficulty - wantedDifficulty))
+                    .ThenBy(a => roomOrder(a.room));
             }
 
             return anomalies
                 .OrderBy(a => history.LastIndexOf(a) / selectFromFirstNCandidates)
-                .ThenBy(a => roomCount.TryGetValue(a.room, out int count) ? count : 0);
+                .ThenBy(a => Mathf.Abs(a.difficulty - wantedDifficulty))
+                .ThenBy(a => roomOrder(a.room));
         }
     }
 
@@ -79,6 +97,7 @@ public class AnomalyManager : Singleton<AnomalyManager, AnomalyManager>, IOnLoad
         public List<string> encounteredAnomalies;
         public List<string> missedAnomalies;
         public int weekNumber;
+        public int wantedDifficulty;
         public Weekday weekday;
 
         public AnomalyManagerSaveData(AnomalyManager manager)
@@ -87,11 +106,14 @@ public class AnomalyManager : Singleton<AnomalyManager, AnomalyManager>, IOnLoad
             missedAnomalies = new List<string>(manager.missedAnomalies);
             weekNumber = manager.WeekNumber;
             weekday = manager.Weekday;
+            wantedDifficulty = manager.wantedDifficulty;
         }
     }
 
     List<string> encounteredAnomalies = new List<string>();
     List<string> missedAnomalies = new List<string>();
+
+    int wantedDifficulty = 3;
 
     int _weekNumber;
     public int WeekNumber => _weekNumber;
@@ -112,8 +134,13 @@ public class AnomalyManager : Singleton<AnomalyManager, AnomalyManager>, IOnLoad
         encounteredAnomalies.Clear();
         encounteredAnomalies.AddRange(save.encounteredAnomalies);
 
+        missedAnomalies.Clear();
+        missedAnomalies.AddRange(save.missedAnomalies);
+
         _weekNumber = save.weekNumber;
         _weekday = save.weekday;
+
+        wantedDifficulty = save.wantedDifficulty;
 
         SetAnomalyOfTheDay();
     }
@@ -201,6 +228,7 @@ public class AnomalyManager : Singleton<AnomalyManager, AnomalyManager>, IOnLoad
             _weekday = Weekday.NextDay();
 
             encounteredAnomalies.Add(activeAnomaly?.id);
+            wantedDifficulty = Mathf.Min(10, wantedDifficulty + 1);
 
             if (Weekday == Weekday.Monday)
             {
@@ -218,6 +246,7 @@ public class AnomalyManager : Singleton<AnomalyManager, AnomalyManager>, IOnLoad
         {
             _weekday = Weekday.Monday;
             _weekNumber++;
+            wantedDifficulty = Mathf.Max(1, wantedDifficulty - 1);
 
             if (activeAnomaly != null)
             {

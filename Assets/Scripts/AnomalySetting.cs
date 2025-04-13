@@ -1,6 +1,7 @@
+using System;
 using UnityEngine;
 
-[System.Serializable]
+[Serializable, Flags]
 public enum OfficeRoom
 {
     Entrance,
@@ -13,13 +14,14 @@ public enum OfficeRoom
     Restrooms,
 }
 
-[System.Serializable]
+[Serializable]
 public class AnomalySetting
 {
     public string id;
     public string humanizedName;
     public OfficeRoom room;
-    public int difficulty;
+    [Range(1, 10)]
+    public int difficulty = 1;
     public bool horror;
 
     public override string ToString() =>

@@ -37,7 +37,9 @@ public class WWSave : GameSave
 {
     public Weekday weekday = Weekday.Monday;
     public List<string> encounteredAnomalies = new List<string>();
+    public List<string> missedAnomalies = new List<string>();
     public int weekNumber = 0;
+    public int wantedDifficulty = 0;
 
     public WWSave(GameSave save)
     {
