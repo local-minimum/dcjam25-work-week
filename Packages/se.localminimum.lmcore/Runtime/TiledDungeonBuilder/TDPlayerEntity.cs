@@ -134,5 +134,12 @@ namespace LMCore.TiledDungeon
         {
             GetComponentInChildren<Camera>(true).fieldOfView = value;
         }
+
+        [ContextMenu("Info")]
+        void Info()
+        {
+            Debug.Log(PrefixLogMessage($"On map '{Dungeon.MapName}'"));
+        }
+
     }
 }

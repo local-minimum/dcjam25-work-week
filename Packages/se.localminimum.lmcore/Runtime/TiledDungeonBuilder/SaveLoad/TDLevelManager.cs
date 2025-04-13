@@ -21,6 +21,9 @@ namespace LMCore.TiledDungeon
         string LoadingSceneName;
 
         [SerializeField]
+        string FallbackLevel;
+
+        [SerializeField]
         SerializableDictionary<string, string> levelsToScenes = new SerializableDictionary<string, string>();
         string levelToLoad;
         string levelSceneName => levelsToScenes.GetValueOrDefault(levelToLoad);
@@ -92,7 +95,13 @@ namespace LMCore.TiledDungeon
 
             if (string.IsNullOrEmpty(levelSceneName))
             {
-                Debug.LogError(PrefixLogMessage($"There is no scene for level '{levelToLoad}'"));
+                Debug.LogError(PrefixLogMessage($"There is no scene for level '{levelToLoad}' please check the TiledMap's MetaData and make sure it has a valid map name"));
+                Debug.LogWarning(PrefixLogMessage($"Using fallback '{FallbackLevel}'"));
+                this.levelToLoad = FallbackLevel;
+            }
+
+            if (string.IsNullOrEmpty(levelSceneName))
+            {
                 throw new System.ArgumentNullException($"Invalid level: {levelToLoad}");
             }
 

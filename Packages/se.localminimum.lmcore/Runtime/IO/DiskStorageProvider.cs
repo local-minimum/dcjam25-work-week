@@ -139,7 +139,7 @@ namespace LMCore.IO
 
                 if (Info(i, out SaveInfo info))
                 {
-                    Debug.Log($"{i}: {info}");
+                    Debug.Log($"{i}: {info} @ '{FilePath(info.Id)}'");
                     yield return info;
                 }
                 else
