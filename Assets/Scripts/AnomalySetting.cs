@@ -4,14 +4,15 @@ using UnityEngine;
 [Serializable, Flags]
 public enum OfficeRoom
 {
-    Entrance,
-    Main,
-    MeetingRoom1,
-    MeetingRoom2,
-    StorageRoom,
-    BossRoom,
-    LunchRoom,
-    Restrooms,
+    Entrance = 1,
+    Main = 2,
+    MeetingRoom1 = 4,
+    MeetingRoom2 = 8,
+    StorageRoom = 16,
+    BossRoom = 32,
+    LunchRoom = 64,
+    Restrooms = 128,
+    ExitCorridor = 256,
 }
 
 [Serializable]
