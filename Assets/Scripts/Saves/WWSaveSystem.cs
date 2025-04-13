@@ -110,12 +110,12 @@ public class WWSaveSystem : TDSaveSystem<WWSave, WWSaveSystem>
 
     private void TiledDungeon_OnDungeonLoad(TiledDungeon dungeon, bool fromSave)
     {
+        /*
         if (!HasSave(0))
         {
             AutoSave();
         }
-
-        // LoadAutoSave();
+        */
     }
 
     private void TDSavingTrigger_OnAutoSave(SaveType saveType)
