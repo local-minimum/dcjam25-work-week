@@ -269,6 +269,7 @@ namespace LMCore.TiledDungeon
             var decorationStorage = DecorationStorage;
             foreach (var decoration in LevelParent.GetComponentsInChildren<TDDecoration>(true))
             {
+                decoration.UpdateNodeOrAnchorAttachment();
                 decoration.Remove(decorationStorage);
             }
 

@@ -44,8 +44,13 @@ namespace LMCore.TiledDungeon
         [ContextMenu("Fix to Node and or Anchor")]
         private void OnValidate()
         {
+            if (UpdateNodeOrAnchorAttachment()) Debug.Log(PrefixLogMessage("Anchored"));
+        }
+
+        public bool UpdateNodeOrAnchorAttachment()
+        {
             var node = Node;
-            if (node == null) return;
+            if (node == null) return false;
 
             bool updated = Coordinates != node.Coordinates;
             Coordinates = node.Coordinates;
@@ -61,7 +66,7 @@ namespace LMCore.TiledDungeon
                 AnchorDirection = Anchor.CubeFace;
             }
 
-            if (updated) Debug.Log(PrefixLogMessage("Anchored"));
+            return updated;
         }
 
         [ContextMenu("Info")]
