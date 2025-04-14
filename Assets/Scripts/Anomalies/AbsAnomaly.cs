@@ -3,7 +3,7 @@ using UnityEngine;
 public abstract class AbsAnomaly : MonoBehaviour
 {
     [SerializeField]
-    string anomalyId = "reverse-clock";
+    protected string anomalyId = "reverse-clock";
 
     private void OnEnable()
     {
@@ -12,7 +12,7 @@ public abstract class AbsAnomaly : MonoBehaviour
 
     private void OnDisable()
     {
-        AnomalyManager.OnSetAnomaly += AnomalyManager_OnSetAnomaly;
+        AnomalyManager.OnSetAnomaly -= AnomalyManager_OnSetAnomaly;
     }
 
     private void AnomalyManager_OnSetAnomaly(string id)
