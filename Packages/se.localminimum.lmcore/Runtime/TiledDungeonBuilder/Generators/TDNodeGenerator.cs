@@ -594,6 +594,17 @@ namespace LMCore.TiledDungeon
                     .Direction(TiledConfiguration.instance.DirectionKey, TDEnumDirection.None)
                     .AsDirection();
 
+                var anchor = doorMod.Tile.CustomProperties
+                    .Direction(TiledConfiguration.instance.AnchorKey, TDEnumDirection.None)
+                    .AsDirection();
+
+                if (edge.RotateCW() == anchor)
+                {
+                    var localScale = go.transform.localScale;
+                    localScale.x *= -1f;
+                    go.transform.localScale = localScale;
+                }
+
                 var door = go != null ? go.GetComponent<TDDoor>() : null;
 
                 if (door != null)
@@ -637,6 +648,17 @@ namespace LMCore.TiledDungeon
             var edge = doorInfo.Tile.CustomProperties
                 .Direction(TiledConfiguration.instance.DirectionKey, TDEnumDirection.None)
                 .AsDirection();
+
+            var anchor = doorInfo.Tile.CustomProperties
+                .Direction(TiledConfiguration.instance.AnchorKey, TDEnumDirection.None)
+                .AsDirection();
+
+            if (edge.RotateCW() == anchor)
+            {
+                var localScale = go.transform.localScale;
+                localScale.x *= -1f;
+                go.transform.localScale = localScale;
+            }
 
             var door = go != null ? go.GetComponent<TDDoor>() : null;
 
