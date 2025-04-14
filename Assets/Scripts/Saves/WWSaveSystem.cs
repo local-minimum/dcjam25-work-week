@@ -93,19 +93,12 @@ public class WWSaveSystem : TDSaveSystem<WWSave, WWSaveSystem>
     {
         TDSavingTrigger.OnAutoSave += TDSavingTrigger_OnAutoSave;
         TiledDungeon.OnDungeonLoad += TiledDungeon_OnDungeonLoad;
-        TiledDungeon.OnDungeonUnload += TiledDungeon_OnDungeonUnload;
     }
 
     private void OnDisable()
     {
         TDSavingTrigger.OnAutoSave -= TDSavingTrigger_OnAutoSave;
         TiledDungeon.OnDungeonLoad -= TiledDungeon_OnDungeonLoad;
-        TiledDungeon.OnDungeonUnload -= TiledDungeon_OnDungeonUnload;
-    }
-
-    private void TiledDungeon_OnDungeonUnload(TiledDungeon dungeon)
-    {
-        AutoSave();
     }
 
     private void TiledDungeon_OnDungeonLoad(TiledDungeon dungeon, bool fromSave)

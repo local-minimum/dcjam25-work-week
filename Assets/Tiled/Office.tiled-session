@@ -3,11 +3,11 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "C:/Users/Admin/Documents/Unity/untitled-dungeon-crawler/Assets/Tiled/Level1.tmx",
+    "activeFile": "Office.tmx",
     "automapping.whileDrawing": true,
     "expandedProjectPaths": [
-        "Automapping",
-        "."
+        ".",
+        "Automapping"
     ],
     "file.lastUsedOpenFilter": "All Files (*)",
     "fileStates": {
@@ -27,14 +27,14 @@
                 12
             ],
             "expandedObjectLayers": [
-                12,
-                26
+                26,
+                12
             ],
             "scale": 0.665185546875,
             "selectedLayer": 4,
             "viewCenter": {
-                "x": 512.6389194744183,
-                "y": 511.88724950451456
+                "x": 563.7524774278794,
+                "y": 511.88724950451444
             }
         },
         "C:/Users/Admin/Documents/Unity/untitled-dungeon-crawler/Assets/Tiled/Mapping.tsx": {
@@ -46,8 +46,8 @@
         },
         "Office.tmx": {
             "expandedGroupLayers": [
-                12,
-                2
+                2,
+                12
             ],
             "expandedObjectLayers": [
                 2,
@@ -56,8 +56,8 @@
             "scale": 3,
             "selectedLayer": 5,
             "viewCenter": {
-                "x": 451.33333333333326,
-                "y": 776.1666666666666
+                "x": 512.1666666666666,
+                "y": 511.83333333333326
             }
         },
         "Rules/AutomappingDungeons.tmx": {
@@ -265,9 +265,9 @@
     "project": "Office.tiled-project",
     "property.type": "bool",
     "recentFiles": [
-        "Office.tmx",
-        "Mapping.tsx",
         "C:/Users/Admin/Documents/Unity/untitled-dungeon-crawler/Assets/Tiled/Level1.tmx",
+        "Mapping.tsx",
+        "Office.tmx",
         "DemoLevel.tmx",
         "Level1.tmx",
         "Rules/ModernDungeonAutomapping0corners.tmx",

@@ -235,26 +235,30 @@ public class AnomalyManager : Singleton<AnomalyManager, AnomalyManager>, IOnLoad
                 _weekNumber++;
                 // We won!
                 Debug.Log($"AnomalyManager: We won the game in week {WeekNumber}");
+                WWSaveSystem.instance.AutoSave();
                 SceneManager.LoadScene("VictoryScene");
             } else
             {
                 Debug.Log($"AnomalyManager: Correct exit ({activeAnomaly}), going to {Weekday} {WeekNumber}");
                 activeAnomaly = null;
+                WWSaveSystem.instance.AutoSave();
                 SceneManager.LoadScene("OfficeScene");
             }
         } else
         {
             _weekday = Weekday.Monday;
             _weekNumber++;
-            wantedDifficulty = Mathf.Max(1, wantedDifficulty - 1);
 
             if (activeAnomaly != null)
             {
+                // Only lower anomaly difficulty when player misses one
+                wantedDifficulty = Mathf.Max(1, wantedDifficulty - 1);
                 missedAnomalies.Add(activeAnomaly.id);
             }
 
             Debug.Log($"AnomalyManager: Wrong exit ({activeAnomaly}), going to {Weekday} {WeekNumber}");
             activeAnomaly = null;
+            WWSaveSystem.instance.AutoSave();
 
             SceneManager.LoadScene("OfficeScene");
         }
