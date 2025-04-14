@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="32" height="32" tilewidth="32" tileheight="32" infinite="0" nextlayerid="46" nextobjectid="82">
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="32" height="32" tilewidth="32" tileheight="32" infinite="0" nextlayerid="46" nextobjectid="83">
  <tileset firstgid="1" source="Mapping.tsx"/>
  <group id="2" name="Office">
   <properties>
@@ -361,6 +361,12 @@
    <object id="80" name="Managed Door" type="Door" x="463.5" y="272.75">
     <properties>
      <property name="Managed" type="bool" value="true"/>
+    </properties>
+    <point/>
+   </object>
+   <object id="82" name="Start Position" type="Custom" x="401.333" y="811">
+    <properties>
+     <property name="Id" value="StartPosition"/>
     </properties>
     <point/>
    </object>

@@ -31,6 +31,12 @@ namespace LMCore.TiledDungeon
             }
 
             var prefab = content[idx];
+            if (prefab == null)
+            {
+                Debug.LogWarning($"There's no content assigned for '{contentId}'");
+                return;
+            }
+
             var instance = Instantiate(prefab, node.transform);
 
             var cont = instance.GetComponent<ITDCustom>();

@@ -8,10 +8,12 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public delegate void SetAnomalyEvent(string id);
+public delegate void SetDayEvent(Weekday day);
 
 public class AnomalyManager : Singleton<AnomalyManager, AnomalyManager>, IOnLoadSave
 {
     public static event SetAnomalyEvent OnSetAnomaly;
+    public static event SetDayEvent OnSetDay;
 
     [SerializeField]
     List<AnomalySetting> anomalies = new List<AnomalySetting>();
@@ -209,14 +211,14 @@ public class AnomalyManager : Singleton<AnomalyManager, AnomalyManager>, IOnLoad
     {
         bool success = false;
 
-        if (exitType == ExitType.FireEscape && activeAnomaly != null)
+        if (exitType.Either(ExitType.FireEscape, ExitType.AnomalyDeath) && activeAnomaly != null)
         {
             encounteredAnomalies.Add(activeAnomaly.id);
-            success = true;
-        } else if (exitType == ExitType.MainExit && activeAnomaly == null)
+            success = exitType == ExitType.FireEscape;
+        } else if (exitType.Either(ExitType.MainExit, ExitType.BossDeath) && activeAnomaly == null)
         {
             encounteredAnomalies.Add(null);
-            success = true;
+            success = exitType == ExitType.MainExit;
         } else if (activeAnomaly != null)
         {
             missedAnomalies.Add(activeAnomaly.id);
@@ -247,6 +249,7 @@ public class AnomalyManager : Singleton<AnomalyManager, AnomalyManager>, IOnLoad
         } else
         {
             _weekday = Weekday.Monday;
+
             _weekNumber++;
 
             if (activeAnomaly != null)
@@ -262,6 +265,8 @@ public class AnomalyManager : Singleton<AnomalyManager, AnomalyManager>, IOnLoad
 
             SceneManager.LoadScene("OfficeScene");
         }
+
+        OnSetDay?.Invoke(Weekday);
     }
 
     [ContextMenu("Info")]

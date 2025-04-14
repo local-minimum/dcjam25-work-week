@@ -33,6 +33,12 @@ namespace LMCore.Crawler
         [SerializeField, Range(0f, 3f)]
         float forwardTranslation = 1f;
 
+        bool overriddenForwardTranslation;
+        float translationForwardOverride;
+
+        float ForwardTranslation => 
+            overriddenForwardTranslation ? translationForwardOverride : forwardTranslation;
+
         [SerializeField, Range(0, 1)]
         float translationLerp = 0.05f;
 
@@ -63,6 +69,17 @@ namespace LMCore.Crawler
 
                 return _cusomCursor;
             }
+        }
+
+        public void SetTranslationForwardOverride(float forward = 0)
+        {
+            translationForwardOverride = forward;
+            overriddenForwardTranslation = true;
+        }
+
+        public void RemoveTranslationForwardOverride()
+        {
+            overriddenForwardTranslation = false;
         }
 
         bool NativeCursorAllowed =>
@@ -220,7 +237,7 @@ namespace LMCore.Crawler
                 var z = cam.transform.localPosition.z;
                 if (!Entity.AnchorDirection.IsPlanarCardinal())
                 {
-                    cam.transform.localPosition = Vector3.forward * Mathf.Lerp(z, forwardTranslation, translationLerp);
+                    cam.transform.localPosition = Vector3.forward * Mathf.Lerp(z, ForwardTranslation, translationLerp);
                 }
                 else
                 {
