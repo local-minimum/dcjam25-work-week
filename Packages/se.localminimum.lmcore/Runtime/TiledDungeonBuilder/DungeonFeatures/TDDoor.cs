@@ -457,7 +457,7 @@ namespace LMCore.TiledDungeon.DungeonFeatures
             }
         }
 
-        void CloseDoor(GridEntity entity)
+        public void CloseDoor(GridEntity entity)
         {
             var transition = ActiveTransition;
             if (transition == Transition.Closing) return;
@@ -473,7 +473,7 @@ namespace LMCore.TiledDungeon.DungeonFeatures
         float considerOpenAfterProgress = 0.4f;
         float openingStart;
 
-        void OpenDoor(GridEntity entity)
+       public void OpenDoor(GridEntity entity)
         {
             var transition = ActiveTransition;
             if (transition == Transition.Opening) return;

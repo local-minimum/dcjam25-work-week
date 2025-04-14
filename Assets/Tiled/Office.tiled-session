@@ -24,17 +24,20 @@
         },
         "C:/Users/Admin/Documents/Unity/untitled-dungeon-crawler/Assets/Tiled/Level1.tmx": {
             "expandedGroupLayers": [
-                12
+                12,
+                11
             ],
             "expandedObjectLayers": [
                 26,
-                12
+                12,
+                11,
+                43
             ],
-            "scale": 0.665185546875,
-            "selectedLayer": 4,
+            "scale": 4,
+            "selectedLayer": 10,
             "viewCenter": {
-                "x": 563.7524774278794,
-                "y": 511.88724950451444
+                "x": 922.5,
+                "y": 386.375
             }
         },
         "C:/Users/Admin/Documents/Unity/untitled-dungeon-crawler/Assets/Tiled/Mapping.tsx": {
@@ -53,11 +56,11 @@
                 2,
                 22
             ],
-            "scale": 3,
-            "selectedLayer": 5,
+            "scale": 4,
+            "selectedLayer": 6,
             "viewCenter": {
-                "x": 512.1666666666666,
-                "y": 511.83333333333326
+                "x": 482.25,
+                "y": 303.625
             }
         },
         "Rules/AutomappingDungeons.tmx": {
@@ -263,7 +266,7 @@
         "C:/Users/Admin/Documents/Unity/untitled-dungeon-crawler/Assets/Tiled/Level1.tmx"
     ],
     "project": "Office.tiled-project",
-    "property.type": "bool",
+    "property.type": "int",
     "recentFiles": [
         "C:/Users/Admin/Documents/Unity/untitled-dungeon-crawler/Assets/Tiled/Level1.tmx",
         "Mapping.tsx",

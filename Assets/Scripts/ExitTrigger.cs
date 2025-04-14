@@ -4,7 +4,7 @@ using LMCore.TiledDungeon.DungeonFeatures;
 using LMCore.TiledImporter;
 using UnityEngine;
 
-public enum ExitType { MainExit, FireEscape };
+public enum ExitType { MainExit, FireEscape, Death };
 
 public delegate void ExitOfficeEvent(ExitType exitType);
 
@@ -12,7 +12,7 @@ public class ExitTrigger : TDFeature, ITDCustom
 {
     public static event ExitOfficeEvent OnExitOffice;
 
-    [SerializeField]
+    [SerializeField, HideInInspector]
     ExitType exitType;
 
     private void OnEnable()
