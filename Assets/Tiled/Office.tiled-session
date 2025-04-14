@@ -3,7 +3,7 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "Office.tmx",
+    "activeFile": "C:/Users/Admin/Documents/Unity/untitled-dungeon-crawler/Assets/Tiled/Level1.tmx",
     "automapping.whileDrawing": true,
     "expandedProjectPaths": [
         ".",
@@ -56,11 +56,11 @@
                 2,
                 22
             ],
-            "scale": 4,
+            "scale": 3,
             "selectedLayer": 6,
             "viewCenter": {
-                "x": 482.25,
-                "y": 303.625
+                "x": 437.33333333333326,
+                "y": 803.1666666666666
             }
         },
         "Rules/AutomappingDungeons.tmx": {
@@ -268,9 +268,9 @@
     "project": "Office.tiled-project",
     "property.type": "string",
     "recentFiles": [
-        "C:/Users/Admin/Documents/Unity/untitled-dungeon-crawler/Assets/Tiled/Level1.tmx",
-        "Mapping.tsx",
         "Office.tmx",
+        "Mapping.tsx",
+        "C:/Users/Admin/Documents/Unity/untitled-dungeon-crawler/Assets/Tiled/Level1.tmx",
         "DemoLevel.tmx",
         "Level1.tmx",
         "Rules/ModernDungeonAutomapping0corners.tmx",

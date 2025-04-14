@@ -87,7 +87,7 @@ public class DoorAreaCustomOpeners : TDFeature, ITDCustom
         var doors = Doors.ContainsKey(areaId) ? Doors[areaId] : null;
         if (doors == null)
         {
-            Debug.LogError($"Custom area door opener {name} has no door in it");
+            Debug.LogWarning($"Custom area door opener {name} has no door in it");
             return;
         }
 

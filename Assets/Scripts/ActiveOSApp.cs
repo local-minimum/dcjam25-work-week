@@ -15,6 +15,6 @@ public class ActiveOSApp : MonoBehaviour
     public void OpenApp()
     {
         gameObject.SetActive(true);
-        transform.SetAsLastSibling();
+        GetComponentInParent<ActiveOS>().FocusApp(this);
     }
 }

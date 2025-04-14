@@ -5,11 +5,12 @@ using LMCore.TiledDungeon.DungeonFeatures;
 using LMCore.TiledImporter;
 using UnityEngine;
 
-public delegate void ReleasedPlayerEvent(GridEntity player);
+public delegate void StartPositionPlayerEvent(GridEntity player);
 
 public class StartPositionCustom : TDFeature, ITDCustom
 {
-    public static event ReleasedPlayerEvent OnReleasePlayer;
+    public static event StartPositionPlayerEvent OnReleasePlayer;
+    public static event StartPositionPlayerEvent OnCapturePlayer;
 
     [SerializeField]
     Transform cameraPosition;
@@ -45,6 +46,7 @@ public class StartPositionCustom : TDFeature, ITDCustom
         if (entity.EntityType != GridEntityType.PlayerCharacter || 
             entity.Coordinates != Coordinates || 
             player != null) return;
+
         player = entity;
 
         entity.MovementBlockers.Add(this);
@@ -78,6 +80,8 @@ public class StartPositionCustom : TDFeature, ITDCustom
             capturedCamera.localPosition = Vector3.zero;
             capturedCamera.localRotation = Quaternion.identity;
         }
+
+        OnCapturePlayer?.Invoke(player);
     }
 
     [ContextMenu("Release player")]

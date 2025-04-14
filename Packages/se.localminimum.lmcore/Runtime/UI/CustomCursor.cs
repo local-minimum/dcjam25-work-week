@@ -50,7 +50,7 @@ namespace LMCore.UI
         [SerializeField]
         RectTransform CursorTransform;
 
-        [SerializeField, Range(100, 4000)]
+        [SerializeField, Range(0, 4000)]
         float cursorSpeed = 1000f;
 
         [SerializeField]
@@ -114,12 +114,17 @@ namespace LMCore.UI
         bool Ready => virtualMouse != null && Gamepad.current != null;
 
 
-        private void UpdateMotion()
+        private bool UpdateMotionVirutalPointer()
         {
-            if (!Ready || CursorTransform == null || !CursorTransform.gameObject.activeSelf) return;
+            if (!Ready || CursorTransform == null || !CursorTransform.gameObject.activeSelf) return false;
 
 
-            Vector2 deltaValue = Gamepad.current.leftStick.ReadValue();
+            UpdateMotion(Gamepad.current.leftStick.ReadValue());
+            return true;
+        }
+
+        void UpdateMotion(Vector2 deltaValue)
+        {
             deltaValue *= cursorSpeed * Time.deltaTime;
 
             Vector2 currentPosition = virtualMouse.position.ReadValue();
@@ -132,6 +137,15 @@ namespace LMCore.UI
             InputState.Change(virtualMouse.delta, deltaValue);
 
             AnchorCursor(newPosition);
+        }
+
+        private void UpdateMotion()
+        {
+            if (!UpdateMotionVirutalPointer())
+            {
+                UpdateMotion(Mouse.current.delta.value);
+            }
+
         }
 
         /// <summary>
@@ -154,7 +168,7 @@ namespace LMCore.UI
         }
 
         string mostRecentScheme;
-        bool CustomCursorSchemeActive => mostRecentScheme == ActiveInputMode;
+        bool CustomCursorSchemeActive => string.IsNullOrEmpty(ActiveInputMode) || mostRecentScheme == ActiveInputMode;
 
         /// <summary>
         /// Callback on the PlayerInput behavior ControlSchemeChange event

@@ -107,6 +107,8 @@ namespace LMCore.Crawler
 
         public void OnFreeLook(InputAction.CallbackContext context)
         {
+            if (!enabled) return;
+
             bool allowNative = NativeCursorAllowed;
 
             if (Snapback == SnapbackMode.ByActivationToggle)
@@ -153,12 +155,16 @@ namespace LMCore.Crawler
         public void RefuseFreelook()
         {
             allowed = false;
+
+            if (!enabled) return;
             SyncNativeCursor();
         }
 
         public void AllowFreelook()
         {
             allowed = true;
+
+            if (!enabled) return;
             SyncNativeCursor();
         }
 
@@ -187,6 +193,8 @@ namespace LMCore.Crawler
 
         private void GridEntity_OnMove(GridEntity entity)
         {
+            if (!enabled) return;
+
             if (Entity == entity && Snapback == SnapbackMode.ByMovement)
             {
                 if (freeLooking) RestoreCursorPosition();
