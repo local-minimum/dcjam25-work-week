@@ -24,11 +24,13 @@ public class StartPositionCustom : TDFeature, ITDCustom
     private void OnEnable()
     {
         GridEntity.OnPositionTransition += GridEntity_OnPositionTransition;
+        ActiveOS.OnReleasePlayer += ReleasePlayer;
     }
 
     private void OnDisable()
     {
         GridEntity.OnPositionTransition -= GridEntity_OnPositionTransition;
+        ActiveOS.OnReleasePlayer -= ReleasePlayer;
     }
 
     GridEntity player;

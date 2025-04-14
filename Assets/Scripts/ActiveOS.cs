@@ -1,8 +1,12 @@
 using TMPro;
 using UnityEngine;
 
+public delegate void ReleasePlayerEvent();
+
 public class ActiveOS : MonoBehaviour
 {
+    public static event ReleasePlayerEvent OnReleasePlayer;
+    
     [SerializeField]
     TextMeshProUGUI DayField;
 
@@ -24,5 +28,10 @@ public class ActiveOS : MonoBehaviour
     private void AnomalyManager_OnSetDay(Weekday day)
     {
         DayField.text = day.ToString();
+    }
+
+    public void ReleasePlayer()
+    {
+        OnReleasePlayer?.Invoke();
     }
 }
