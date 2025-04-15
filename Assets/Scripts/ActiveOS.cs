@@ -18,6 +18,8 @@ public class ActiveOS : MonoBehaviour
     [SerializeField]
     VirtualPointer pointer;
 
+    bool osActive;
+
     private void OnEnable()
     {
         AnomalyManager.OnSetDay += AnomalyManager_OnSetDay;
@@ -38,12 +40,14 @@ public class ActiveOS : MonoBehaviour
     {
         showPointer = false;
         pointer.enabled = false;
+        osActive = false;
     }
 
     private void StartPositionCustom_OnCapturePlayer(LMCore.Crawler.GridEntity player)
     {
         showPointer = true;
         pointer.enabled = true;
+        osActive = true;
     }
 
     private void Start()
@@ -59,11 +63,15 @@ public class ActiveOS : MonoBehaviour
 
     public void ReleasePlayer()
     {
+        if (!osActive) return;
+
         OnReleasePlayer?.Invoke();
     }
 
     public void FocusApp(ActiveOSApp app)
     {
+        if (!osActive) return;
+
         if (overlays == null || overlays.Length == 0)
         {
             app.transform.SetAsLastSibling();

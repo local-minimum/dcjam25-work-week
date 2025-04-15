@@ -82,6 +82,8 @@ namespace LMCore.UI
 
         public void Click()
         {
+            if (!enabled) return;
+
             if (Time.realtimeSinceStartup > nextClickAllowedAt && GetHit(out var go))
             {
                 HandleHit(go);

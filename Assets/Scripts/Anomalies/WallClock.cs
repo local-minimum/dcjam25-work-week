@@ -34,6 +34,14 @@ public class WallClock : AbsAnomaly
 
     float timeScale;
 
+    protected override void OnDisableExtra()
+    {
+    }
+
+    protected override void OnEnableExtra()
+    {
+    }
+
     protected override void SetAnomalyState()
     {
         timeScale = gameTimeAnomalyScale;

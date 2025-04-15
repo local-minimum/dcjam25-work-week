@@ -90,6 +90,16 @@ public class AnomalyManager : Singleton<AnomalyManager, AnomalyManager>, IOnLoad
     [SerializeField]
     int selectFromFirstNCandidates = 5;
 
+    [SerializeField]
+    string predefAnomaly;
+
+    [ContextMenu("Load predefined anomaly")]
+    private void LoadPredef()
+    {
+        activeAnomaly = anomalies.FirstOrDefault(a => a.id == predefAnomaly);
+        OnSetAnomaly?.Invoke(activeAnomaly?.id);
+    }
+
     public AnomalySetting activeAnomaly { get; private set; }
 
 

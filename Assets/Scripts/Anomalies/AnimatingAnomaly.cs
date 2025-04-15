@@ -11,6 +11,14 @@ public class AnimatingAnomaly : AbsAnomaly
     [SerializeField]
     string startTrigger;
 
+    protected override void OnDisableExtra()
+    {
+    }
+
+    protected override void OnEnableExtra()
+    {
+    }
+
     protected override void SetAnomalyState()
     {
         anomalyRoot.SetActive(true);
@@ -23,7 +31,6 @@ public class AnimatingAnomaly : AbsAnomaly
 
     protected override void SetNormalState()
     {
-        Debug.Log($"Anomaly '{anomalyId}' deactivates {anomalyRoot}");
         anomalyRoot.SetActive(false);
     }
 }
