@@ -45,6 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64a0bafb4362d9342b94bc3de8b2f7e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  silenceManageDoorPrompt: 1
   isOpen: 0
   modifications:
   - Layer: modifications

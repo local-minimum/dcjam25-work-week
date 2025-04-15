@@ -31,6 +31,9 @@ namespace LMCore.TiledDungeon.DungeonFeatures
     {
         private enum Transition { None, Opening, Closing };
 
+        [SerializeField]
+        bool silenceManageDoorPrompt;
+
         [SerializeField, HideInInspector]
         bool isOpen = false;
 
@@ -295,7 +298,7 @@ namespace LMCore.TiledDungeon.DungeonFeatures
             if (managed)
             {
                 if (isOpen) return;
-                lastPrompt = "Door controlled by unknown mechanism";
+                lastPrompt = silenceManageDoorPrompt ? null : "Door controlled by unknown mechanism";
             }
             else if (isLocked)
             {
@@ -330,7 +333,11 @@ namespace LMCore.TiledDungeon.DungeonFeatures
                 {
                     PromptUI.instance.RemoveText(previousPrompt);
                 }
-                PromptUI.instance.ShowText(lastPrompt);
+
+                if (!string.IsNullOrEmpty(lastPrompt))
+                {
+                    PromptUI.instance.ShowText(lastPrompt);
+                }
             }
         }
 
