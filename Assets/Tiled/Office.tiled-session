@@ -24,20 +24,20 @@
         },
         "C:/Users/Admin/Documents/Unity/untitled-dungeon-crawler/Assets/Tiled/Level1.tmx": {
             "expandedGroupLayers": [
-                12,
-                11
+                11,
+                12
             ],
             "expandedObjectLayers": [
-                26,
-                12,
+                43,
                 11,
-                43
+                26,
+                12
             ],
             "scale": 4,
             "selectedLayer": 10,
             "viewCenter": {
-                "x": 922.5,
-                "y": 386.375
+                "x": 520.75,
+                "y": 512.125
             }
         },
         "C:/Users/Admin/Documents/Unity/untitled-dungeon-crawler/Assets/Tiled/Mapping.tsx": {
@@ -49,8 +49,8 @@
         },
         "Office.tmx": {
             "expandedGroupLayers": [
-                2,
-                12
+                12,
+                2
             ],
             "expandedObjectLayers": [
                 2,
@@ -59,8 +59,8 @@
             "scale": 3,
             "selectedLayer": 6,
             "viewCenter": {
-                "x": 437.33333333333326,
-                "y": 803.1666666666666
+                "x": 512.1666666666666,
+                "y": 511.83333333333326
             }
         },
         "Rules/AutomappingDungeons.tmx": {
