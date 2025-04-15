@@ -9,7 +9,10 @@ using UnityEngine;
 public class DoorAreaCustomOpeners : TDFeature, ITDCustom
 {
     [SerializeField]
-    bool OnlyPlayer = true;
+    bool openForPlayer = true;
+
+    [SerializeField]
+    bool openForEnemy = false;
 
     [SerializeField, HideInInspector]
     int areaId;
@@ -21,6 +24,8 @@ public class DoorAreaCustomOpeners : TDFeature, ITDCustom
     public void Configure(TDNode node, TiledCustomProperties properties)
     {
         areaId = properties.Int("AreaId");
+        openForPlayer = properties.Bool("OpenForPlayer", openForPlayer);
+        openForEnemy = properties.Bool("OpenForEnemy", openForEnemy);
     }
 
     private void OnEnable()
@@ -77,9 +82,22 @@ public class DoorAreaCustomOpeners : TDFeature, ITDCustom
         return false;
     }
 
+    bool RelevantEntityType(GridEntity entity)
+    {
+        switch (entity.EntityType) {
+            case GridEntityType.PlayerCharacter:
+                return openForPlayer;
+            case GridEntityType.Enemy:
+                return openForEnemy;
+            default:
+                return false;
+        }
+    }
+
     private void GridEntity_OnPositionTransition(GridEntity entity)
     {
-        if (OnlyPlayer && entity.EntityType != GridEntityType.PlayerCharacter) return;
+
+        if (!RelevantEntityType(entity)) return;
 
         var wasHere = this.wasHere;
         var isHere = IsInArea(entity.Coordinates);

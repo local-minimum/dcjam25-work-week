@@ -25,9 +25,17 @@ namespace LMCore.UI
         [SerializeField]
         float maxDistance = 1000;
 
+        [SerializeField, Range(0, 1)]
+        float afterClickRespite = 0.4f;
+
         private void OnEnable()
         {
             Cursor.visible = false;
+            var canvas = GetComponentInParent<Canvas>();
+            if (canvas.renderMode != RenderMode.ScreenSpaceCamera)
+            {
+                Debug.LogWarning("Virtual pointer only coded for screen space cameras");
+            }
         }
 
         private void OnDisable()
@@ -70,11 +78,14 @@ namespace LMCore.UI
             return false;
         }
 
+        float nextClickAllowedAt;
+
         public void Click()
         {
-            if (GetHit(out var go))
+            if (Time.realtimeSinceStartup > nextClickAllowedAt && GetHit(out var go))
             {
                 HandleHit(go);
+                nextClickAllowedAt = Time.realtimeSinceStartup + afterClickRespite;
             }
         }
 
