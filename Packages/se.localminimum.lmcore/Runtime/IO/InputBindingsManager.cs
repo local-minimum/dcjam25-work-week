@@ -1,21 +1,25 @@
 using LMCore.AbstractClasses;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 
 namespace LMCore.IO
 {
     public class InputBindingsManager : Singleton<InputBindingsManager, InputBindingsManager>
     {
-        List<ActionBindingConf> _actionBindins;
-        List<ActionBindingConf> actionBindins
+        [SerializeField]
+        bool includeInactiveBindings;
+
+        List<ActionBindingConf> _actionBindings;
+        List<ActionBindingConf> actionBindings
         {
             get
             {
-                if (_actionBindins == null)
+                if (_actionBindings == null)
                 {
-                    _actionBindins = GetComponentsInChildren<ActionBindingConf>().ToList();
+                    _actionBindings = GetComponentsInChildren<ActionBindingConf>(includeInactiveBindings).ToList();
                 }
-                return _actionBindins;
+                return _actionBindings;
             }
         }
 
@@ -31,11 +35,15 @@ namespace LMCore.IO
         {
             var device = ActionMapToggler.LastDevice;
 
-            var options = actionBindins
+            var options = actionBindings
                 .Where(a => a.Defines(action, 0) && a.For(device))
                 .ToList();
 
-            if (options.Count == 0) return missing;
+            if (options.Count == 0)
+            {
+                Debug.LogWarning($"No binding for {action} and device {device} found among {actionBindings.Count} bindings!");
+                return missing;
+            }
 
             return decoration.Replace("%HINT%", options[0].HumanizedBinding());
         }
