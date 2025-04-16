@@ -70,6 +70,7 @@ public class BossBattleTrigger : AbsAnomaly
 
     void RestoreManger()
     {
+        manager.transform.rotation = managerStartLook;
         var enemy = manager.GetComponent<TDEnemy>();
         enemy.Paused = false;
         enemy.ForceActivity(LMCore.EntitySM.State.StateType.Guarding);
@@ -88,6 +89,7 @@ public class BossBattleTrigger : AbsAnomaly
 
     void RestorePlayer()
     {
+        player.transform.rotation = playerStartLook;
         player.MovementBlockers.Remove(this);
         var freeLookCamera = player.GetComponentInChildren<FreeLookCamera>(true);
         if (freeLookCamera != null)

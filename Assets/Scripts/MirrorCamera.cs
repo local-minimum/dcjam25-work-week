@@ -29,8 +29,12 @@ public class MirrorCamera : MonoBehaviour
 
         if (sentinel == null)
         {
-            entityCamera = entity.GetComponentInChildren<Camera>();
             sentinel = mirror.GetComponent<MirrorCameraSentinel>();
+        }
+
+        if (entityCamera == null)
+        {
+            entityCamera = entity.GetComponentInChildren<Camera>();
         }
 
         if (entityCamera == null || sentinel == null)
