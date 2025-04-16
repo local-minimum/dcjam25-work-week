@@ -7,6 +7,15 @@ public class WeChickenAnomaly : AbsAnomaly
     GameObject normalAvatar;
 
     [SerializeField]
+    Animator normalAnimator;
+
+    [SerializeField]
+    string normalResting;
+
+    [SerializeField]
+    string normalMoving;
+
+    [SerializeField]
     GameObject abnormalAvatar;
 
     [SerializeField]
@@ -31,24 +40,36 @@ public class WeChickenAnomaly : AbsAnomaly
 
         if (activeAnomaly)
         {
-            if (abnormalAnimator != null)
+            ToggleAnimator(entity, abnormalAnimator, abnormalResting, abnormalMoving);
+        } else
+        {
+            ToggleAnimator(entity, normalAnimator, normalResting, normalMoving);
+        }
+    }
+
+    void ToggleAnimator(
+        GridEntity entity,
+        Animator animator, 
+        string restingTrigger, 
+        string movingTrigger)
+    {
+        if (animator != null)
+        {
+            if (entity.Moving == MovementType.Stationary)
             {
-                if (entity.Moving == MovementType.Stationary)
+                Debug.Log($"WeChick {restingTrigger}");
+                if (!wasResting)
                 {
-                    Debug.Log($"WeChick {abnormalResting}");
-                    if (!wasResting)
-                    {
-                        abnormalAnimator.SetTrigger(abnormalResting);
-                        wasResting = true;
-                    }
-                } else
+                    animator.SetTrigger(restingTrigger);
+                    wasResting = true;
+                }
+            } else
+            {
+                Debug.Log($"WeChick {movingTrigger}");
+                if (wasResting)
                 {
-                    Debug.Log($"WeChick {abnormalMoving}");
-                    if (wasResting)
-                    {
-                        abnormalAnimator.SetTrigger(abnormalMoving);
-                        wasResting = false;
-                    }
+                    animator.SetTrigger(movingTrigger);
+                    wasResting = false;
                 }
             }
         }
