@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="32" height="32" tilewidth="32" tileheight="32" infinite="0" nextlayerid="46" nextobjectid="83">
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="32" height="32" tilewidth="32" tileheight="32" infinite="0" nextlayerid="46" nextobjectid="110">
  <tileset firstgid="1" source="Mapping.tsx"/>
  <group id="2" name="Office">
   <properties>
@@ -352,21 +352,239 @@
      <property name="Id" value="AutomaticDoors"/>
     </properties>
    </object>
-   <object id="79" name="Managed Door" type="Door" x="431.75" y="274.25">
+   <object id="79" name="Managed Door" type="Door" x="430.75" y="274.25">
     <properties>
      <property name="Managed" type="bool" value="true"/>
+     <property name="ToggleGroup" type="int" value="1"/>
     </properties>
     <point/>
    </object>
    <object id="80" name="Managed Door" type="Door" x="463.5" y="272.75">
     <properties>
      <property name="Managed" type="bool" value="true"/>
+     <property name="ToggleGroup" type="int" value="1"/>
     </properties>
     <point/>
    </object>
    <object id="82" name="Start Position" type="Custom" x="401.333" y="811">
     <properties>
      <property name="Id" value="StartPosition"/>
+    </properties>
+    <point/>
+   </object>
+   <object id="84" name="ManagerAutoDoor" type="Custom" x="572.5" y="379" width="41" height="42.5">
+    <properties>
+     <property name="AreaId" type="int" value="2"/>
+     <property name="Id" value="AutomaticDoors"/>
+     <property name="OnlyEnemy" type="bool" value="true"/>
+    </properties>
+   </object>
+   <object id="85" name="ManagerAutoDoor" type="Custom" x="606.5" y="347.25" width="67.5" height="105.5">
+    <properties>
+     <property name="AreaId" type="int" value="2"/>
+     <property name="Id" value="AutomaticDoors"/>
+     <property name="OnlyEnemy" type="bool" value="true"/>
+    </properties>
+   </object>
+   <object id="86" name="Managed Door" type="Door" x="619.409" y="401.818">
+    <properties>
+     <property name="AllowPlayerInteractions" type="bool" value="true"/>
+     <property name="Managed" type="bool" value="true"/>
+     <property name="ToggleGroup" type="int" value="2"/>
+    </properties>
+    <point/>
+   </object>
+   <object id="87" name="Manager" type="Enemy" x="754" y="409">
+    <properties>
+     <property name="EnemyClassId" value="Manager"/>
+     <property name="EnemyId" value="Manager"/>
+     <property name="ForceState" value="Loitering"/>
+     <property name="LookDirection" propertytype="Direction" value="West"/>
+    </properties>
+    <point/>
+   </object>
+   <object id="88" name="Path: Office - Golf" type="Path" x="661.25" y="337.5">
+    <properties>
+     <property name="EnemyId" value="Manger"/>
+     <property name="ForceState" value="Guard"/>
+     <property name="PathLoop" type="int" value="0"/>
+     <property name="Rank" type="int" value="0"/>
+    </properties>
+    <point/>
+   </object>
+   <object id="89" name="Path: Main Loop 1" type="Path" x="464.75" y="376.25">
+    <properties>
+     <property name="EnemyId" value="Manger"/>
+     <property name="ForceState" value="Guard"/>
+     <property name="PathLoop" type="int" value="1"/>
+     <property name="Rank" type="int" value="0"/>
+    </properties>
+    <point/>
+   </object>
+   <object id="90" name="Path: Office - Look through door" type="Path" x="624" y="412">
+    <properties>
+     <property name="EnemyId" value="Manger"/>
+     <property name="ForceState" value="Guard"/>
+     <property name="PathLoop" type="int" value="0"/>
+     <property name="Rank" type="int" value="1"/>
+    </properties>
+    <point/>
+   </object>
+   <object id="91" name="Path: Main Loop 1" type="Path" x="335" y="433">
+    <properties>
+     <property name="EnemyId" value="Manger"/>
+     <property name="PathLoop" type="int" value="1"/>
+     <property name="Rank" type="int" value="1"/>
+    </properties>
+    <point/>
+   </object>
+   <object id="92" name="Path: Main Loop 1" type="Path" x="371" y="629">
+    <properties>
+     <property name="EnemyId" value="Manger"/>
+     <property name="ForceState" value="Guard"/>
+     <property name="PathLoop" type="int" value="1"/>
+     <property name="Rank" type="int" value="2"/>
+    </properties>
+    <point/>
+   </object>
+   <object id="93" name="Path: Main Loop 1" type="Path" x="592" y="727">
+    <properties>
+     <property name="EnemyId" value="Manger"/>
+     <property name="ForceState" value="Guard"/>
+     <property name="PathLoop" type="int" value="1"/>
+     <property name="Rank" type="int" value="3"/>
+    </properties>
+    <point/>
+   </object>
+   <object id="94" name="Path: Main Loop 2" type="Path" x="332" y="728">
+    <properties>
+     <property name="EnemyId" value="Manger"/>
+     <property name="ForceState" value="Guard"/>
+     <property name="PathLoop" type="int" value="2"/>
+     <property name="Rank" type="int" value="1"/>
+    </properties>
+    <point/>
+   </object>
+   <object id="95" name="Path: Main Loop 2" type="Path" x="491" y="851">
+    <properties>
+     <property name="EnemyId" value="Manger"/>
+     <property name="PathLoop" type="int" value="2"/>
+     <property name="Rank" type="int" value="0"/>
+    </properties>
+    <point/>
+   </object>
+   <object id="96" name="Path: Main Loop 2" type="Path" x="335" y="498">
+    <properties>
+     <property name="EnemyId" value="Manger"/>
+     <property name="PathLoop" type="int" value="2"/>
+     <property name="Rank" type="int" value="2"/>
+    </properties>
+    <point/>
+   </object>
+   <object id="97" name="Path: Main Loop 2" type="Path" x="590" y="404">
+    <properties>
+     <property name="EnemyId" value="Manger"/>
+     <property name="ForceState" value="Guard"/>
+     <property name="PathLoop" type="int" value="2"/>
+     <property name="Rank" type="int" value="3"/>
+    </properties>
+    <point/>
+   </object>
+   <object id="98" name="Path: Main Loop 3" type="Path" x="751" y="725">
+    <properties>
+     <property name="EnemyId" value="Manger"/>
+     <property name="PathLoop" type="int" value="3"/>
+     <property name="Rank" type="int" value="0"/>
+    </properties>
+    <point/>
+   </object>
+   <object id="99" name="Path: Main Loop 3" type="Path" x="779" y="589">
+    <properties>
+     <property name="EnemyId" value="Manger"/>
+     <property name="PathLoop" type="int" value="3"/>
+     <property name="Rank" type="int" value="1"/>
+    </properties>
+    <point/>
+   </object>
+   <object id="100" name="Path: Main Loop 3" type="Path" x="625" y="562">
+    <properties>
+     <property name="EnemyId" value="Manger"/>
+     <property name="ForceState" value="Guard"/>
+     <property name="PathLoop" type="int" value="3"/>
+     <property name="Rank" type="int" value="2"/>
+    </properties>
+    <point/>
+   </object>
+   <object id="101" name="Managed Door" type="Door" x="619.75" y="565.25">
+    <properties>
+     <property name="AllowPlayerInteractions" type="bool" value="true"/>
+     <property name="Managed" type="bool" value="true"/>
+     <property name="ToggleGroup" type="int" value="3"/>
+    </properties>
+    <point/>
+   </object>
+   <object id="102" name="Managed Door" type="Door" x="621.5" y="719.5">
+    <properties>
+     <property name="AllowPlayerInteractions" type="bool" value="true"/>
+     <property name="Managed" type="bool" value="true"/>
+     <property name="ToggleGroup" type="int" value="4"/>
+    </properties>
+    <point/>
+   </object>
+   <object id="103" name="ManagerAutoDoor" type="Custom" x="573.25" y="700.25" width="70.5" height="42.5">
+    <properties>
+     <property name="AreaId" type="int" value="4"/>
+     <property name="Id" value="AutomaticDoors"/>
+     <property name="OnlyEnemy" type="bool" value="true"/>
+    </properties>
+   </object>
+   <object id="104" name="ManagerAutoDoor" type="Custom" x="572.75" y="540.5" width="70.5" height="42.5">
+    <properties>
+     <property name="AreaId" type="int" value="3"/>
+     <property name="Id" value="AutomaticDoors"/>
+     <property name="OnlyEnemy" type="bool" value="true"/>
+    </properties>
+   </object>
+   <object id="105" name="Path: Main Loop 4" type="Path" x="496.667" y="438.667">
+    <properties>
+     <property name="EnemyId" value="Manger"/>
+     <property name="ForceState" value="Guard"/>
+     <property name="PathLoop" type="int" value="4"/>
+     <property name="Rank" type="int" value="0"/>
+    </properties>
+    <point/>
+   </object>
+   <object id="106" name="Path: Main Loop 4" type="Path" x="562" y="634">
+    <properties>
+     <property name="EnemyId" value="Manger"/>
+     <property name="PathLoop" type="int" value="4"/>
+     <property name="Rank" type="int" value="1"/>
+    </properties>
+    <point/>
+   </object>
+   <object id="107" name="Path: Main Loop 4" type="Path" x="431.333" y="687.333">
+    <properties>
+     <property name="EnemyId" value="Manger"/>
+     <property name="ForceState" value="Guard"/>
+     <property name="PathLoop" type="int" value="4"/>
+     <property name="Rank" type="int" value="2"/>
+    </properties>
+    <point/>
+   </object>
+   <object id="108" name="Path: Main Loop 4" type="Path" x="335.333" y="848.667">
+    <properties>
+     <property name="EnemyId" value="Manger"/>
+     <property name="PathLoop" type="int" value="4"/>
+     <property name="Rank" type="int" value="3"/>
+    </properties>
+    <point/>
+   </object>
+   <object id="109" name="Path: Main Loop 4" type="Path" x="586" y="726.667">
+    <properties>
+     <property name="EnemyId" value="Manger"/>
+     <property name="ForceState" value="Guard"/>
+     <property name="PathLoop" type="int" value="4"/>
+     <property name="Rank" type="int" value="0"/>
     </properties>
     <point/>
    </object>

@@ -22,22 +22,32 @@
                 "y": 398
             }
         },
+        "C:/Users/Admin/Documents/Unity/untitled-dungeon-crawler/Assets/Tiled/DemoLevel.tmx": {
+            "expandedGroupLayers": [
+                9
+            ],
+            "scale": 4,
+            "selectedLayer": 3,
+            "viewCenter": {
+                "x": 716.25,
+                "y": 241.625
+            }
+        },
         "C:/Users/Admin/Documents/Unity/untitled-dungeon-crawler/Assets/Tiled/Level1.tmx": {
             "expandedGroupLayers": [
-                11,
                 12
             ],
             "expandedObjectLayers": [
-                43,
-                11,
                 26,
-                12
+                43,
+                12,
+                11
             ],
             "scale": 4,
-            "selectedLayer": 10,
+            "selectedLayer": 4,
             "viewCenter": {
                 "x": 520.75,
-                "y": 512.125
+                "y": 695.875
             }
         },
         "C:/Users/Admin/Documents/Unity/untitled-dungeon-crawler/Assets/Tiled/Mapping.tsx": {
@@ -49,18 +59,18 @@
         },
         "Office.tmx": {
             "expandedGroupLayers": [
-                12,
-                2
+                2,
+                12
             ],
             "expandedObjectLayers": [
                 2,
                 22
             ],
-            "scale": 2,
-            "selectedLayer": 4,
+            "scale": 4,
+            "selectedLayer": 6,
             "viewCenter": {
-                "x": 430.5,
-                "y": 645.25
+                "x": 713.25,
+                "y": 415.375
             }
         },
         "Rules/AutomappingDungeons.tmx": {
@@ -266,7 +276,7 @@
         "C:/Users/Admin/Documents/Unity/untitled-dungeon-crawler/Assets/Tiled/Level1.tmx"
     ],
     "project": "Office.tiled-project",
-    "property.type": "string",
+    "property.type": "int",
     "recentFiles": [
         "C:/Users/Admin/Documents/Unity/untitled-dungeon-crawler/Assets/Tiled/Level1.tmx",
         "Mapping.tsx",
