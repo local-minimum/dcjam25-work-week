@@ -286,4 +286,47 @@ public class AnomalyManager : Singleton<AnomalyManager, AnomalyManager>, IOnLoad
     {
         Debug.Log($"AnomalyManager: {Weekday} week {WeekNumber} {activeAnomaly}\nEncountered: {string.Join(", ", encounteredAnomalies)}\nMissed: {string.Join(", ", missedAnomalies)}");
     }
+
+    [ContextMenu("Summarize anomalies")]
+    void SummarizeAnomalies()
+    {
+        Dictionary<OfficeRoom, int> rooms = new Dictionary<OfficeRoom, int>();
+        Dictionary<int, int> difficulties = new Dictionary<int, int>();
+        int horrors = 0;
+        int noHorrors = 0;
+
+        foreach (var anom in anomalies)
+        {
+            if (anom.horror)
+            {
+                horrors++;
+            } else
+            {
+                noHorrors++;
+            }
+
+            foreach (var room in anom.room.AllFlags())
+            {
+                if (rooms.ContainsKey(room))
+                {
+                    rooms[room]++;
+                } else
+                {
+                    rooms[room] = 1;
+                }
+            }
+
+            if (difficulties.ContainsKey(anom.difficulty))
+            {
+                difficulties[anom.difficulty]++;
+            } else
+            {
+                difficulties[anom.difficulty] = 1;
+            }
+        }
+
+        Debug.Log($"{noHorrors} non-horror and {horrors} scary anomalies");
+        Debug.Log(string.Join(", ", rooms.Select(kvp => $"{kvp.Key}: {kvp.Value}")));
+        Debug.Log($"Difficulties: {string.Join(", ", difficulties.OrderBy(kvp => kvp.Key).Select(kvp => $"{kvp.Key}: {kvp.Value}"))}");
+    }
 }
