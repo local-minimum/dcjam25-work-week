@@ -276,7 +276,7 @@
         "C:/Users/Admin/Documents/Unity/untitled-dungeon-crawler/Assets/Tiled/Level1.tmx"
     ],
     "project": "Office.tiled-project",
-    "property.type": "int",
+    "property.type": "bool",
     "recentFiles": [
         "C:/Users/Admin/Documents/Unity/untitled-dungeon-crawler/Assets/Tiled/Level1.tmx",
         "Mapping.tsx",

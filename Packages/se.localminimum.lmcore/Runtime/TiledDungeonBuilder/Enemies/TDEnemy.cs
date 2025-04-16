@@ -490,12 +490,18 @@ namespace LMCore.TiledDungeon.Enemies
             }
 
             var newActiveBehaviour = activeState.GetComponent<TDAbsEnemyBehaviour>();
+            if (newActiveBehaviour == null)
+            {
+                Debug.LogWarning($"The active state has no behaviour {activeState}");
+                return;
+            }
+
             newActiveBehaviour.enabled = true;
 
             if (newActiveBehaviour is TDEnemyPatrolling)
             {
                 TDEnemyPatrolling patrolling = (TDEnemyPatrolling)newActiveBehaviour;
-                if (initBehaviour && !patrolling.HasTarget) SetPatrolGoal(patrolling);
+                if (initBehaviour) SetPatrolGoal(patrolling);
             }
             else if (newActiveBehaviour is TDEnemyGuarding)
             {
@@ -567,7 +573,7 @@ namespace LMCore.TiledDungeon.Enemies
             ClosestCheckpoint(pt => loop == -1 || pt.Loop == loop);
 
         public TDPathCheckpoint ClosestCheckpointOnOtherLoop(TDPathCheckpoint current) =>
-            ClosestCheckpoint(pt => pt.Loop != current.Loop);
+            ClosestCheckpoint(pt => current == null || pt.Loop != current.Loop);
 
         TDPathCheckpoint ClosestCheckpoint(System.Func<TDPathCheckpoint, bool> predicate)
         {
@@ -665,6 +671,9 @@ namespace LMCore.TiledDungeon.Enemies
                 return;
             }
 
+            patrolling.InitOrResumePatrol();
+
+            /*
             var pathCheckpoint = ClosestCheckpoint();
             if (pathCheckpoint == null)
             {
@@ -676,6 +685,7 @@ namespace LMCore.TiledDungeon.Enemies
                 // Debug.Log(PrefixLogMessage($"Setting patroll checkpoint {pathCheckpoint}"));
                 patrolling.SetCheckpointFromPatrolPath(pathCheckpoint, pathCheckpoint.Rank == 0 && pathCheckpoint.Bounce ? -1 : 1);
             }
+            */
         }
 
         #region Save / Load

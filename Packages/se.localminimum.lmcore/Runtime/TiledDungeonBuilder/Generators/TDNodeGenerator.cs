@@ -212,16 +212,33 @@ namespace LMCore.TiledDungeon
 
         static void ConfigureEnemy(TDNode node, TDNodeConfig nodeConfig)
         {
-            if (!node.modifications.Any(mod => mod.Tile.Type == TiledConfiguration.instance.EnemyClass)) return;
+            if (!node.modifications.Any(mod => mod.Tile.Type == TiledConfiguration.instance.EnemyClass))
+            {
+                if (nodeConfig.HasObjectType(TiledConfiguration.instance.EnemyClass))
+                {
+                    node.Log("Node as details about an enemy but enemy not marked on any modifictaions layers!", Debug.LogWarning);
+                }
+                return;
+            }
 
             var pool = TDEnemyPool.InstanceOrResource("EnemyPool");
-            if (pool == null) return;
+            if (pool == null)
+            {
+                node.Log("Could not spawn enemy because cannot locate enemy pool", Debug.LogError);
+                return;
+            }
 
+            var count = 0;
             foreach (var info in nodeConfig.GetObjectValues(
                 TiledConfiguration.instance.EnemyClass,
                 props => EnemyInfo.From(props)))
             {
-                if (string.IsNullOrEmpty(info.ClassId)) continue;
+                if (string.IsNullOrEmpty(info.ClassId))
+                {
+                    
+                    node.Log("Could not spawn enemy because it lacks class id", Debug.LogError);
+                    continue;
+                }
 
                 if (SpawnedEnemies.Contains(info.FullId))
                 {
@@ -240,7 +257,10 @@ namespace LMCore.TiledDungeon
                 var configs = nodeConfig.GetObjectProps(obj => info.ConfiguresMe(obj)).ToList();
                 // Do this last so that the enemy has become part of the dungeon structure
                 enemy.Configure(info.Id, info.LookDirection, info.ForcedState, configs);
+                count++;
             }
+
+            node.Log($"{count} enemies spawned", Debug.Log);
         }
 
         static void ConfigureSafeZones(TDNode node, TDNodeConfig config)

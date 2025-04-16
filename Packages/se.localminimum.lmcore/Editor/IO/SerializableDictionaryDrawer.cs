@@ -5,6 +5,8 @@ using UnityEngine;
 
 namespace LMCore.IO
 {
+    [CustomPropertyDrawer(typeof(SerializableDictionary<int, int>))]
+    public class SerializableIntIntDictionaryDrawer : GenericSerializableDictionaryDrawer<int, int> { };
 
     [CustomPropertyDrawer(typeof(SerializableDictionary<string, float>))]
     public class SerializableStringFloatDictionaryDrawer : GenericSerializableDictionaryDrawer<string, float> { };
@@ -55,10 +57,13 @@ namespace LMCore.IO
 
             var childrenHeight = 0f;
             var values = property.FindPropertyRelative("values");
-            for (var i = 0; i < values.arraySize; i++)
+            if (values != null)
             {
-                var child = values.GetArrayElementAtIndex(i);
-                childrenHeight += RowGap + Math.Max(selfHeight, EditorGUI.GetPropertyHeight(child, child.isExpanded));
+                for (var i = 0; i < values.arraySize; i++)
+                {
+                    var child = values.GetArrayElementAtIndex(i);
+                    childrenHeight += RowGap + Math.Max(selfHeight, EditorGUI.GetPropertyHeight(child, child.isExpanded));
+                }
             }
 
             // +1 Title and Sometimes +1 Add new item row

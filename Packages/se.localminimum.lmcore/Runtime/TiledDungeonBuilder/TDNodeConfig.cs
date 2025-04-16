@@ -120,5 +120,8 @@ namespace LMCore.TiledDungeon
 
         public bool HasObject(string type, System.Func<TiledCustomProperties, bool> predicate) =>
             HasObjectPoint(type, predicate) || HasObjectRect(type, predicate);
+
+        public bool HasObjectType(string type) => 
+            TObjects.Any(pt => pt.Type == type);
     }
 }

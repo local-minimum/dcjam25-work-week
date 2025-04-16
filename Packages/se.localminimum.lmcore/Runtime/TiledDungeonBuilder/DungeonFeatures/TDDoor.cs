@@ -22,6 +22,9 @@ namespace LMCore.TiledDungeon.DungeonFeatures
     ///     direction that allows unlocking and/or opening/closing
     ///   - <c>TiledConfiguration.ObjManagedKey</c> (bool): If something else controls
     ///   the door rather than normal things.
+    ///   - <c>TiledConfiguration.ObjAllowPlayerInteractions</c> (bool): If managed door
+    ///   still can be opened and closed by the player. Useful for triggers automatically
+    ///   opening doors for enemies.
     /// * <c>TiledConfiguration.ObjLockItemClass</c>: The class of the
     ///   of the object that decides key properties and such
     ///   - <c>TiledConfiguration.KeyKey</c> (string): Key Id to unlock door
@@ -547,7 +550,10 @@ namespace LMCore.TiledDungeon.DungeonFeatures
             }
 
             isTrapdoor = node.modifications.Any(m => m.Tile.Type == TiledConfiguration.instance.TrapDoorClass);
-            managed = config.FirstValue(TiledConfiguration.instance.DoorClass, prop => prop == null ? false : prop.Bool(TiledConfiguration.instance.ObjManagedKey, false));
+
+            managed = config.FirstValue(
+                TiledConfiguration.instance.DoorClass, 
+                prop => prop == null ? false : prop.Bool(TiledConfiguration.instance.ObjManagedKey, false));
 
             automaticTrapDoor = config.GetObjectValues(
                 TiledConfiguration.instance.TrapDoorClass,

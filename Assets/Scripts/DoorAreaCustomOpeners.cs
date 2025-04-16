@@ -8,10 +8,10 @@ using UnityEngine;
 
 public class DoorAreaCustomOpeners : TDFeature, ITDCustom
 {
-    [SerializeField]
+    [SerializeField, Tooltip("Default value if not 'OpenForPlayer' or 'IngorePlayer' has been set in Tiled")]
     bool openForPlayer = true;
 
-    [SerializeField]
+    [SerializeField, Tooltip("Default value if not 'OpenForEnemy' or 'IngoreEnemy' has been set in Tiled")]
     bool openForEnemy = false;
 
     [SerializeField, HideInInspector]
@@ -24,8 +24,9 @@ public class DoorAreaCustomOpeners : TDFeature, ITDCustom
     public void Configure(TDNode node, TiledCustomProperties properties)
     {
         areaId = properties.Int("AreaId");
-        openForPlayer = properties.Bool("OpenForPlayer", openForPlayer);
-        openForEnemy = properties.Bool("OpenForEnemy", openForEnemy);
+        openForPlayer = properties.Bool("OpenForPlayer", !properties.Bool("IgnorePlayer", !openForPlayer));
+        openForEnemy = properties.Bool("OpenForEnemy", !properties.Bool("IgnoreEnemy", !openForEnemy));
+        Info();
     }
 
     private void OnEnable()
@@ -131,6 +132,8 @@ public class DoorAreaCustomOpeners : TDFeature, ITDCustom
     [ContextMenu("Info")]
     void Info()
     {
-        Debug.Log($"Custom area door opener {name} / {areaId}: {Doors.Count} doors, was here: {wasHere}");
+        Debug.Log($"Custom area door opener {name} / {areaId}:" +
+            $"{Doors.Count} doors, was here: {wasHere}. " +
+            $"Opens for player({openForPlayer}), opens for enemy {openForEnemy}");
     }
 }

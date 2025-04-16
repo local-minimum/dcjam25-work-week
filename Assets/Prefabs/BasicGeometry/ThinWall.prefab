@@ -84,13 +84,46 @@ PrefabInstance:
       propertyPath: m_Name
       value: thinwall
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 548e8a86cbc9c0b44b11c767f069391b, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 548e8a86cbc9c0b44b11c767f069391b, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1568358796410995195}
   m_SourcePrefab: {fileID: 100100000, guid: 548e8a86cbc9c0b44b11c767f069391b, type: 3}
 --- !u!4 &394782175531566290 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 548e8a86cbc9c0b44b11c767f069391b, type: 3}
   m_PrefabInstance: {fileID: 211727669044863801}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1022700709990588008 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 548e8a86cbc9c0b44b11c767f069391b, type: 3}
+  m_PrefabInstance: {fileID: 211727669044863801}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &1568358796410995195
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1022700709990588008}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.100000024, y: 1.5, z: 2.6}
+  m_Center: {x: 0, y: 0, z: 1.3}

@@ -2,7 +2,9 @@ using LMCore.Crawler;
 using LMCore.IO;
 using LMCore.TiledDungeon;
 using LMCore.TiledDungeon.DungeonFeatures;
+using LMCore.TiledDungeon.Enemies;
 using LMCore.TiledImporter;
+using System.Linq;
 using UnityEngine;
 
 public delegate void StartPositionPlayerEvent(GridEntity player);
@@ -114,6 +116,22 @@ public class StartPositionCustom : TDFeature, ITDCustom
         player.InjectForcedMovement(releaseMovement);
 
         OnReleasePlayer?.Invoke(player);
+
+        var manager = Dungeon.Enemies.FirstOrDefault(e => e.Identifier == "Manager");
+        if (manager == null)
+        {
+            Debug.LogWarning("There's no manager in the office!");
+        } else
+        {
+            var enemy = manager.GetComponent<TDEnemy>();
+            if (enemy != null)
+            {
+                enemy.ForceActivity(LMCore.EntitySM.State.StateType.Patrolling);
+            } else
+            {
+                Debug.LogError("The manager/enemy doesn't have an enemy script");
+            }
+        }
 
         player = null;
         releasing = false;

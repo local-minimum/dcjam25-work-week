@@ -61,7 +61,7 @@ namespace LMCore.EntitySM.State
         public StateType State => _state;
 
         float entryTime;
-        bool isAcitveState;
+        public bool isAcitveState { get; private set; }
         public float ActiveDuration =>
             isAcitveState ? Time.timeSinceLevelLoad - entryTime : 0f;
 

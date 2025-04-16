@@ -12,6 +12,8 @@ namespace LMCore.TiledDungeon
 {
     public class TDEnemyPatrolling : TDAbsEnemyBehaviour, IOnLoadSave
     {
+        [SerializeField]
+        bool askPathManagerAtEndOfPath;
 
         [SerializeField, Tooltip("Note that the turn durations are scaled by Entity abilities")]
         float movementDuration = 2f;
@@ -20,7 +22,7 @@ namespace LMCore.TiledDungeon
         float fallDurationFactor = 0.5f;
 
         #region SaveState
-        bool Patrolling { get; set; }
+        bool Patrolling => HasTarget && enabled;
         TDPathCheckpoint target;
         int direction;
         #endregion
@@ -37,22 +39,13 @@ namespace LMCore.TiledDungeon
                 $"Loop (direction {direction}) is {string.Join(" -> ", TDPathCheckpoint.GetLoop(Enemy, target.Loop))}"));
         }
 
-        public void SetCheckpointFromPatrolPath(TDPathCheckpoint path, int direction)
+        public void InitOrResumePatrol()
         {
-            if (path == null)
-            {
-                Debug.LogWarning(PrefixLogMessage("Setting path to null"));
-            }
-            target = path;
-            Patrolling = path != null;
-            this.direction = direction;
-            // Debug.Log(PrefixLogMessage("Starting"));
+            if (!HasTarget) GetNextCheckpoint();
         }
 
         private void OnEnable()
         {
-            Patrolling = target != null;
-
             foreach (var perception in GetComponentsInParent<TDEnemyPerception>(true))
             {
                 perception.OnDetectPlayer += Perception_OnDetectPlayer;
@@ -61,7 +54,6 @@ namespace LMCore.TiledDungeon
 
         private void OnDisable()
         {
-            Patrolling = false;
             previousPath = null;
 
             foreach (var perception in GetComponentsInParent<TDEnemyPerception>(true))
@@ -80,7 +72,7 @@ namespace LMCore.TiledDungeon
             if (Paused || !Patrolling) return;
 
             var entity = Enemy.Entity;
-            if (entity.Moving != Crawler.MovementType.Stationary) return;
+            if (entity.Moving != MovementType.Stationary) return;
 
             if (entity.Coordinates == target.Coordinates)
             {
@@ -155,27 +147,53 @@ namespace LMCore.TiledDungeon
             }
         }
 
+        void ResetTargetAndDirection()
+        {
+            target = null;
+            direction = 1;
+        }
+
+        void CheckTargetForcesNewState()
+        {
+            if (target != null && !target.ForceState.Either(StateType.None, StateType.Patrolling))
+            {
+                // If were mean to do something else lets do that
+                Enemy.ForceActivity(target.ForceState, target.ForceStateLookDirection);
+            }
+        }
+
         void GetNextCheckpoint()
         {
-            // Debug.Log(PrefixLogMessage("Getting next checkpoint"));
-
-            if (!target.ForceState.Either(StateType.None, StateType.Patrolling))
-            {
-                Enemy.ForceActivity(target.ForceState, target.ForceStateLookDirection);
+            if (target == null) {
+                TrySwappingPatrolLoop();
                 return;
             }
-            else if (target.Terminal)
+
+            if (target.Terminal)
             {
+                CheckTargetForcesNewState();
+
+                // We've completed our patrol path and it said we should ask ourselves what
+                // to do next
+                ResetTargetAndDirection();
+
                 Enemy.UpdateActivity(true);
                 return;
             }
+
+            CheckTargetForcesNewState();
+
+            // We ready next checkpoint no matter if we're doing other thing inbetween
 
             var options = Enemy.GetNextCheckpoints(target, direction, out int newDirection);
             if (options != null)
             {
                 // There's some new checkpoint
                 var newTarget = options.FirstOrDefault(t => t != target);
-                if (newTarget == null)
+                if (askPathManagerAtEndOfPath && (newTarget == null || newTarget.Rank < target.Rank))
+                {
+                    AskPathManagerForTarget(newTarget, newDirection);
+                } else if (newTarget == null)
                 {
                     TrySwappingPatrolLoop();
                 }
@@ -186,10 +204,32 @@ namespace LMCore.TiledDungeon
                     target = newTarget;
                 }
             }
+            else if (askPathManagerAtEndOfPath)
+            {
+                AskPathManagerForTarget(null, direction);
+            }
             else
             {
                 TrySwappingPatrolLoop();
             }
+        }
+
+        void AskPathManagerForTarget(TDPathCheckpoint fallback, int fallbackDirection)
+        {
+            var manager = GetComponentInChildren<TDEnemyPathManager>();
+            if (manager != null)
+            {
+                target = manager.GetNextTarget(target.Loop);
+                direction = 1;
+            }
+
+            if (target == null)
+            {
+                target = fallback;
+                direction = fallbackDirection;
+            }
+
+            if (target == null) TrySwappingPatrolLoop();
         }
 
         public EnemyPatrollingSave Save() =>
@@ -227,11 +267,10 @@ namespace LMCore.TiledDungeon
                 if (target == null)
                 {
                     Debug.LogError(PrefixLogMessage($"Could not find target (loop {patrollingSave.loop}, rank {patrollingSave.rank})"));
-                    Patrolling = false;
                 }
                 else
                 {
-                    Patrolling = patrollingSave.active;
+                    enabled = patrollingSave.active;
                 }
             }
             else

@@ -91,6 +91,7 @@ namespace LMCore.TiledDungeon
         public string ObjVariantStyleKey = "Style";
         public string ObjGroupKey = "Group";
         public string ObjManagedByGroupKey = "ManagedByGroup";
+        public string ObjAllowPlayerInteractions = "AllowPlayerInteractions";
         public string ObjToggleEffectKey = "ToggleEffect";
         public string ObjPhaseKey = "Phase";
         public string ObjSequenceStarter = "Start";

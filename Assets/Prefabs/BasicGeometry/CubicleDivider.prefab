@@ -84,13 +84,46 @@ PrefabInstance:
       propertyPath: m_Name
       value: cubiclefence
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 6c5edf65583364349b2dd3369efe47be, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 6c5edf65583364349b2dd3369efe47be, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8438260168074915466}
   m_SourcePrefab: {fileID: 100100000, guid: 6c5edf65583364349b2dd3369efe47be, type: 3}
 --- !u!4 &79617907363795608 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 6c5edf65583364349b2dd3369efe47be, type: 3}
   m_PrefabInstance: {fileID: 472989483467322739}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &743389415163660322 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 6c5edf65583364349b2dd3369efe47be, type: 3}
+  m_PrefabInstance: {fileID: 472989483467322739}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &8438260168074915466
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 743389415163660322}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.14, y: 1.53, z: 1.48}
+  m_Center: {x: 0, y: 0, z: 0.7023586}

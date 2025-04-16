@@ -30,7 +30,7 @@ public abstract class AbsAnomaly : TDFeature
             SetAnomalyState();
         } else
         {
-            Debug.Log($"Anomaly: '{anomalyId}' not active because doing '{id}'");
+            // Debug.Log($"Anomaly: '{anomalyId}' not active because doing '{id}'");
             SetNormalState();
         }
     }
