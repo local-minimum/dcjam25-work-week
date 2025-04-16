@@ -45,6 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64a0bafb4362d9342b94bc3de8b2f7e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  silenceManageDoorPrompt: 0
   isOpen: 0
   modifications: []
   positioningOffset: 0
@@ -81,7 +82,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 325d59d272258ec418cb41b01aef3447, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.1
+      value: 0.05
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 325d59d272258ec418cb41b01aef3447, type: 3}
       propertyPath: m_LocalPosition.z
