@@ -216,6 +216,8 @@ public class AnomalyManager : Singleton<AnomalyManager, AnomalyManager>, IOnLoad
         SetAnomalyOfTheDay();
     }
 
+    public void FailBossBattle() => 
+        ExitTrigger_OnExitOffice(ExitType.BossDeath);
 
     private void ExitTrigger_OnExitOffice(ExitType exitType)
     {
