@@ -58,16 +58,22 @@ public class BossBattleTrigger : AbsAnomaly
 
     void DisableManager()
     {
-        manager.GetComponent<TDEnemy>().ForceActivity(LMCore.EntitySM.State.StateType.Loitering);
-        manager.MovementBlockers.Add(this);
+        var enemy = manager.GetComponent<TDEnemy>();
+        enemy.ForceActivity(LMCore.EntitySM.State.StateType.Loitering);
+        enemy.Paused = true;
+        // Pause normally pauses this too
+        var anim = enemy.GetComponentInChildren<Animator>(true);
+        anim.enabled = true;
+        anim.SetTrigger("Guard");
         manager.GetComponent<TDDangerZone>().enabled = false;
     }
 
     void RestoreManger()
     {
-        manager.GetComponent<TDEnemy>().ForceActivity(LMCore.EntitySM.State.StateType.Guarding);
-        manager.MovementBlockers.Remove(this);
-        manager.GetComponent<TDDangerZone>().enabled = false;
+        var enemy = manager.GetComponent<TDEnemy>();
+        enemy.Paused = false;
+        enemy.ForceActivity(LMCore.EntitySM.State.StateType.Guarding);
+        manager.GetComponent<TDDangerZone>().enabled = true;
     }
 
     void DisablePlayer()
@@ -95,6 +101,7 @@ public class BossBattleTrigger : AbsAnomaly
 
     void EnterBossBattle()
     {
+        Debug.Log("BBTrigger: Start Conflict!");
         DisablePlayer();
 
         manager = player.Dungeon.GetEntity("Manager");
@@ -118,7 +125,9 @@ public class BossBattleTrigger : AbsAnomaly
 
     void TriggerBossGame()
     {
-
+        // TODO: Actual minigame
+        Debug.Log("BBTrigger: Minigame!");
+        WinMiniGame();
     }
 
     public void FailMiniGame()
@@ -136,6 +145,7 @@ public class BossBattleTrigger : AbsAnomaly
 
         RestorePlayer();
         managerGroggySteps = managerGroggyAfterLossSteps;
+        Debug.Log("BBTrigger: Won Minigame!");
     }
 
 

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3835214238174361270}
   - component: {fileID: 1022091644717088004}
   - component: {fileID: 9069861766114722995}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Capsule
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -121,13 +121,14 @@ GameObject:
   - component: {fileID: 548299357336418206}
   - component: {fileID: 229770331026211457}
   - component: {fileID: 5562225020957604619}
+  - component: {fileID: 926590759346442236}
   - component: {fileID: 2052305777037944072}
   - component: {fileID: 1364491553633081396}
   - component: {fileID: 1512316484325799253}
   - component: {fileID: 1887791076101642064}
   - component: {fileID: 5532468027142277316}
   - component: {fileID: 3845747431073454359}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -526,6 +527,21 @@ MonoBehaviour:
   m_DefaultActionMap: Crawling
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 5616739644787964165}
+--- !u!114 &926590759346442236
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3196701949215803923}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad8d452e284bd33438fdb31969a73e34, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  anomalyId: monster-manager
+  managerGroggyAfterLossSteps: 13
+  lookDuration: 0.5
 --- !u!114 &2052305777037944072
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -616,7 +632,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7096041699614057689}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Anomaly Avatar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -648,7 +664,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7219157129515034343}
   - component: {fileID: 8813067194493852235}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Head
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -701,7 +717,7 @@ GameObject:
   - component: {fileID: 1098687311186933231}
   - component: {fileID: 1660412629900158567}
   - component: {fileID: 7903581547043790899}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Character
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -772,7 +788,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2521829942505558077}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: LookTarget
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -803,7 +819,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5954340930787082686}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Avatar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -840,7 +856,7 @@ GameObject:
   - component: {fileID: 2631937743804308668}
   - component: {fileID: 3034191638153769455}
   - component: {fileID: 6730299406789315873}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Main Camera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
@@ -901,7 +917,7 @@ Camera:
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 247
+    m_Bits: 503
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0

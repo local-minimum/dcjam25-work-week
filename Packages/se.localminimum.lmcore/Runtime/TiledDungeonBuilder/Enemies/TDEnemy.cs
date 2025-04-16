@@ -330,7 +330,7 @@ namespace LMCore.TiledDungeon.Enemies
         public bool Paused
         {
             get => pauseTimer?.state ?? false;
-            private set
+            set
             {
                 if (pauseTimer == null)
                 {

@@ -464,14 +464,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 750b9fa8b6506bc44a8a3c287921e794, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxDistance: 5
-  requireLOS: 0
+  maxDistance: 6
+  requireLOS: 1
   LOSFilter:
     serializedVersion: 2
-    m_Bits: 128
+    m_Bits: 384
   losMaxAngle: 60
-  requirePath: 0
-  maxPathLength: 9
+  requirePath: 1
+  maxPathLength: 10
   effectTrait: 0
   effectMagnitude: 0
   _rayCaster: {fileID: 2635128972756630570}
