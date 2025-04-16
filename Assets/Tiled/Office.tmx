@@ -424,7 +424,6 @@
    <object id="90" name="Path: Office - Look through door" type="Path" x="624" y="412">
     <properties>
      <property name="EnemyId" value="Manager"/>
-     <property name="ForceState" value="Guard"/>
      <property name="PathLoop" type="int" value="0"/>
      <property name="Rank" type="int" value="1"/>
     </properties>
@@ -509,7 +508,6 @@
    <object id="100" name="Path: Main Loop 3" type="Path" x="625" y="562">
     <properties>
      <property name="EnemyId" value="Manager"/>
-     <property name="ForceState" value="Guard"/>
      <property name="PathLoop" type="int" value="3"/>
      <property name="Rank" type="int" value="2"/>
     </properties>

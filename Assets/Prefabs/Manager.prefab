@@ -1,60 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &306670398961409565
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 7663854350311996322}
-  - component: {fileID: 8930876797994423030}
-  m_Layer: 0
-  m_Name: 'perception: Area'
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &7663854350311996322
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 306670398961409565}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 8381589432820477335}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8930876797994423030
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 306670398961409565}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 750b9fa8b6506bc44a8a3c287921e794, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxDistance: 3
-  requireLOS: 0
-  LOSFilter:
-    serializedVersion: 2
-    m_Bits: 0
-  losMaxAngle: 60
-  requirePath: 1
-  maxPathLength: 5
-  effectTrait: 0
-  effectMagnitude: 0
-  _rayCaster: {fileID: 0}
 --- !u!1 &1196539419791325743
 GameObject:
   m_ObjectHideFlags: 0
@@ -118,9 +63,6 @@ MonoBehaviour:
   Transitions:
   - _Target: 7
     _CustomCriteria:
-    - Weight: 5
-      criteria: {fileID: 8930876797994423030}
-      Inverted: 0
     - Weight: 5
       criteria: {fileID: 338529799072279607}
       Inverted: 0
@@ -190,10 +132,7 @@ MonoBehaviour:
   - _Target: 7
     _CustomCriteria:
     - Weight: 5
-      criteria: {fileID: 8930876797994423030}
-      Inverted: 0
-    - Weight: 5
-      criteria: {fileID: 338529799072279607}
+      criteria: {fileID: 0}
       Inverted: 0
   - _Target: 1
     _CustomCriteria:
@@ -276,7 +215,6 @@ Transform:
   - {fileID: 1524756389208240137}
   - {fileID: 8214394071006505427}
   - {fileID: 2635128972756630570}
-  - {fileID: 7663854350311996322}
   - {fileID: 5716816027125432472}
   - {fileID: 4041235335724565009}
   m_Father: {fileID: 0}
@@ -419,7 +357,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a58bcbbf47aa2146a569e450c316609, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Size: 1
+  Size: 2
   StayDanger: 0
 --- !u!114 &6478098660838461101
 MonoBehaviour:
@@ -493,7 +431,7 @@ GameObject:
   - component: {fileID: 5716816027125432472}
   - component: {fileID: 338529799072279607}
   m_Layer: 0
-  m_Name: 'perception: Vision'
+  m_Name: perception
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -526,8 +464,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 750b9fa8b6506bc44a8a3c287921e794, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxDistance: 7
-  requireLOS: 1
+  maxDistance: 5
+  requireLOS: 0
   LOSFilter:
     serializedVersion: 2
     m_Bits: 128
@@ -602,9 +540,6 @@ MonoBehaviour:
   Transitions:
   - _Target: 7
     _CustomCriteria:
-    - Weight: 5
-      criteria: {fileID: 8930876797994423030}
-      Inverted: 0
     - Weight: 5
       criteria: {fileID: 338529799072279607}
       Inverted: 0
@@ -803,9 +738,6 @@ MonoBehaviour:
   Transitions:
   - _Target: 7
     _CustomCriteria:
-    - Weight: 5
-      criteria: {fileID: 8930876797994423030}
-      Inverted: 0
     - Weight: 5
       criteria: {fileID: 338529799072279607}
       Inverted: 0
