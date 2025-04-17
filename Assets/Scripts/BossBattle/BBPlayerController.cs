@@ -8,6 +8,9 @@ public class BBPlayerController : MonoBehaviour
     public event BBPlayerHealthEvent OnHealthChange;
 
     [SerializeField]
+    Rigidbody2D rb;
+
+    [SerializeField]
     int startHealth = 3;
 
     [SerializeField, Range(0, 1)]
@@ -138,7 +141,7 @@ public class BBPlayerController : MonoBehaviour
             checkInLetter = true;
         }
 
-        transform.position += (Vector3)(direction * speed) * Time.deltaTime * (dashing ? dashSpeedFactor : 1f);
+        rb.linearVelocity = (Vector3)(direction * speed) * (dashing ? dashSpeedFactor : 1f);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
