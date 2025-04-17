@@ -31,13 +31,14 @@ namespace LMCore.Juice
 
         public enum Phase { Inacive, EaseIn, Waiting, EaseOut, Completed };
 
+        float phaseShiftTime;
+
         private Phase phase = Phase.Inacive;
         public Phase ActivePhase
         {
             get { return phase; }
             set
             {
-
                 if (phase == value) return;
 
                 if (value == Phase.Inacive || !anim.enabled)
@@ -66,6 +67,7 @@ namespace LMCore.Juice
                 }
 
                 phase = value;
+                phaseShiftTime = Time.timeSinceLevelLoad;
                 OnPhaseChange?.Invoke(phase);
             }
         }
@@ -81,20 +83,42 @@ namespace LMCore.Juice
         [SerializeField]
         AnimationClip fadeOutClip;
 
+        [SerializeField]
+        float panicCompleteFadeoutAfter = 1f;
+
         private void Update()
         {
             if (!anim.enabled) return;
 
-            if (ActivePhase == Phase.EaseIn && anim.IsAnimating(animState, waitingClip.name))
+            if (waitingClip != null)
             {
-                Debug.Log(PrefixLogMessage("Currently waiting"));
-                phase = Phase.Waiting;
-                OnPhaseChange?.Invoke(phase);
+                if (ActivePhase == Phase.EaseIn && anim.IsAnimating(animState, waitingClip.name))
+                {
+                    Debug.Log(PrefixLogMessage("Currently waiting"));
+                    phase = Phase.Waiting;
+                    OnPhaseChange?.Invoke(phase);
+                }
             }
 
-            if (ActivePhase != Phase.Completed && anim.IsActiveAnimation(animState, fadeOutClip.name) && !anim.IsAnimating(animState, fadeOutClip.name))
+            if (fadeOutClip != null)
             {
-                StopAnimation(Phase.Completed);
+                if (ActivePhase != Phase.Completed && anim.IsActiveAnimation(animState, fadeOutClip.name) && !anim.IsAnimating(animState, fadeOutClip.name))
+                {
+                    StopAnimation(Phase.Completed);
+                } else
+                {
+                    Debug.Log(PrefixLogMessage($"{ActivePhase} active & anim {anim.IsActiveAnimation(animState, fadeOutClip.name)} isAnimating {anim.IsAnimating(animState, fadeOutClip.name)}"));
+                }
+            } else
+            {
+                if (ActivePhase == Phase.EaseOut && (Time.timeSinceLevelLoad - phaseShiftTime) > panicCompleteFadeoutAfter)
+                {
+                    Debug.LogWarning(PrefixLogMessage($"We dont have any fadeout clip configured, it's been {panicCompleteFadeoutAfter}s so we assume it's done"));
+                    StopAnimation(Phase.Completed);
+                } else
+                {
+
+                }
             }
         }
 

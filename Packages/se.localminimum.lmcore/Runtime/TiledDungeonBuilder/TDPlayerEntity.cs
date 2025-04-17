@@ -132,7 +132,11 @@ namespace LMCore.TiledDungeon
 
         private void FOV_OnChange(float value)
         {
-            GetComponentInChildren<Camera>(true).fieldOfView = value;
+            var cam = GetComponentInChildren<Camera>(true);
+            if  (cam != null)
+            {
+                cam.fieldOfView = value;
+            }
         }
 
         [ContextMenu("Info")]

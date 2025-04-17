@@ -60,6 +60,10 @@ public class BossBattleTrigger : AbsAnomaly, IOnLoadSave
 
     void DisableManager()
     {
+        if (manager == null)
+        {
+            manager = Dungeon.GetEntity("Manager");
+        }
         var enemy = manager.GetComponent<TDEnemy>();
         enemy.ForceActivity(LMCore.EntitySM.State.StateType.Loitering);
         enemy.Paused = true;
@@ -131,6 +135,8 @@ public class BossBattleTrigger : AbsAnomaly, IOnLoadSave
         {
             BossBattleManager.SafeInstance.SetBattleStartedAndSave();
         }
+
+        if (!lookEasing) TriggerBossGame();
     }
 
     void TriggerBossGame()
@@ -142,17 +148,14 @@ public class BossBattleTrigger : AbsAnomaly, IOnLoadSave
         } else
         {
             Debug.Log("BBTrigger: We're entering boss battle");
-            SceneManager.LoadScene("BossBattleScene");
+            BossBattleManager.SafeInstance.LoadBossFight();
         }
     }
 
     public void TriggerAnomaly()
     {
-        BossBattleManager.SafeInstance.ReportWin();
         AnomalyManager.instance.DeathByAnomaly();
     }
-
-
 
     [SerializeField]
     float lookDuration = 0.5f;
@@ -177,11 +180,12 @@ public class BossBattleTrigger : AbsAnomaly, IOnLoadSave
     }
 
     // Must be after BossBattleManager
-    public int OnLoadPriority => 50;
+    public int OnLoadPriority => 10;
 
     public void OnLoad<T>(T save) where T : new()
     {
         managerGroggy = BossBattleManager.SafeInstance.GroggyBoss;
+
         if (managerGroggy)
         {
             DisableManager();

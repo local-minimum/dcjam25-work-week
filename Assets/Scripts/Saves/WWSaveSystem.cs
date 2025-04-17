@@ -5,6 +5,9 @@ using UnityEngine;
 
 public class WWSaveSystem : TDSaveSystem<WWSave, WWSaveSystem>
 {
+    public static WWSaveSystem SafeInstance =>
+        InstanceOrResource("SaveSystem");
+        
     [SerializeField]
     string OfficeLevelSceneName;
 
@@ -44,7 +47,7 @@ public class WWSaveSystem : TDSaveSystem<WWSave, WWSaveSystem>
     }
 
     [ContextMenu("Load autosave")]
-    void LoadAutoSave()
+    public void LoadAutoSave()
     {
         var startLoadingSave = levelManager.LoadSceneAsync();
         if (startLoadingSave == null)

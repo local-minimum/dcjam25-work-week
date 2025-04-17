@@ -2,9 +2,14 @@ using TMPro;
 using UnityEngine;
 
 public delegate void DifficultyEvent(int level);
+public enum FightStatus { None, InProgress, Survived, Died };
 
 public class BBFight : MonoBehaviour
 {
+    public static FightStatus FightStatus { get; set; } = FightStatus.None;
+
+    public static int BaseDifficulty { get; set; } = 1;
+
     public static event DifficultyEvent OnChangeDifficulty;
 
     [SerializeField]
@@ -35,6 +40,12 @@ public class BBFight : MonoBehaviour
         RemainingUI.text = $"Survive for {Remaining.ToString("##")}s";
     }
 
+    private void Start()
+    {
+        difficulty = BaseDifficulty;
+        FightStatus = FightStatus.InProgress;
+    }
+
     private void OnEnable()
     {
         player.OnHealthChange += Player_OnHealthChange;
@@ -62,7 +73,10 @@ public class BBFight : MonoBehaviour
     {
         if (health <= 0)
         {
-            Debug.Log("We lost");
+            FightStatus = FightStatus.Died;
+            Time.timeScale = 1f;
+            WWSaveSystem.SafeInstance.LoadAutoSave();
+            enabled = false;
         }
     }
 
@@ -71,7 +85,11 @@ public class BBFight : MonoBehaviour
         if (started) SyncCountdown();
         if (Remaining <= 0f)
         {
-            Debug.Log("We win");
+            FightStatus = FightStatus.Survived;
+            Time.timeScale = 1f;
+            WWSaveSystem.SafeInstance.LoadAutoSave();
+            enabled = false;
+            return;
         }
 
         if (Time.timeSinceLevelLoad > nextDifficulty)

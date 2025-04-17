@@ -262,13 +262,23 @@ namespace LMCore.Extensions
         /// Get first instance in scene
         /// </summary>
         /// <param name="sceneName">Name of scene</param>
-        public static T GetFirstInScene<T>(this MonoBehaviour _, string sceneName) =>
-            SceneManager
-                .GetSceneByName(sceneName)
+        public static T GetFirstInScene<T>(this MonoBehaviour _, string sceneName) {
+
+            var scene = SceneManager
+                .GetSceneByName(sceneName);
+
+            if (scene == null || !scene.IsValid())
+            {
+                Debug.LogWarning($"There's no scene called {sceneName} here anymore");
+                return default(T);
+            }
+
+            return scene
                 .GetRootGameObjects()
                 .Select(obj => obj.GetComponentInChildren<T>())
                 .Where(t => t != null)
                 .FirstOrDefault();
+        }
 
         /// <summary>
         /// Get first instance in scene

@@ -1,7 +1,10 @@
 using LMCore.AbstractClasses;
 using LMCore.Crawler;
 using LMCore.IO;
+using LMCore.TiledDungeon;
+using UnityEditor.PackageManager;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public delegate void ManagerNotGroggyEvent();
 
@@ -26,11 +29,21 @@ public class BossBattleManager : Singleton<BossBattleManager, BossBattleManager>
     private void OnEnable()
     {
         GridEntity.OnPositionTransition += GridEntity_OnPositionTransition;
+        TDLevelManager.OnSceneLoaded += TDLevelManager_OnSceneLoaded;
     }
 
     private void OnDisable()
     {
         GridEntity.OnPositionTransition += GridEntity_OnPositionTransition;
+        TDLevelManager.OnSceneLoaded -= TDLevelManager_OnSceneLoaded;
+    }
+
+    private void TDLevelManager_OnSceneLoaded(string sceneName)
+    {
+        if (BBFight.FightStatus == FightStatus.InProgress)
+        {
+            LoadBossFight();
+        }
     }
 
 
@@ -57,18 +70,10 @@ public class BossBattleManager : Singleton<BossBattleManager, BossBattleManager>
         WWSaveSystem.instance.AutoSave();
     }
 
-    public void ReportWin()
+    public void LoadBossFight()
     {
-        BattleDifficulty = Mathf.Clamp(BattleDifficulty + 1, 1, maxDifficulty);
-        BattleTriggered = false;
-        WWSaveSystem.instance.AutoSave();
-    }
-
-    public void ReportLoss()
-    {
-        BattleDifficulty = Mathf.Clamp(BattleDifficulty - 1, 1, maxDifficulty);
-        BattleTriggered = false;
-        WWSaveSystem.instance.AutoSave();
+        BBFight.BaseDifficulty = BattleDifficulty;
+        SceneManager.LoadScene("BossBattleScene");
     }
 
     #region Save / Load
@@ -86,18 +91,50 @@ public class BossBattleManager : Singleton<BossBattleManager, BossBattleManager>
             managerGroggySteps = ManagerGroggySteps,
         };
 
-    public int OnLoadPriority => 100;
+    public int OnLoadPriority => 10000;
 
     void LoadWWSave(WWSave save)
     {
+        switch (BBFight.FightStatus)
+        {
+            case FightStatus.Survived:
+                Debug.Log("BBManager: We've loaded in from a winning boss encounter");
+                BBFight.FightStatus = FightStatus.None;
+                if (save.battle == null)
+                {
+                    save.battle = new BossBattleSave();
+                }
+                save.battle.managerGroggySteps = managerGroggyAfterLossSteps;
+                save.battle.difficulty = Mathf.Clamp(save.battle.difficulty + 1, 1, maxDifficulty);
+                BattleTriggered = false;
+                break;
+            case FightStatus.Died:
+                Debug.Log("BBManager: We've loaded in from a loosing boss encounter");
+                if (save.battle == null)
+                {
+                    save.battle = new BossBattleSave();
+                }
+                save.battle.managerGroggySteps = 0;
+                save.battle.difficulty = Mathf.Max(save.battle.difficulty - 1, 1);
+
+                BattleTriggered = false;
+                BBFight.FightStatus = FightStatus.None;
+                AnomalyManager.instance.FailBossBattle();
+                return;
+        }
+
+
         if (save.battle != null)
         {
             BattleTriggered = save.battle.triggered;
             BattleDifficulty = save.battle.difficulty;
+            ManagerGroggySteps = save.battle.managerGroggySteps;
+
         } else
         {
             BattleTriggered = false;
             BattleDifficulty = 1;
+            ManagerGroggySteps = 0;
         }
     }
 

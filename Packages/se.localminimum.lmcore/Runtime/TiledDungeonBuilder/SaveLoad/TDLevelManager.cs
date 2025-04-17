@@ -32,7 +32,7 @@ namespace LMCore.TiledDungeon
 
         protected string PrefixLogMessage(string message) => $"Level Manager: {message}";
 
-        private bool transitioning = false;
+        private static bool transitioning = false;
         bool readyToFinalizeLoading;
         Scene unloadingScene;
         bool sourceSceneUnloaded;
@@ -75,6 +75,7 @@ namespace LMCore.TiledDungeon
                 Debug.LogError(PrefixLogMessage($"Can't initiate loading since alreay busy loading"));
                 return null;
             }
+            Debug.Log(PrefixLogMessage("Loading scene async"));
 
             transitioning = true;
             levelToLoad = null;
@@ -207,6 +208,9 @@ namespace LMCore.TiledDungeon
             else if (readyToFinalizeLoading || phase == Transition.Phase.Completed)
             {
                 FinalizeTransition();
+            } else
+            {
+                Debug.Log(PrefixLogMessage($"We did nothing about phase becoming {phase}"));
             }
         }
 
@@ -232,7 +236,7 @@ namespace LMCore.TiledDungeon
 
         private void LevelLoadingOperation_completed(AsyncOperation obj)
         {
-            DisableCamera(LoadingSceneName);
+            //DisableCamera(LoadingSceneName);
             var levelScene = SceneManager.GetSceneByName(levelSceneName);
             SceneManager.SetActiveScene(levelScene);
             levelSceneAudioListerner = DisableLevelAudioListener(levelScene);
@@ -249,14 +253,27 @@ namespace LMCore.TiledDungeon
             }
         }
 
+        bool finalized = false;
+
         void HandleLoadingLevelComplete()
         {
+            finalized = false;
             Debug.Log(PrefixLogMessage("Target scene ready"));
             if (loadingEffect != null)
             {
                 loadingEffect.ActivePhase = Transition.Phase.EaseOut;
+                StartCoroutine(PanicFinalizeIfEaseNeverCallsBack());
             }
             else
+            {
+                FinalizeTransition();
+            }
+        }
+
+        IEnumerator<WaitForSeconds> PanicFinalizeIfEaseNeverCallsBack()
+        {
+            yield return new WaitForSeconds(1f);
+            if (!finalized)
             {
                 FinalizeTransition();
             }
@@ -287,10 +304,25 @@ namespace LMCore.TiledDungeon
 
         private void FinalizeTransition()
         {
+            if (finalized)
+            {
+                Debug.LogWarning(PrefixLogMessage("We are trying to finalize twice!"));
+                return;
+            }
+
+            finalized = true;
             Debug.Log(PrefixLogMessage($"Loading of {LoadingSceneName} completed"));
             SwapToLoadingLevelAudioListerner();
             OnSceneLoaded?.Invoke(LoadingSceneName);
-            SceneManager.UnloadSceneAsync(LoadingSceneName).completed += TDLevelManager_completed;
+            
+            var loadingScene = SceneManager.GetSceneByName(LoadingSceneName);
+            if (loadingScene.IsValid())
+            {
+                SceneManager.UnloadSceneAsync(LoadingSceneName).completed += TDLevelManager_completed;
+            } else
+            {
+                transitioning = false;
+            }
         }
 
         private void TDLevelManager_completed(AsyncOperation obj)

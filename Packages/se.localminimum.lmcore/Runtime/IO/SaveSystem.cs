@@ -1,5 +1,6 @@
 using LMCore.AbstractClasses;
 using LMCore.Extensions;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -76,12 +77,20 @@ namespace LMCore.IO
             this.saveData = saveData;
 
             int n = 0;
+            List<IOnLoadSave> loaded = new List<IOnLoadSave>();
+            
             foreach (var behaviour in UnityExtensions
                 .FindObjectsByInterface<IOnLoadSave>(
                     FindObjectsInactive.Include,
                     FindObjectsSortMode.None)
                 .OrderByDescending(i => i.OnLoadPriority))
             {
+                if (loaded.Contains(behaviour))
+                {
+                    Debug.LogWarning(PrefixLogMessage($"Prio {behaviour.OnLoadPriority}: already loaded {behaviour}"));
+                    continue;
+                }
+                loaded.Add(behaviour);
                 Debug.Log(PrefixLogMessage($"Prio {behaviour.OnLoadPriority}: Calling OnLoad on {behaviour}"));
                 behaviour.OnLoad(saveData);
                 n++;
