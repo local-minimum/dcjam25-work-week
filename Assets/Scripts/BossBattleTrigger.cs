@@ -2,6 +2,7 @@ using LMCore.Crawler;
 using LMCore.TiledDungeon;
 using LMCore.TiledDungeon.Enemies;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class BossBattleTrigger : AbsAnomaly
 {
@@ -141,9 +142,7 @@ public class BossBattleTrigger : AbsAnomaly
             TriggerAnomaly();
         } else
         {
-            // TODO: Actual minigame
-            Debug.Log("BBTrigger: Minigame!");
-            WinMiniGame();
+            SceneManager.LoadScene("BossBattleScene");
         }
     }
 
@@ -153,25 +152,10 @@ public class BossBattleTrigger : AbsAnomaly
         AnomalyManager.instance.DeathByAnomaly();
     }
 
-    public void FailMiniGame()
-    {
-        BossBattleManager.instance.ReportLoss();
-        AnomalyManager.instance.FailBossBattle();
-    }
-
     [SerializeField]
     int managerGroggyAfterLossSteps = 10;
 
     int managerGroggySteps;
-
-    public void WinMiniGame()
-    {
-
-        RestorePlayer();
-        managerGroggySteps = managerGroggyAfterLossSteps;
-        Debug.Log("BBTrigger: Won Minigame!");
-    }
-
 
 
     [SerializeField]
