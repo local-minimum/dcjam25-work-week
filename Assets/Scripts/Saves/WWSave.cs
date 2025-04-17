@@ -1,7 +1,13 @@
 using LMCore.TiledDungeon.SaveLoad;
 using System.Collections.Generic;
-using UnityEngine;
 
+
+[System.Serializable]
+public class BossBattleSave
+{
+    public bool triggered;
+    public int difficulty;
+}
 
 [System.Serializable]
 public enum Weekday { Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday }
@@ -35,11 +41,8 @@ public static class WeekdayExtensions
 [System.Serializable]
 public class WWSave : GameSave 
 {
-    public Weekday weekday = Weekday.Monday;
-    public List<string> encounteredAnomalies = new List<string>();
-    public List<string> missedAnomalies = new List<string>();
-    public int weekNumber = 0;
-    public int wantedDifficulty = 0;
+    public AnomalyManager.AnomalyManagerSaveData anomalies = new AnomalyManager.AnomalyManagerSaveData();
+    public BossBattleSave battle = new BossBattleSave();
 
     public WWSave(GameSave save)
     {
@@ -52,7 +55,6 @@ public class WWSave : GameSave
         storyCollections = save.storyCollections;
         player = save.player;
         playerStats = save.playerStats;
-
     }
 
     public WWSave() {}

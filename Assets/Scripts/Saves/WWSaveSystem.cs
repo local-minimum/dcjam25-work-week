@@ -22,10 +22,9 @@ public class WWSaveSystem : TDSaveSystem<WWSave, WWSaveSystem>
 
         var save = new WWSave(gameSave);
 
-        var anomalySave = AnomalyManager.instance.Save();
-        save.encounteredAnomalies = anomalySave.encounteredAnomalies;
-        save.weekNumber = anomalySave.weekNumber;
-        save.weekday = anomalySave.weekday;
+        save.anomalies = AnomalyManager.instance.Save();
+        save.battle = BossBattleManager.instance.Save();
+
 
         return save;
     }

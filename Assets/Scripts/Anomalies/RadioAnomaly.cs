@@ -1,4 +1,7 @@
 using LMCore.Crawler;
+using LMCore.TiledDungeon;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class RadioAnomaly : AbsAnomaly
@@ -19,7 +22,7 @@ public class RadioAnomaly : AbsAnomaly
     float maxDistanceRollOffNormal = 5f;
 
     [SerializeField]
-    int triggerOnDistance = 2;
+    List<TDNode> triggerLocations = new List<TDNode>();
 
     [SerializeField]
     Transform radio;
@@ -110,11 +113,11 @@ public class RadioAnomaly : AbsAnomaly
         if (!anomalous || Activated || entity.EntityType != GridEntityType.PlayerCharacter) return;
 
         player = entity;
-        if (Dungeon.ClosestPath(entity, entity.Coordinates, Coordinates, triggerOnDistance, out var path))
+        if (triggerLocations.Any(n => n.Coordinates == entity.Coordinates))
         {
-            Activated = path.Count <= triggerOnDistance + 1;
+            Activated = true;
+            Debug.Log($"Radio anomaly activated at {entity.Coordinates}");
         }
-        Debug.Log($"Radio anomaly activation: {Activated} ({(path == null ? "no" : path.Count)} path)");
         if (Activated) Activation();
     }
 

@@ -104,6 +104,7 @@ public class AnomalyManager : Singleton<AnomalyManager, AnomalyManager>, IOnLoad
 
 
     #region Save State
+    [System.Serializable]
     public class AnomalyManagerSaveData
     {
         public List<string> encounteredAnomalies;
@@ -120,12 +121,22 @@ public class AnomalyManager : Singleton<AnomalyManager, AnomalyManager>, IOnLoad
             weekday = manager.Weekday;
             wantedDifficulty = manager.wantedDifficulty;
         }
+
+        public AnomalyManagerSaveData()
+        {
+            encounteredAnomalies = new List<string>();
+            missedAnomalies = new List<string>();
+            weekNumber = 0;
+            wantedDifficulty = START_DIFFICULTY;
+            weekday = Weekday.Monday;
+        }
     }
 
     List<string> encounteredAnomalies = new List<string>();
     List<string> missedAnomalies = new List<string>();
 
-    int wantedDifficulty = 3;
+    const int START_DIFFICULTY = 3;
+    int wantedDifficulty = START_DIFFICULTY;
 
     int _weekNumber;
     public int WeekNumber => _weekNumber;
@@ -143,16 +154,17 @@ public class AnomalyManager : Singleton<AnomalyManager, AnomalyManager>, IOnLoad
 
     public void OnLoadWWSave(WWSave save)
     {
+        var anomalies = save.anomalies ?? new AnomalyManagerSaveData();
         encounteredAnomalies.Clear();
-        encounteredAnomalies.AddRange(save.encounteredAnomalies);
+        encounteredAnomalies.AddRange(anomalies.encounteredAnomalies);
 
         missedAnomalies.Clear();
-        missedAnomalies.AddRange(save.missedAnomalies);
+        missedAnomalies.AddRange(anomalies.missedAnomalies);
 
-        _weekNumber = save.weekNumber;
-        _weekday = save.weekday;
+        _weekNumber = anomalies.weekNumber;
+        _weekday = anomalies.weekday;
 
-        wantedDifficulty = save.wantedDifficulty;
+        wantedDifficulty = anomalies.wantedDifficulty;
 
         SetAnomalyOfTheDay();
     }
@@ -215,6 +227,10 @@ public class AnomalyManager : Singleton<AnomalyManager, AnomalyManager>, IOnLoad
     {
         SetAnomalyOfTheDay();
     }
+
+
+    public void DeathByAnomaly() =>
+        ExitTrigger_OnExitOffice(ExitType.AnomalyDeath);
 
     public void FailBossBattle() => 
         ExitTrigger_OnExitOffice(ExitType.BossDeath);

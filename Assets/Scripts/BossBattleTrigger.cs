@@ -15,13 +15,16 @@ public class BossBattleTrigger : AbsAnomaly
         GridEntity.OnPositionTransition += GridEntity_OnPositionTransition;
     }
 
+    bool anomality;
+
     protected override void SetAnomalyState()
     {
-        // TODO: If we get to do monster manager!
+        anomality = true;
     }
 
     protected override void SetNormalState()
     {
+        anomality = false;
     }
 
     GridEntity player;
@@ -123,17 +126,36 @@ public class BossBattleTrigger : AbsAnomaly
 
         lookStart = Time.timeSinceLevelLoad;
         lookEasing = manager != null;
+
+        // We're just gonna be  dead soon if anomaly no need to save that
+        if (!anomality)
+        {
+            BossBattleManager.instance.SetBattleStartedAndSave();
+        }
     }
 
     void TriggerBossGame()
     {
-        // TODO: Actual minigame
-        Debug.Log("BBTrigger: Minigame!");
-        WinMiniGame();
+        if (anomality)
+        {
+            TriggerAnomaly();
+        } else
+        {
+            // TODO: Actual minigame
+            Debug.Log("BBTrigger: Minigame!");
+            WinMiniGame();
+        }
+    }
+
+    public void TriggerAnomaly()
+    {
+        BossBattleManager.instance.ReportWin();
+        AnomalyManager.instance.DeathByAnomaly();
     }
 
     public void FailMiniGame()
     {
+        BossBattleManager.instance.ReportLoss();
         AnomalyManager.instance.FailBossBattle();
     }
 
@@ -141,9 +163,9 @@ public class BossBattleTrigger : AbsAnomaly
     int managerGroggyAfterLossSteps = 10;
 
     int managerGroggySteps;
+
     public void WinMiniGame()
     {
-        // TODO: Sync up look directions
 
         RestorePlayer();
         managerGroggySteps = managerGroggyAfterLossSteps;
@@ -158,6 +180,7 @@ public class BossBattleTrigger : AbsAnomaly
     Quaternion playerGoalLook;
     Quaternion managerStartLook;
     Quaternion managerGoalLook;
+
 
     private void Update()
     {

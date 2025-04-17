@@ -3,7 +3,7 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "Office.tmx",
+    "activeFile": "C:/Users/Admin/Documents/Unity/untitled-dungeon-crawler/Assets/Tiled/Level1.tmx",
     "automapping.whileDrawing": true,
     "expandedProjectPaths": [
         "Automapping",
@@ -25,6 +25,10 @@
         "C:/Users/Admin/Documents/Unity/untitled-dungeon-crawler/Assets/Tiled/DemoLevel.tmx": {
             "expandedGroupLayers": [
                 9
+            ],
+            "expandedObjectLayers": [
+                9,
+                13
             ],
             "scale": 4,
             "selectedLayer": 3,
@@ -69,8 +73,8 @@
             "scale": 4,
             "selectedLayer": 6,
             "viewCenter": {
-                "x": 713.25,
-                "y": 415.375
+                "x": 612.5,
+                "y": 691.125
             }
         },
         "Rules/AutomappingDungeons.tmx": {
@@ -273,14 +277,16 @@
     "openFiles": [
         "Office.tmx",
         "Mapping.tsx",
+        "C:/Users/Admin/Documents/Unity/untitled-dungeon-crawler/Assets/Tiled/DemoLevel.tmx",
         "C:/Users/Admin/Documents/Unity/untitled-dungeon-crawler/Assets/Tiled/Level1.tmx"
     ],
     "project": "Office.tiled-project",
     "property.type": "bool",
     "recentFiles": [
-        "C:/Users/Admin/Documents/Unity/untitled-dungeon-crawler/Assets/Tiled/Level1.tmx",
-        "Mapping.tsx",
         "Office.tmx",
+        "Mapping.tsx",
+        "C:/Users/Admin/Documents/Unity/untitled-dungeon-crawler/Assets/Tiled/DemoLevel.tmx",
+        "C:/Users/Admin/Documents/Unity/untitled-dungeon-crawler/Assets/Tiled/Level1.tmx",
         "DemoLevel.tmx",
         "Level1.tmx",
         "Rules/ModernDungeonAutomapping0corners.tmx",
@@ -288,8 +294,7 @@
         "Rules/ModernDungeonAutomapping-1corners.tmx",
         "Rules/ModernDungeonAutomapping2corners.tmx",
         "Rules/ModernDungeonAutomapping-2corners.tmx",
-        "Rules/ModernDungeonAutomapping-3corners.tmx",
-        "Rules/ModernDungeonAutomapping4corners.tmx"
+        "Rules/ModernDungeonAutomapping-3corners.tmx"
     ],
     "tileset.lastUsedFormat": "tsx"
 }
