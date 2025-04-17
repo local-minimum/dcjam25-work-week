@@ -23,7 +23,7 @@ public class WWSaveSystem : TDSaveSystem<WWSave, WWSaveSystem>
         var save = new WWSave(gameSave);
 
         save.anomalies = AnomalyManager.instance.Save();
-        save.battle = BossBattleManager.instance.Save();
+        save.battle = BossBattleManager.SafeInstance.Save();
 
 
         return save;

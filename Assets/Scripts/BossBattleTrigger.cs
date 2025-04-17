@@ -131,7 +131,7 @@ public class BossBattleTrigger : AbsAnomaly
         // We're just gonna be  dead soon if anomaly no need to save that
         if (!anomality)
         {
-            BossBattleManager.instance.SetBattleStartedAndSave();
+            BossBattleManager.SafeInstance.SetBattleStartedAndSave();
         }
     }
 
@@ -148,7 +148,7 @@ public class BossBattleTrigger : AbsAnomaly
 
     public void TriggerAnomaly()
     {
-        BossBattleManager.instance.ReportWin();
+        BossBattleManager.SafeInstance.ReportWin();
         AnomalyManager.instance.DeathByAnomaly();
     }
 

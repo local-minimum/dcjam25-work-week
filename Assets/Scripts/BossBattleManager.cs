@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class BossBattleManager : Singleton<BossBattleManager, BossBattleManager>, IOnLoadSave
 {
+    public static BossBattleManager SafeInstance =>
+        InstanceOrResource("BossBattleManager");
+
+
     [SerializeField]
     int maxDifficulty = 5;
 
