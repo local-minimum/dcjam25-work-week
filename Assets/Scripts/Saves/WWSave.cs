@@ -7,6 +7,7 @@ public class BossBattleSave
 {
     public bool triggered;
     public int difficulty;
+    public int managerGroggySteps;
 }
 
 [System.Serializable]

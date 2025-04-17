@@ -1,64 +1,62 @@
 using LMCore.Crawler;
+using LMCore.IO;
 using LMCore.TiledDungeon;
 using LMCore.TiledDungeon.Enemies;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class BossBattleTrigger : AbsAnomaly
+public class BossBattleTrigger : AbsAnomaly, IOnLoadSave
 {
-    protected override void OnDisableExtra()
-    {
-        GridEntity.OnPositionTransition += GridEntity_OnPositionTransition;
-    }
+    bool managerGroggy;
 
     protected override void OnEnableExtra()
     {
+        player = Dungeon.Player;
         GridEntity.OnPositionTransition += GridEntity_OnPositionTransition;
+        BossBattleManager.OnMangerNotGroggy += BossBattleManager_OnMangerNotGroggy;
     }
 
-    bool anomality;
 
-    protected override void SetAnomalyState()
+    protected override void OnDisableExtra()
     {
-        anomality = true;
+        GridEntity.OnPositionTransition -= GridEntity_OnPositionTransition;
+        BossBattleManager.OnMangerNotGroggy -= BossBattleManager_OnMangerNotGroggy;
     }
 
-    protected override void SetNormalState()
+    private void BossBattleManager_OnMangerNotGroggy()
     {
-        anomality = false;
+        managerGroggy = false;
+        RestoreManger();
     }
-
-    GridEntity player;
-    GridEntity manager;
 
     private void GridEntity_OnPositionTransition(GridEntity entity)
     {
-
-        if (player == null && entity.EntityType == GridEntityType.PlayerCharacter)
+        if (player == null)
         {
-            player = entity;
+            player = Dungeon.Player;
         }
 
-        if (managerGroggySteps > 0)
-        {
-            if (entity.EntityType == GridEntityType.PlayerCharacter)
-            {
-                managerGroggySteps--;
-                if (managerGroggySteps == 0)
-                {
-                    RestoreManger();
-                }
-            }
-            return;
-        }
-
-        if (player == null) return;
-
-        if (TDDangerZone.In(player))
+        if (!managerGroggy && TDDangerZone.In(player))
         {
             EnterBossBattle();
         }
     }
+
+
+    bool anomalousBoss;
+
+    protected override void SetAnomalyState()
+    {
+        anomalousBoss = true;
+    }
+
+    protected override void SetNormalState()
+    {
+        anomalousBoss = false;
+    }
+
+    GridEntity player;
+    GridEntity manager;
 
     void DisableManager()
     {
@@ -129,7 +127,7 @@ public class BossBattleTrigger : AbsAnomaly
         lookEasing = manager != null;
 
         // We're just gonna be  dead soon if anomaly no need to save that
-        if (!anomality)
+        if (!anomalousBoss)
         {
             BossBattleManager.SafeInstance.SetBattleStartedAndSave();
         }
@@ -137,11 +135,13 @@ public class BossBattleTrigger : AbsAnomaly
 
     void TriggerBossGame()
     {
-        if (anomality)
+        if (anomalousBoss)
         {
+            Debug.Log("BBTrigger: We're entering anomaly death");
             TriggerAnomaly();
         } else
         {
+            Debug.Log("BBTrigger: We're entering boss battle");
             SceneManager.LoadScene("BossBattleScene");
         }
     }
@@ -152,10 +152,6 @@ public class BossBattleTrigger : AbsAnomaly
         AnomalyManager.instance.DeathByAnomaly();
     }
 
-    [SerializeField]
-    int managerGroggyAfterLossSteps = 10;
-
-    int managerGroggySteps;
 
 
     [SerializeField]
@@ -177,6 +173,18 @@ public class BossBattleTrigger : AbsAnomaly
             lookEasing = false;
 
             TriggerBossGame();
+        }
+    }
+
+    // Must be after BossBattleManager
+    public int OnLoadPriority => 50;
+
+    public void OnLoad<T>(T save) where T : new()
+    {
+        managerGroggy = BossBattleManager.SafeInstance.GroggyBoss;
+        if (managerGroggy)
+        {
+            DisableManager();
         }
     }
 }
