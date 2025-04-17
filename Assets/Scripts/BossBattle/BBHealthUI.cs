@@ -1,10 +1,10 @@
-using TMPro;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class BBHealthUI : MonoBehaviour
 {
     [SerializeField]
-    TextMeshProUGUI healthUI;
+    List<GameObject> hearts = new List<GameObject>();
 
     [SerializeField]
     BBPlayerController player;
@@ -22,7 +22,9 @@ public class BBHealthUI : MonoBehaviour
 
     void SetHealth(int health)
     {
-
-        healthUI.text = string.Join(" ", System.Linq.Enumerable.Repeat("H", health));
+        for (int i = 0, l = hearts.Count; i<l;i++)
+        {
+            hearts[i].SetActive(i < health);
+        }
     }
 }

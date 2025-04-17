@@ -1,11 +1,14 @@
 using LMCore.Extensions;
 using System.Collections.Generic;
-using System.Linq;
-using UnityEditor;
 using UnityEngine;
+
+
+public delegate void StartSpittingEvent();
 
 public class BBFaceController : MonoBehaviour
 {
+    public static event StartSpittingEvent OnStartSpitting;
+
     [SerializeField]
     Camera cam;
 
@@ -66,6 +69,8 @@ public class BBFaceController : MonoBehaviour
     string activeWord;
 
     float yPosition = 0.5f;
+
+    bool firstSpit = true;
 
     void SyncFacePosition()
     {
@@ -138,6 +143,12 @@ public class BBFaceController : MonoBehaviour
             activeWord = words.GetRandomElementOrDefault();
             letterIdx = 0;
             wording = true;
+
+            if (firstSpit)
+            {
+                OnStartSpitting?.Invoke();
+                firstSpit = false;
+            }
 
         }
 

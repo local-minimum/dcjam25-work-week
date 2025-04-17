@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 7097262027594057075}
   m_Layer: 0
   m_Name: StraightS
-  m_TagString: Untagged
+  m_TagString: RoomWalls
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -147,7 +147,7 @@ GameObject:
   - component: {fileID: 5226974854976845076}
   m_Layer: 0
   m_Name: Offcolor
-  m_TagString: Untagged
+  m_TagString: RoomWalls
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

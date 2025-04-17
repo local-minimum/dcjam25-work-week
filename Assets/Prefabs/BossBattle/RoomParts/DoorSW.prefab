@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2507207986599853590}
   m_Layer: 0
   m_Name: DoorSW
-  m_TagString: Untagged
+  m_TagString: RoomWalls
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -74,7 +74,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1675135092986554244, guid: 92a1b0212775585429d81c92f633ca19, type: 3}
       propertyPath: m_Offset.y
-      value: -0.32
+      value: -0.39
       objectReference: {fileID: 0}
     - target: {fileID: 2583794203111187615, guid: 92a1b0212775585429d81c92f633ca19, type: 3}
       propertyPath: m_Size.x

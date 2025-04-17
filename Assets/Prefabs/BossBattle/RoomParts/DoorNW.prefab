@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3924039373355209713}
   m_Layer: 0
   m_Name: DoorNW
-  m_TagString: Untagged
+  m_TagString: RoomWalls
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -44,6 +44,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: DoorNW
       objectReference: {fileID: 0}
+    - target: {fileID: 1160504542184794932, guid: 9d291421d4713864e8b069c2e51c4ece, type: 3}
+      propertyPath: m_TagString
+      value: RoomWalls
+      objectReference: {fileID: 0}
     - target: {fileID: 3054711828970307918, guid: 9d291421d4713864e8b069c2e51c4ece, type: 3}
       propertyPath: m_Size.x
       value: 0.1
@@ -58,7 +62,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3054711828970307918, guid: 9d291421d4713864e8b069c2e51c4ece, type: 3}
       propertyPath: m_Offset.y
-      value: 0.32
+      value: 0.39
       objectReference: {fileID: 0}
     - target: {fileID: 3541528766409661404, guid: 9d291421d4713864e8b069c2e51c4ece, type: 3}
       propertyPath: m_LocalPosition.x

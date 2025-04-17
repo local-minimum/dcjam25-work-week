@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 784645411817723842}
   m_Layer: 0
   m_Name: Offcolor
-  m_TagString: Untagged
+  m_TagString: RoomWalls
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -101,7 +101,7 @@ GameObject:
   - component: {fileID: 8576293317345077010}
   m_Layer: 0
   m_Name: CornerSE
-  m_TagString: Untagged
+  m_TagString: RoomWalls
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

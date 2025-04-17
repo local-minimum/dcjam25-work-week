@@ -17,6 +17,9 @@ public class BBPlayerController : MonoBehaviour
     float startXScreenPos = 0.2f;
 
     [SerializeField]
+    float startYScreenPos = 0.4f;
+
+    [SerializeField]
     Animator anim;
 
     [SerializeField]
@@ -47,8 +50,9 @@ public class BBPlayerController : MonoBehaviour
         Health = startHealth;
         OnHealthChange?.Invoke(Health);
         var pos = transform.position;
-        pos.x = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width * startXScreenPos, Screen.height / 2f)).x;
-        transform.position = pos; 
+        var target = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width * startXScreenPos, Screen.height * startYScreenPos));
+        target.z = pos.z;
+        transform.position = target; 
     }
 
     void HandleWalk(InputAction.CallbackContext context, string cardinal)
@@ -146,6 +150,21 @@ public class BBPlayerController : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        if (collision.gameObject.CompareTag("Room"))
+        {
+            // Nothing to do but we still might be in a letter
+            return;
+        } else if (collision.gameObject.CompareTag("RoomWalls"))
+        {
+            // We should spawn next room please
+            var room = collision.gameObject.GetComponentInParent<BBRoom>();
+            if (room != null)
+            {
+                room.TriggerSpawnNextRoom();
+            }
+            return;
+        }
+
         if (dashing || Time.timeSinceLevelLoad < invulnUntil) return;
 
         if (collision.gameObject.CompareTag("Letter"))

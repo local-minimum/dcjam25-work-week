@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Letter
   - BBFace
+  - Room
+  - RoomWalls
   layers:
   - Default
   - TransparentFX
