@@ -10,6 +10,9 @@ public class BBPlayerController : MonoBehaviour
     [SerializeField]
     int startHealth = 3;
 
+    [SerializeField, Range(0, 1)]
+    float startXScreenPos = 0.2f;
+
     [SerializeField]
     Animator anim;
 
@@ -28,6 +31,11 @@ public class BBPlayerController : MonoBehaviour
     [SerializeField]
     float dashCooldown = 2f;
 
+    [SerializeField]
+    float invulnDuration = 0.4f;
+
+    float invulnUntil;
+
     bool dashing;
     float dashTimeThreshold;
 
@@ -35,6 +43,9 @@ public class BBPlayerController : MonoBehaviour
     {
         Health = startHealth;
         OnHealthChange?.Invoke(Health);
+        var pos = transform.position;
+        pos.x = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width * startXScreenPos, Screen.height / 2f)).x;
+        transform.position = pos; 
     }
 
     void HandleWalk(InputAction.CallbackContext context, string cardinal)
@@ -132,10 +143,11 @@ public class BBPlayerController : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (dashing) return;
+        if (dashing || Time.timeSinceLevelLoad < invulnUntil) return;
 
         if (collision.gameObject.CompareTag("Letter"))
         {
+            invulnUntil = Time.timeSinceLevelLoad + invulnDuration;
             Health = Mathf.Max(0, Health - 1);
             OnHealthChange?.Invoke(Health);
         } else if (collision.gameObject.CompareTag("BBFace"))
