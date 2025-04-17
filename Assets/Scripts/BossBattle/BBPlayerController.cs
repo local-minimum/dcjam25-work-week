@@ -138,6 +138,10 @@ public class BBPlayerController : MonoBehaviour
         {
             Health = Mathf.Max(0, Health - 1);
             OnHealthChange?.Invoke(Health);
+        } else if (collision.gameObject.CompareTag("BBFace"))
+        {
+            Health = 0;
+            OnHealthChange?.Invoke(Health);
         }
 
         checkInLetter = false;
