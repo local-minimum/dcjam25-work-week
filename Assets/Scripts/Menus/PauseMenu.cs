@@ -1,6 +1,7 @@
 using LMCore.Extensions;
 using LMCore.UI;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 
 public class PauseMenu : AbsMenu
@@ -11,6 +12,8 @@ public class PauseMenu : AbsMenu
     [SerializeField]
     GameObject actionsButtons;
 
+    [SerializeField]
+    bool doSave = true;
 
     public override bool PausesGameplay => true;
 
@@ -18,7 +21,7 @@ public class PauseMenu : AbsMenu
 
     private void Start()
     {
-        Exit();
+        Blur();
     }
 
     public void ShowSettings()
@@ -32,10 +35,17 @@ public class PauseMenu : AbsMenu
         actionsButtons.SetActive(true);
     }
 
+    bool unloaded;
     public void SaveAndTitleScreen()
     {
-        WWSaveSystem.SafeInstance.AutoSave();
+        if (doSave)
+        {
+            WWSaveSystem.SafeInstance.AutoSave();
+        }
+        unloaded = true;
+        Time.timeScale = 1f;
         SceneManager.LoadScene("TitleScene");
+        // Application.Quit();
     }
 
     protected override void Focus()
@@ -45,6 +55,8 @@ public class PauseMenu : AbsMenu
 
     protected override void Blur()
     {
+        if (unloaded) return;
+
         transform.HideAllChildren();
         settings.gameObject.SetActive(false);
     }

@@ -17,11 +17,18 @@ public class MenusManager : Singleton<MenusManager, MenusManager>, IOnLoadSave
     [SerializeField]
     bool allowPauseFromStart;
 
+    [SerializeField]
+    bool stopTimeWhenPaused;
+
     public bool AllowPause { get; set; }
 
     private void Start()
     {
-        AllowPause = allowPauseFromStart;
+        if (!AllowPause)
+        {
+            Debug.Log($"MenusManager: Setting pausing allowed to {allowPauseFromStart} in startup");
+            AllowPause = allowPauseFromStart;
+        }
     }
 
     private enum ActionMaps { Crawler, MenuUI };
@@ -59,11 +66,13 @@ public class MenusManager : Singleton<MenusManager, MenusManager>, IOnLoadSave
 
     private void StartPositionCustom_OnCapturePlayer(LMCore.Crawler.GridEntity player)
     {
+        Debug.Log($"MenusManager: Disables pausing because player captured in start position");
         AllowPause = false;
     }
 
     private void StartPositionCustom_OnReleasePlayer(LMCore.Crawler.GridEntity player)
     {
+        Debug.Log($"MenusManager: Enables player because released from start position");
         AllowPause = true;
     }
 
@@ -75,13 +84,26 @@ public class MenusManager : Singleton<MenusManager, MenusManager>, IOnLoadSave
     private void AbsMenu_OnHideMenus()
     {
         ToggleActionMap(ActionMaps.Crawler);
+
+        if (Time.timeScale == 0 && stopTimeWhenPaused)
+        {
+            Time.timeScale = timeScale;
+            timeScale = 0f;
+        }
     }
 
     float showMenuTime;
+    float timeScale;
 
     public void HandleShowMenu(InputAction.CallbackContext context)
     {
-        if (!AllowPause || StoryManager.instance.Playing || DevConsole.focused) return;
+        if (!AllowPause || StoryManager.instance != null && StoryManager.instance.Playing || DevConsole.focused)
+        {
+            Debug.LogWarning($"MenusManager: Pausing allowed {AllowPause} " +
+                $"Story playing {StoryManager.instance != null && StoryManager.instance.Playing} " +
+                $"Dev console in focus {DevConsole.focused}");
+            return;
+        }
 
         if (context.performed)
         {
@@ -91,7 +113,12 @@ public class MenusManager : Singleton<MenusManager, MenusManager>, IOnLoadSave
             }
             else
             {
-                showMenuTime = Time.timeSinceLevelLoad;
+                showMenuTime = Time.realtimeSinceStartup;
+                if (stopTimeWhenPaused)
+                {
+                    timeScale = Time.timeScale;
+                    Time.timeScale = 0f;
+                }
                 pauseMenu.Show();
                 ToggleActionMap(ActionMaps.MenuUI);
             }
@@ -100,7 +127,9 @@ public class MenusManager : Singleton<MenusManager, MenusManager>, IOnLoadSave
 
     public void HandleExitMenu(InputAction.CallbackContext context)
     {
-        if (StoryManager.instance.Playing || DevConsole.focused || Time.timeSinceLevelLoad - showMenuTime < 0.25f) return;
+        if (StoryManager.instance != null && StoryManager.instance.Playing 
+            || DevConsole.focused 
+            || Time.realtimeSinceStartup - showMenuTime < 0.25f) return;
 
         if (context.performed)
         {
@@ -117,6 +146,7 @@ public class MenusManager : Singleton<MenusManager, MenusManager>, IOnLoadSave
 
     public void OnLoad<T>(T save) where T : new()
     {
+        Debug.Log($"MenusManager: Game loaded assuming pausing allowed");
         AllowPause = true;
     }
 }

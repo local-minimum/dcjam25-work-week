@@ -57,7 +57,7 @@ public class WeChickenAnomaly : AbsAnomaly
         {
             if (entity.Moving == MovementType.Stationary)
             {
-                Debug.Log($"WeChick {restingTrigger}");
+                // Debug.Log($"WeChick {restingTrigger}");
                 if (!wasResting)
                 {
                     animator.SetTrigger(restingTrigger);
@@ -65,7 +65,7 @@ public class WeChickenAnomaly : AbsAnomaly
                 }
             } else
             {
-                Debug.Log($"WeChick {movingTrigger}");
+                // Debug.Log($"WeChick {movingTrigger}");
                 if (wasResting)
                 {
                     animator.SetTrigger(movingTrigger);

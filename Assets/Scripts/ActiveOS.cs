@@ -1,3 +1,4 @@
+using LMCore.Extensions;
 using LMCore.UI;
 using System.Linq;
 using TMPro;
@@ -17,6 +18,9 @@ public class ActiveOS : MonoBehaviour
 
     [SerializeField]
     VirtualPointer pointer;
+
+    [SerializeField]
+    Camera osCam;
 
     bool osActive;
 
@@ -38,20 +42,27 @@ public class ActiveOS : MonoBehaviour
 
     private void StartPositionCustom_OnReleasePlayer(LMCore.Crawler.GridEntity player)
     {
+        Debug.Log("ActiveOS: Disabled");
         showPointer = false;
         pointer.enabled = false;
         osActive = false;
+        osCam.gameObject.SetActive(false);
+        transform.HideAllChildren();
     }
 
     private void StartPositionCustom_OnCapturePlayer(LMCore.Crawler.GridEntity player)
     {
+        Debug.Log("ActiveOS: Enabled");
         showPointer = true;
         pointer.enabled = true;
         osActive = true;
+        osCam.gameObject.SetActive(true);
+        transform.ShowAllChildren();
     }
 
     private void Start()
     {
+        Debug.Log("ActiveOS: Start");
         AnomalyManager_OnSetDay(AnomalyManager.instance.Weekday);
         pointer.enabled = showPointer;
     }
@@ -63,14 +74,22 @@ public class ActiveOS : MonoBehaviour
 
     public void ReleasePlayer()
     {
-        if (!osActive) return;
+        if (!osActive)
+        {
+            Debug.LogWarning("ActiveOS: OS not active, should not be cicking stuff!");
+            return;
+        }
 
         OnReleasePlayer?.Invoke();
     }
 
     public void FocusApp(ActiveOSApp app)
     {
-        if (!osActive) return;
+        if (!osActive)
+        {
+            Debug.LogWarning("ActiveOS: OS not active, should not be cicking stuff!");
+            return;
+        }
 
         if (overlays == null || overlays.Length == 0)
         {

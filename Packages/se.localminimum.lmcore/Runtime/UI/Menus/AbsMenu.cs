@@ -153,6 +153,8 @@ namespace LMCore.UI
             {
                 AllMenus.Remove(MenuId);
             }
+
+            ActiveMenus.RemoveAll(i => i == this);
         }
     }
 }

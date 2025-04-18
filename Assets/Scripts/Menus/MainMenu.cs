@@ -47,6 +47,14 @@ public class MainMenu : MonoBehaviour
 
     private void Start()
     {
+        // Just in case, because there were nasty bugs with this before
+        Time.timeScale = 1f;
+
+        // This is because if we exit from the fight to main menu we would load the level wrong unless we
+        // clean up its status;
+        BBFight.FightStatus = FightStatus.None;
+        BBFight.BaseDifficulty = 1;
+
         ResumeButton.gameObject.SetActive(WWSaveSystem.SafeInstance.HasAutoSave);
         SetDefaultSelectedButton();
     }

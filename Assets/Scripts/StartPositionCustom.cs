@@ -86,6 +86,18 @@ public class StartPositionCustom : TDFeature, ITDCustom
         OnCapturePlayer?.Invoke(player);
     }
 
+    void Start()
+    {
+        if (player == null)
+        {
+            if (Dungeon.Player.Coordinates == Coordinates)
+            {
+                Debug.Log("CustomStartPos: We failed to capture the player even though it's here so we're doing that manually");
+                GridEntity_OnPositionTransition(Dungeon.Player);
+            }
+        }
+    }
+
     [ContextMenu("Release player")]
     void ReleasePlayer()
     {
