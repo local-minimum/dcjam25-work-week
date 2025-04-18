@@ -180,6 +180,8 @@ public class BossBattleTrigger : AbsAnomaly, IOnLoadSave
     }
 
     // Must be after BossBattleManager
+    // Must be before PlayerEntity or we reenter battle
+    // TODO: Maybe must do stuff to enemy so might need to be after
     public int OnLoadPriority => 10;
 
     public void OnLoad<T>(T save) where T : new()
