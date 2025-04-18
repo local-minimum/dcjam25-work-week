@@ -15,6 +15,8 @@ public class AnomalyManager : Singleton<AnomalyManager, AnomalyManager>, IOnLoad
     public static event SetAnomalyEvent OnSetAnomaly;
     public static event SetDayEvent OnSetDay;
 
+    bool anomalyLoaded;
+
     [SerializeField]
     List<AnomalySetting> anomalies = new List<AnomalySetting>();
 
@@ -97,6 +99,7 @@ public class AnomalyManager : Singleton<AnomalyManager, AnomalyManager>, IOnLoad
     private void LoadPredef()
     {
         activeAnomaly = anomalies.FirstOrDefault(a => a.id == predefAnomaly);
+        Debug.Log($"AnomalyManger: Hotloading '{predefAnomaly}' and it is {Weekday} in week {WeekNumber} with {(activeAnomaly == null ? "a regular office" : activeAnomaly.ToString())}");
         OnSetAnomaly?.Invoke(activeAnomaly?.id);
     }
 
@@ -111,6 +114,7 @@ public class AnomalyManager : Singleton<AnomalyManager, AnomalyManager>, IOnLoad
         public List<string> missedAnomalies;
         public int weekNumber;
         public int wantedDifficulty;
+        public string activeAnomaly;
         public Weekday weekday;
 
         public AnomalyManagerSaveData(AnomalyManager manager)
@@ -120,6 +124,7 @@ public class AnomalyManager : Singleton<AnomalyManager, AnomalyManager>, IOnLoad
             weekNumber = manager.WeekNumber;
             weekday = manager.Weekday;
             wantedDifficulty = manager.wantedDifficulty;
+            activeAnomaly = manager.activeAnomaly?.id;
         }
 
         public AnomalyManagerSaveData()
@@ -128,7 +133,9 @@ public class AnomalyManager : Singleton<AnomalyManager, AnomalyManager>, IOnLoad
             missedAnomalies = new List<string>();
             weekNumber = 0;
             wantedDifficulty = START_DIFFICULTY;
+            activeAnomaly = null;
             weekday = Weekday.Monday;
+            activeAnomaly = null;
         }
     }
 
@@ -166,7 +173,13 @@ public class AnomalyManager : Singleton<AnomalyManager, AnomalyManager>, IOnLoad
 
         wantedDifficulty = anomalies.wantedDifficulty;
 
-        SetAnomalyOfTheDay();
+        activeAnomaly =
+            this.anomalies.FirstOrDefault(a => a.id == anomalies.activeAnomaly);
+
+        anomalyLoaded = true;
+
+        Debug.Log($"AnomalyManger: Loaded save and it's {Weekday} in week {WeekNumber} with {(activeAnomaly == null ? "a regular office" : activeAnomaly.ToString())}");
+        OnSetAnomaly?.Invoke(activeAnomaly?.id);
     }
 
     [SerializeField()]
@@ -192,7 +205,7 @@ public class AnomalyManager : Singleton<AnomalyManager, AnomalyManager>, IOnLoad
             }
         }
 
-        Debug.Log($"AnomalyManger: It's {Weekday} in week {WeekNumber} with {(activeAnomaly == null ? "a regular office" : activeAnomaly.ToString())}");
+        Debug.Log($"AnomalyManger: It's a new day and it is {Weekday} in week {WeekNumber} with {(activeAnomaly == null ? "a regular office" : activeAnomaly.ToString())}");
         OnSetAnomaly?.Invoke(activeAnomaly?.id);
     }
 
@@ -225,7 +238,10 @@ public class AnomalyManager : Singleton<AnomalyManager, AnomalyManager>, IOnLoad
 
     private void TiledDungeon_OnDungeonLoad(TiledDungeon dungeon, bool fromSave)
     {
-        SetAnomalyOfTheDay();
+        if (!anomalyLoaded)
+        {
+            SetAnomalyOfTheDay();
+        }
     }
 
 
