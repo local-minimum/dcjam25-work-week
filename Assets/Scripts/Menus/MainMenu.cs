@@ -1,11 +1,15 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class MainMenu : MonoBehaviour
 {
     [SerializeField]
-    Button ContinueButton;
+    Button ResumeButton;
+
+    [SerializeField]
+    Button NewGameButton;
 
     public void LoadSave()
     {
@@ -31,6 +35,18 @@ public class MainMenu : MonoBehaviour
 
     private void Start()
     {
-        ContinueButton.gameObject.SetActive(WWSaveSystem.SafeInstance.HasAutoSave);
+        ResumeButton.gameObject.SetActive(WWSaveSystem.SafeInstance.HasAutoSave);
+        SetDefaultSelectedButton();
+    }
+
+    void SetDefaultSelectedButton()
+    {
+        if (ResumeButton.gameObject.activeSelf)
+        {
+            EventSystem.current.SetSelectedGameObject(ResumeButton.gameObject);
+        } else
+        {
+            EventSystem.current.SetSelectedGameObject(NewGameButton.gameObject);
+        }
     }
 }
