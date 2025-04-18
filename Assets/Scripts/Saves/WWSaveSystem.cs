@@ -39,6 +39,9 @@ public class WWSaveSystem : TDSaveSystem<WWSave, WWSaveSystem>
             () => Debug.Log(PrefixLogMessage("Temp save saved to slot 0")),
             () => Debug.LogError(PrefixLogMessage("Failed to save temp save to slot 0")));
     }
+    public bool HasAutoSave => HasSave(0);
+
+    public void DeleteAutoSave() => DeleteSave(0);
 
     [ContextMenu("Log status")]
     public override void LogStatus()

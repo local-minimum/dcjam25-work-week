@@ -184,5 +184,6 @@ namespace LMCore.IO
 
         public bool HasSave(int saveId) =>
             Provider == null ? false : Provider.HasSave(saveId);
+
     }
 }
