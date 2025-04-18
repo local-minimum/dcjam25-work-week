@@ -11,6 +11,9 @@ public class MainMenu : MonoBehaviour
     [SerializeField]
     Button NewGameButton;
 
+    [SerializeField]
+    SettingsMenu SettingsMenu;
+
     public void LoadSave()
     {
         WWSaveSystem.SafeInstance.LoadAutoSave();
@@ -30,7 +33,7 @@ public class MainMenu : MonoBehaviour
 
     public void Settings()
     {
-        // Sigh!
+        SettingsMenu.gameObject.SetActive(true);
     }
 
     private void Start()
