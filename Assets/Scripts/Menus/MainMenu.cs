@@ -1,4 +1,5 @@
 using LMCore.Extensions;
+using LMCore.UI;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
@@ -58,6 +59,24 @@ public class MainMenu : MonoBehaviour
         } else
         {
             EventSystem.current.SetSelectedGameObject(NewGameButton.gameObject);
+        }
+    }
+
+    string wipeWarning = "This will erase your previous progress!";
+
+    public void ShowWipeWarning()
+    {
+        if (WWSaveSystem.instance.HasAutoSave)
+        {
+            PromptUI.instance.ShowText(wipeWarning);
+        }
+    }
+
+    public void HideWipeWarning()
+    {
+        if (WWSaveSystem.instance.HasAutoSave)
+        {
+            PromptUI.instance.RemoveText(wipeWarning);
         }
     }
 }
