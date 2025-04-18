@@ -76,6 +76,12 @@ public class BossBattleManager : Singleton<BossBattleManager, BossBattleManager>
         SceneManager.LoadScene("BossBattleScene");
     }
 
+    [ContextMenu("Info")]
+    void Info()
+    {
+        Debug.Log($"BBManager: Groggy {GroggyBoss} for {ManagerGroggySteps} next difficulty {BattleDifficulty} in battle {BattleTriggered}");
+    }
+
     #region Save / Load
 
     public bool BattleTriggered { get; private set; }

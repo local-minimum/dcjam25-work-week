@@ -42,13 +42,29 @@ public class BBPlayerController : MonoBehaviour
 
     float invulnUntil;
 
-    bool dashing;
+    public bool Dashing { get; private set; }
     float dashTimeThreshold;
+    float dashEndTime;
+    public float DashReadyProgress
+    {
+        get
+        {
+            if (Dashing) return 0f;
+            if (Time.timeSinceLevelLoad > dashTimeThreshold) return 1f;
+            return Mathf.Clamp01((Time.timeSinceLevelLoad - dashEndTime) / dashCooldown);
+        }
+    }
 
     private void Start()
     {
         Health = startHealth;
         OnHealthChange?.Invoke(Health);
+        SetStartPosition();
+    }
+
+    [ContextMenu("Set start position")]
+    void SetStartPosition()
+    {
         var pos = transform.position;
         var target = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width * startXScreenPos, Screen.height * startYScreenPos));
         target.z = pos.z;
@@ -122,12 +138,12 @@ public class BBPlayerController : MonoBehaviour
 
     public void Dash(InputAction.CallbackContext context)
     {
-        if (!context.performed || dashing || Time.timeSinceLevelLoad < dashTimeThreshold)
+        if (!context.performed || Dashing || Time.timeSinceLevelLoad < dashTimeThreshold)
         {
             return;
         }
 
-        dashing = true;
+        Dashing = true;
         checkInLetter = false;
         dashTimeThreshold = Time.timeSinceLevelLoad + dashDuration;
         anim.SetTrigger("Dash");
@@ -137,15 +153,16 @@ public class BBPlayerController : MonoBehaviour
 
     private void Update()
     {
-        if (dashing && Time.timeSinceLevelLoad > dashTimeThreshold)
+        if (Dashing && Time.timeSinceLevelLoad > dashTimeThreshold)
         {
-            dashing = false;
+            Dashing = false;
+            dashEndTime = Time.timeSinceLevelLoad;
             dashTimeThreshold = Time.timeSinceLevelLoad + dashCooldown;
             anim.SetTrigger("NoDash");
             checkInLetter = true;
         }
 
-        rb.linearVelocity = (Vector3)(direction * speed) * (dashing ? dashSpeedFactor : 1f);
+        rb.linearVelocity = (Vector3)(direction * speed) * (Dashing ? dashSpeedFactor : 1f);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -163,9 +180,13 @@ public class BBPlayerController : MonoBehaviour
                 room.TriggerSpawnNextRoom();
             }
             return;
+        } else if (collision.gameObject.CompareTag("Spikes"))
+        {
+            Health = 0;
+            OnHealthChange?.Invoke(Health);
         }
 
-        if (dashing || Time.timeSinceLevelLoad < invulnUntil) return;
+        if (Dashing || Time.timeSinceLevelLoad < invulnUntil) return;
 
         if (collision.gameObject.CompareTag("Letter"))
         {
