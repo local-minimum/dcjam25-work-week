@@ -1,3 +1,4 @@
+using LMCore.Extensions;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
@@ -33,7 +34,14 @@ public class MainMenu : MonoBehaviour
 
     public void Settings()
     {
+        transform.HideAllChildren();
         SettingsMenu.gameObject.SetActive(true);
+    }
+
+    public void RegainFocus()
+    {
+        transform.ShowAllChildren();
+        Start();
     }
 
     private void Start()

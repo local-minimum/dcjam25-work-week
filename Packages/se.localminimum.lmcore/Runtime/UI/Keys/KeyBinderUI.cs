@@ -23,13 +23,13 @@ namespace LMCore.UI
         {
             if (bindingConf == null)
             {
-                Debug.LogError($"No binding configured");
+                Debug.LogError($"KeyBinder {name}: No binding configured");
                 return;
             }
 
             if (rebinding)
             {
-                Debug.LogWarning($"Cannot rebind to actions at the same time");
+                Debug.LogWarning($"KeyBinder {name}: Cannot rebind to actions at the same time");
                 return;
             }
 
@@ -74,12 +74,12 @@ namespace LMCore.UI
                 var setting = bindingConf.Settings;
                 if (setting == null)
                 {
-                    Debug.LogWarning($"Storage of keybinding not configured");
+                    Debug.LogWarning($"KeyBinder {name}: Storage of keybinding not configured");
                 }
                 else
                 {
                     setting.Value = bindingConf.ActivePath;
-                    Debug.Log($"Updated stored settings {setting}");
+                    Debug.Log($"KeyBinder {name}: Updated stored settings {setting}");
                 }
             }
 
@@ -91,7 +91,7 @@ namespace LMCore.UI
         {
             if (bindingConf == null)
             {
-                Debug.LogError("There's no binding");
+                Debug.LogError($"KeyBinder {name}: There's no binding");
                 bindingText.text = "";
                 return;
             }

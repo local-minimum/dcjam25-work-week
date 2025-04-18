@@ -17,9 +17,6 @@ public class AttackingBoxesAnomaly : AbsAnomaly
     List<Transform> intermediatCheckpoints = new List<Transform>();
 
     [SerializeField]
-    float checkPtTime = 0.3f;
-
-    [SerializeField]
     float throwPower = 400f;
 
     [SerializeField]

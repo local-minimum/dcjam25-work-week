@@ -96,37 +96,10 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "NextCard",
-                    "type": "Button",
-                    "id": "5f3c4c1c-be3e-4771-be74-33e2073d4c25",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "PreviousCard",
-                    "type": "Button",
-                    "id": "f8025cbd-ca48-41c3-92c0-152c30fcc20a",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "ActivateCard",
-                    "type": "Button",
-                    "id": "c5a0a5f7-5b82-4a51-94a5-97036e75f5c4",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
                     "name": "ShowMenus",
                     "type": "Button",
                     "id": "0f77cebd-7115-4b8a-a63c-59ba2011a675",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -136,15 +109,6 @@
                     "type": "Button",
                     "id": "209d0319-f231-4163-a3a8-f1257bb87eea",
                     "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "UseQuickslot",
-                    "type": "Button",
-                    "id": "406a8a50-7bd5-40c3-a0dc-e4e7bea8b93a",
-                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -318,94 +282,6 @@
                 },
                 {
                     "name": "",
-                    "id": "61d8b7d1-db0b-4b14-962f-3feec082a9bb",
-                    "path": "<Keyboard>/l",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard&Mouse",
-                    "action": "NextCard",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "c32b2f01-cad9-4c92-a969-13469c059116",
-                    "path": "<Gamepad>/rightTrigger",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Gamepad",
-                    "action": "NextCard",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "b63cc4fb-67b3-492a-acf8-c3286b1c4ebb",
-                    "path": "<Gamepad>/rightStick/right",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Gamepad",
-                    "action": "NextCard",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "4f5ef9d5-c0d3-4102-95da-97a5f806cfa1",
-                    "path": "<Keyboard>/j",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard&Mouse",
-                    "action": "PreviousCard",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "4ae000e0-a34e-478b-9787-519d5117385c",
-                    "path": "<Gamepad>/leftTrigger",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Gamepad",
-                    "action": "PreviousCard",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "3cfad5c1-fff1-473c-ad04-c5395a3aa549",
-                    "path": "<Gamepad>/rightStick/left",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Gamepad",
-                    "action": "PreviousCard",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "5605c82d-e46a-4e6f-b189-1ef9c6407997",
-                    "path": "<Keyboard>/enter",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard&Mouse",
-                    "action": "ActivateCard",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "ea5992e3-5912-40df-b775-5183f47668ea",
-                    "path": "<Gamepad>/buttonWest",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Gamepad",
-                    "action": "ActivateCard",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "7d964b30-3f72-4c46-988c-bca9e70dbc1c",
                     "path": "<Gamepad>/start",
                     "interactions": "",
@@ -418,7 +294,7 @@
                 {
                     "name": "",
                     "id": "8c4df7bc-268e-4687-afdc-f1776fc2db0f",
-                    "path": "<Keyboard>/m",
+                    "path": "<Keyboard>/escape",
                     "interactions": "",
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
@@ -434,39 +310,6 @@
                     "processors": "",
                     "groups": "Keyboard&Mouse",
                     "action": "DevConsole",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "c7cb7c7a-df8a-4f74-87a1-ac0a3fa05a4e",
-                    "path": "<Keyboard>/f",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";Keyboard&Mouse",
-                    "action": "UseQuickslot",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "20fb9b48-842a-4eee-b2a7-1f25e8de1ffd",
-                    "path": "<Keyboard>/backspace",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";Keyboard&Mouse",
-                    "action": "UseQuickslot",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "c67734a1-7c2f-42d7-89eb-cf28d2127063",
-                    "path": "<Gamepad>/buttonNorth",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";Gamepad",
-                    "action": "UseQuickslot",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
@@ -936,45 +779,9 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "NextMenu",
-                    "type": "Button",
-                    "id": "23806f39-4c6f-44a8-af45-361d69da73d3",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "PreviousMenu",
-                    "type": "Button",
-                    "id": "ca610583-1fea-4fef-ba24-9a4427bc2707",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "ExitMenu",
-                    "type": "Button",
-                    "id": "42bab30b-9973-4568-8ae9-4b0c5922a362",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
                     "name": "VirtualClick",
                     "type": "Button",
                     "id": "bf09ef02-96ab-4844-91e7-eabe9c06ec24",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "QuickTransferSelected",
-                    "type": "Button",
-                    "id": "4d465c85-50d8-4a04-b1a2-f845e61dcdf9",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -1005,77 +812,11 @@
                 {
                     "name": "",
                     "id": "46d2875d-7c62-4172-8bcf-188fa698dd16",
-                    "path": "<Keyboard>/m",
+                    "path": "<Keyboard>/escape",
                     "interactions": "",
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
                     "action": "ExitMenus",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "cfdc1f40-625f-43a1-adb4-30f283227d47",
-                    "path": "<Gamepad>/rightTrigger",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Gamepad",
-                    "action": "NextMenu",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "21d5b48e-ad2a-41b9-ac81-04145bbec4e7",
-                    "path": "<Keyboard>/l",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard&Mouse",
-                    "action": "NextMenu",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "580975fe-3872-4de8-9bf2-fb415916272d",
-                    "path": "<Gamepad>/leftTrigger",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";Gamepad",
-                    "action": "PreviousMenu",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "8f9746b5-6d7c-46d8-9d0d-7dd7d0856c0b",
-                    "path": "<Keyboard>/j",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";Keyboard&Mouse",
-                    "action": "PreviousMenu",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "6caf99ef-7e8d-494f-b4f8-1807601ecb63",
-                    "path": "<Gamepad>/buttonEast",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Gamepad",
-                    "action": "ExitMenu",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "4c53f17e-c8b0-4dfe-8067-9b2049856394",
-                    "path": "<Keyboard>/escape",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "ExitMenu",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -1087,39 +828,6 @@
                     "processors": "",
                     "groups": "Gamepad",
                     "action": "VirtualClick",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "ec56359e-2c86-4e89-b537-9dad7964f332",
-                    "path": "<Keyboard>/ctrl",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";Keyboard&Mouse",
-                    "action": "QuickTransferSelected",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "a92d8fd2-a2e6-478e-855a-136907b44c8b",
-                    "path": "<Mouse>/rightButton",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";Keyboard&Mouse",
-                    "action": "QuickTransferSelected",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "758a1a58-c33c-4d2c-8513-22b980a5ce5e",
-                    "path": "<Gamepad>/buttonWest",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";Gamepad",
-                    "action": "QuickTransferSelected",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
