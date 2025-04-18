@@ -349,7 +349,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 213eadc13e46f8a43a03e12496803c83, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inputAsset: {fileID: -944628639613478452, guid: 9dc7d78002a6e38468c201a968bdb525, type: 3}
+  inputAsset: {fileID: -944628639613478452, guid: 0391e2d5de7a02448935de5b11e0c86c, type: 3}
   maps:
     keys:
     - 8df52784-f7d7-4ad1-a282-9bc374e756b0
@@ -902,8 +902,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4259575757175459855}
-  - {fileID: 4306651531668429284}
-  - {fileID: 7092648282726800338}
   m_Father: {fileID: 5779294437483445184}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6285613144153868967
@@ -952,158 +950,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   includeInactiveBindings: 1
---- !u!1 &6341234818255961615
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 4306651531668429284}
-  - component: {fileID: 4619275141522400270}
-  - component: {fileID: 8288813288242893432}
-  m_Layer: 0
-  m_Name: Use Quick Slot
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &4306651531668429284
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6341234818255961615}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 8569859369088929678}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4619275141522400270
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6341234818255961615}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 213eadc13e46f8a43a03e12496803c83, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  inputAsset: {fileID: -944628639613478452, guid: 0391e2d5de7a02448935de5b11e0c86c, type: 3}
-  maps:
-    keys:
-    - 8df52784-f7d7-4ad1-a282-9bc374e756b0
-    values:
-    - Crawling
-  actions:
-    keys:
-    - 406a8a50-7bd5-40c3-a0dc-e4e7bea8b93a
-    values:
-    - 8df52784-f7d7-4ad1-a282-9bc374e756b0
-  actionNames:
-    keys:
-    - 406a8a50-7bd5-40c3-a0dc-e4e7bea8b93a
-    values:
-    - UseQuickslot
---- !u!114 &8288813288242893432
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6341234818255961615}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eda7c157515f103439940edaa5ea1abf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  bindingGroup: Keyboard
-  bindingIndex: 0
-  storageLocation: Binding.UseQuickSlot
---- !u!1 &6659483258675954402
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 7092648282726800338}
-  - component: {fileID: 7294808494932283002}
-  - component: {fileID: 2827680620833670708}
-  m_Layer: 0
-  m_Name: 'Use Quick Slot [Alt]'
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &7092648282726800338
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6659483258675954402}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 8569859369088929678}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7294808494932283002
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6659483258675954402}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 213eadc13e46f8a43a03e12496803c83, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  inputAsset: {fileID: -944628639613478452, guid: 0391e2d5de7a02448935de5b11e0c86c, type: 3}
-  maps:
-    keys:
-    - 8df52784-f7d7-4ad1-a282-9bc374e756b0
-    values:
-    - Crawling
-  actions:
-    keys:
-    - 406a8a50-7bd5-40c3-a0dc-e4e7bea8b93a
-    values:
-    - 8df52784-f7d7-4ad1-a282-9bc374e756b0
-  actionNames:
-    keys:
-    - 406a8a50-7bd5-40c3-a0dc-e4e7bea8b93a
-    values:
-    - UseQuickslot
---- !u!114 &2827680620833670708
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6659483258675954402}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eda7c157515f103439940edaa5ea1abf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  bindingGroup: Keyboard
-  bindingIndex: 1
-  storageLocation: Binding.UseQuickSlotAlt
 --- !u!1 &7444767372745435217
 GameObject:
   m_ObjectHideFlags: 0

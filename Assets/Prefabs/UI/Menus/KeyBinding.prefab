@@ -193,6 +193,34 @@ PrefabInstance:
       propertyPath: m_fontSizeBase
       value: 28
       objectReference: {fileID: 0}
+    - target: {fileID: 7007950946776103416, guid: ff7a00991b7e629479358424298d854b, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7007950946776103416, guid: ff7a00991b7e629479358424298d854b, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7007950946776103416, guid: ff7a00991b7e629479358424298d854b, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1747333711058091662}
+    - target: {fileID: 7007950946776103416, guid: ff7a00991b7e629479358424298d854b, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7007950946776103416, guid: ff7a00991b7e629479358424298d854b, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: RebindAction
+      objectReference: {fileID: 0}
+    - target: {fileID: 7007950946776103416, guid: ff7a00991b7e629479358424298d854b, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: LMCore.UI.KeyBinderUI, se.localminimum.lmcore.ui
+      objectReference: {fileID: 0}
+    - target: {fileID: 7007950946776103416, guid: ff7a00991b7e629479358424298d854b, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 7393072189495480724, guid: ff7a00991b7e629479358424298d854b, type: 3}
       propertyPath: m_Pivot.x
       value: 1
@@ -280,8 +308,42 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8244942933559425487, guid: ff7a00991b7e629479358424298d854b, type: 3}
+      insertIndex: 1
+      addedObject: {fileID: 1747333711058091662}
   m_SourcePrefab: {fileID: 100100000, guid: ff7a00991b7e629479358424298d854b, type: 3}
+--- !u!114 &3248490546313785201 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3862387780442747810, guid: ff7a00991b7e629479358424298d854b, type: 3}
+  m_PrefabInstance: {fileID: 1769072188123913427}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1 &7703101645068641564 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8244942933559425487, guid: ff7a00991b7e629479358424298d854b, type: 3}
+  m_PrefabInstance: {fileID: 1769072188123913427}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1747333711058091662
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7703101645068641564}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1b8426c5f9b5ac49bed40a936964fe0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bindingConf: {fileID: 0}
+  bindingText: {fileID: 3248490546313785201}
+  cancelButton: escape
 --- !u!224 &9085016315341868359 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7393072189495480724, guid: ff7a00991b7e629479358424298d854b, type: 3}

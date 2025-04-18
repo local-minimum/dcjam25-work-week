@@ -65,6 +65,16 @@ namespace LMCore.IO
         /// </summary>
         public InputAction GetInputAction(string currentControlScheme = null, int bindingIndex = 0)
         {
+            if (actions == null)
+            {
+                Debug.LogError($"Binding {name}: Cannot get binding #{bindingIndex} for '{currentControlScheme}' because there are no actions");
+                return null;
+            } else if (inputAsset == null)
+            {
+                Debug.LogError($"Binding {name}: Cannot get binding #{bindingIndex} for '{currentControlScheme}' because there are no input asset");
+                return null;
+            }
+            
             return actions
                 .Select(kvp => inputAsset.actionMaps.SelectMany(am => am.actions).FirstOrDefault(a => a.id.ToString() == kvp.Key))
                 .Where(a => a != null &&
