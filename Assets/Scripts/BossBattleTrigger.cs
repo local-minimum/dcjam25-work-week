@@ -1,17 +1,27 @@
 using LMCore.Crawler;
+using LMCore.Extensions;
 using LMCore.IO;
 using LMCore.TiledDungeon;
 using LMCore.TiledDungeon.Enemies;
+using LMCore.UI;
+using System.Linq;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class BossBattleTrigger : AbsAnomaly, IOnLoadSave
 {
-    bool managerGroggy;
+    [SerializeField]
+    LayerMask LOSFilter;
+
+    [SerializeField]
+    float maxDistance = 10f;
+
+    bool ManagerGroggy => BossBattleManager.instance.GroggyBoss;
+
+    GridEntity Player => Dungeon.Player;
+    GridEntity Manager => Dungeon.GetEntity("Manager");
 
     protected override void OnEnableExtra()
     {
-        player = Dungeon.Player;
         GridEntity.OnPositionTransition += GridEntity_OnPositionTransition;
         BossBattleManager.OnMangerNotGroggy += BossBattleManager_OnMangerNotGroggy;
     }
@@ -25,18 +35,48 @@ public class BossBattleTrigger : AbsAnomaly, IOnLoadSave
 
     private void BossBattleManager_OnMangerNotGroggy()
     {
-        managerGroggy = false;
         RestoreManger();
+    }
+
+    bool FallbackManagerDanger()
+    {
+        var player = this.Player;
+        var manager = this.Manager;
+
+        if (player.Coordinates.ChebyshevDistance(manager.Coordinates) > 1) return false;
+
+        var sources = manager
+            .GetComponentsInChildren<TDEnemyPerception>()
+            .Where(p => p.RequireLOS)
+            .Select(p => p.RayCaster.position)
+            .ToList();
+
+        sources.Add(manager.LookTarget.position);
+
+
+        var target = player.LookTarget.position;
+
+        return sources.Any(s => CheckLOS(s, target));
+    }
+
+    private bool CheckLOS(Vector3 source, Vector3 target)
+    {
+        Vector3 direction = target - source;
+
+        if (Physics.Raycast(source, direction, out var hitInfo, maxDistance, LOSFilter))
+        {
+            if (hitInfo.transform.GetComponentInParent<GridEntity>() == Player)
+            {
+                return true;
+            }
+            Debug.Log($"BBTrigger: LOS hit {hitInfo.transform.name}, not {Player.name}");
+        }
+        return false;
     }
 
     private void GridEntity_OnPositionTransition(GridEntity entity)
     {
-        if (player == null)
-        {
-            player = Dungeon.Player;
-        }
-
-        if (!managerGroggy && TDDangerZone.In(player))
+        if (!ManagerGroggy && (TDDangerZone.In(Player) || FallbackManagerDanger()))
         {
             EnterBossBattle();
         }
@@ -55,54 +95,49 @@ public class BossBattleTrigger : AbsAnomaly, IOnLoadSave
         anomalousBoss = false;
     }
 
-    GridEntity player;
-    GridEntity manager;
-
     void DisableManager()
     {
-        if (manager == null)
-        {
-            manager = Dungeon.GetEntity("Manager");
-        }
-        var enemy = manager.GetComponent<TDEnemy>();
+        var enemy = Manager.GetComponent<TDEnemy>();
         enemy.ForceActivity(LMCore.EntitySM.State.StateType.Loitering);
         enemy.Paused = true;
         // Pause normally pauses this too
         var anim = enemy.GetComponentInChildren<Animator>(true);
         anim.enabled = true;
         anim.SetTrigger("Guard");
-        manager.GetComponent<TDDangerZone>().enabled = false;
+        Manager.GetComponent<TDDangerZone>().enabled = false;
     }
 
     void RestoreManger()
     {
-        manager.transform.rotation = managerStartLook;
-        var enemy = manager.GetComponent<TDEnemy>();
+        Manager.transform.rotation = managerStartLook;
+        var enemy = Manager.GetComponent<TDEnemy>();
         enemy.Paused = false;
         enemy.ForceActivity(LMCore.EntitySM.State.StateType.Guarding);
-        manager.GetComponent<TDDangerZone>().enabled = true;
+        Manager.GetComponent<TDDangerZone>().enabled = true;
     }
 
     void DisablePlayer()
     {
-        player.MovementBlockers.Add(this);
-        var freeLookCamera = player.GetComponentInChildren<FreeLookCamera>(true);
+        Player.MovementBlockers.Add(this);
+        var freeLookCamera = Player.GetComponentInChildren<FreeLookCamera>(true);
         if (freeLookCamera != null)
         {
             freeLookCamera.enabled = false;
         }
     }
 
+    /*
     void RestorePlayer()
     {
-        player.transform.rotation = playerStartLook;
-        player.MovementBlockers.Remove(this);
-        var freeLookCamera = player.GetComponentInChildren<FreeLookCamera>(true);
+        Player.transform.rotation = playerStartLook;
+        Player.MovementBlockers.Remove(this);
+        var freeLookCamera = Player.GetComponentInChildren<FreeLookCamera>(true);
         if (freeLookCamera != null)
         {
             freeLookCamera.enabled = true;
         }
     }
+    */
 
     float lookStart;
     bool lookEasing;
@@ -112,23 +147,21 @@ public class BossBattleTrigger : AbsAnomaly, IOnLoadSave
         Debug.Log("BBTrigger: Start Conflict!");
         DisablePlayer();
 
-        manager = player.Dungeon.GetEntity("Manager");
-
-        if (manager != null)
+        if (Manager != null)
         {
             DisableManager();
 
             Vector3 managerToPlayer = Vector3.zero;
 
-            var man2play = manager.transform.position - player.transform.position;
-            playerStartLook = player.transform.rotation;
+            var man2play = Manager.transform.position - Player.transform.position;
+            playerStartLook = Player.transform.rotation;
             playerGoalLook = Quaternion.LookRotation(man2play, Vector3.up);
-            managerStartLook = manager.transform.rotation;
+            managerStartLook = Manager.transform.rotation;
             managerGoalLook = Quaternion.LookRotation(-man2play, Vector3.up);
         }
 
         lookStart = Time.timeSinceLevelLoad;
-        lookEasing = manager != null;
+        lookEasing = Manager != null;
 
         // We're just gonna be  dead soon if anomaly no need to save that
         if (!anomalousBoss)
@@ -171,8 +204,8 @@ public class BossBattleTrigger : AbsAnomaly, IOnLoadSave
         {
             var progress = Mathf.Clamp01((Time.timeSinceLevelLoad - lookStart) / lookDuration);
 
-            player.transform.rotation = Quaternion.Lerp(playerStartLook, playerGoalLook, progress);
-            manager.transform.rotation = Quaternion.Lerp(managerStartLook, managerGoalLook, progress);
+            Player.transform.rotation = Quaternion.Lerp(playerStartLook, playerGoalLook, progress);
+            Manager.transform.rotation = Quaternion.Lerp(managerStartLook, managerGoalLook, progress);
             lookEasing = false;
 
             TriggerBossGame();
@@ -186,9 +219,7 @@ public class BossBattleTrigger : AbsAnomaly, IOnLoadSave
 
     public void OnLoad<T>(T save) where T : new()
     {
-        managerGroggy = BossBattleManager.SafeInstance.GroggyBoss;
-
-        if (managerGroggy)
+        if (ManagerGroggy)
         {
             DisableManager();
         }

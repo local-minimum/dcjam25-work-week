@@ -2,6 +2,7 @@ using LMCore.AbstractClasses;
 using LMCore.Extensions;
 using LMCore.IO;
 using LMCore.TiledDungeon;
+using LMCore.UI;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -16,6 +17,9 @@ public class AnomalyManager : Singleton<AnomalyManager, AnomalyManager>, IOnLoad
     public static event SetDayEvent OnSetDay;
 
     bool anomalyLoaded;
+
+    [SerializeField]
+    Crossfader crossfader;
 
     [SerializeField]
     List<AnomalySetting> anomalies = new List<AnomalySetting>();
@@ -276,19 +280,34 @@ public class AnomalyManager : Singleton<AnomalyManager, AnomalyManager>, IOnLoad
             encounteredAnomalies.Add(activeAnomaly?.id);
             wantedDifficulty = Mathf.Min(10, wantedDifficulty + 1);
 
+            activeAnomaly = null;
+
             if (Weekday == Weekday.Monday)
             {
                 _weekNumber++;
                 // We won!
                 Debug.Log($"AnomalyManager: We won the game in week {WeekNumber}");
                 WWSaveSystem.instance.AutoSave();
-                SceneManager.LoadScene("VictoryScene");
+
+                if (crossfader != null)
+                {
+                    crossfader.FadeIn(LoadVictoryScene, keepUIAfterFaded: true);
+                } else
+                {
+                    LoadVictoryScene();
+                }
             } else
             {
                 Debug.Log($"AnomalyManager: Correct exit ({activeAnomaly}), going to {Weekday} {WeekNumber}");
-                activeAnomaly = null;
                 WWSaveSystem.instance.AutoSave();
-                SceneManager.LoadScene("OfficeScene");
+
+                if (crossfader != null)
+                {
+                    crossfader.FadeIn(LoadOfficeScene, keepUIAfterFaded: true);
+                } else
+                {
+                    LoadOfficeScene();
+                }
             }
         } else
         {
@@ -307,10 +326,26 @@ public class AnomalyManager : Singleton<AnomalyManager, AnomalyManager>, IOnLoad
             activeAnomaly = null;
             WWSaveSystem.instance.AutoSave();
 
-            SceneManager.LoadScene("OfficeScene");
+            if (crossfader != null)
+            {
+                crossfader.FadeIn(LoadOfficeScene, keepUIAfterFaded: true);
+            } else
+            {
+                LoadOfficeScene();
+            }
         }
 
         OnSetDay?.Invoke(Weekday);
+    }
+
+    void LoadOfficeScene()
+    {
+        SceneManager.LoadScene("OfficeScene");
+    }
+
+    void LoadVictoryScene()
+    {
+        SceneManager.LoadScene("VictoryScene");
     }
 
     [ContextMenu("Info")]

@@ -19,6 +19,7 @@ namespace LMCore.TiledDungeon.Enemies
 
         [SerializeField]
         bool requireLOS = false;
+        public bool RequireLOS => requireLOS;
 
         [SerializeField]
         LayerMask LOSFilter;
@@ -40,7 +41,7 @@ namespace LMCore.TiledDungeon.Enemies
 
         [SerializeField, Tooltip("If empty it uses current object transform as source")]
         Transform _rayCaster;
-        Transform rayCaster => _rayCaster == null ? transform : _rayCaster;
+        public Transform RayCaster => _rayCaster == null ? transform : _rayCaster;
 
         TDEnemy _enemy;
         TDEnemy Enemy
@@ -98,17 +99,17 @@ namespace LMCore.TiledDungeon.Enemies
             {
                 foreach (var player in Players)
                 {
-                    var direction = player.LookTarget.position - rayCaster.position;
-                    if (Physics.Raycast(rayCaster.position, direction, out var hitInfo, maxDistance * Enemy.Dungeon.GridSize, LOSFilter))
+                    var direction = player.LookTarget.position - RayCaster.position;
+                    if (Physics.Raycast(RayCaster.position, direction, out var hitInfo, maxDistance * Enemy.Dungeon.GridSize, LOSFilter))
                     {
-                        Gizmos.DrawLine(rayCaster.position, hitInfo.point);
+                        Gizmos.DrawLine(RayCaster.position, hitInfo.point);
                     }
                 }
             }
             else if (maxDistance > 0)
             {
                 {
-                    Gizmos.DrawWireSphere(rayCaster.position, maxDistance * Enemy.Dungeon.GridSize);
+                    Gizmos.DrawWireSphere(RayCaster.position, maxDistance * Enemy.Dungeon.GridSize);
                 }
             }
         }
@@ -119,10 +120,10 @@ namespace LMCore.TiledDungeon.Enemies
         private bool CheckLOS(GridEntity target)
         {
             Vector3 lookDirection = Enemy.Entity.LookDirection.AsLookVector3D();
-            var direction = target.LookTarget.position - rayCaster.position;
+            var direction = target.LookTarget.position - RayCaster.position;
             var angle = Vector3.Angle(lookDirection, direction);
 
-            if (angle < losMaxAngle && Physics.Raycast(rayCaster.position, direction, out var hitInfo, maxDistance * Enemy.Dungeon.GridSize, LOSFilter))
+            if (angle < losMaxAngle && Physics.Raycast(RayCaster.position, direction, out var hitInfo, maxDistance * Enemy.Dungeon.GridSize, LOSFilter))
             {
                 if (hitInfo.transform.GetComponentInParent<GridEntity>() == target)
                 {

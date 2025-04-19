@@ -1,7 +1,6 @@
 using LMCore.Extensions;
 using LMCore.UI;
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 
 public class PauseMenu : AbsMenu
@@ -14,6 +13,9 @@ public class PauseMenu : AbsMenu
 
     [SerializeField]
     bool doSave = true;
+
+    [SerializeField]
+    Crossfader crossfader;
 
     public override bool PausesGameplay => true;
 
@@ -43,9 +45,19 @@ public class PauseMenu : AbsMenu
             WWSaveSystem.SafeInstance.AutoSave();
         }
         unloaded = true;
+        if (crossfader != null)
+        {
+            crossfader.FadeIn(LoadTitleScene, keepUIAfterFaded: true);
+        } else
+        {
+            LoadTitleScene();
+        }
+    }
+
+    void LoadTitleScene()
+    {
         Time.timeScale = 1f;
         SceneManager.LoadScene("TitleScene");
-        // Application.Quit();
     }
 
     protected override void Focus()

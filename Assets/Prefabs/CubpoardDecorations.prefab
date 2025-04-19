@@ -100,16 +100,53 @@ PrefabInstance:
       propertyPath: m_Name
       value: office-cupboard
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: dba546700257e4e4eb879665d9de3068, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 9126932762892500256, guid: dba546700257e4e4eb879665d9de3068, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: dba546700257e4e4eb879665d9de3068, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 9107046176811601521}
   m_SourcePrefab: {fileID: 100100000, guid: dba546700257e4e4eb879665d9de3068, type: 3}
 --- !u!4 &2361579291974165189 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: dba546700257e4e4eb879665d9de3068, type: 3}
   m_PrefabInstance: {fileID: 2831843496052426030}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &3138397019336980607 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: dba546700257e4e4eb879665d9de3068, type: 3}
+  m_PrefabInstance: {fileID: 2831843496052426030}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &9107046176811601521
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3138397019336980607}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.60964775, y: 1.45, z: 1}
+  m_Center: {x: -0.30482388, y: 0, z: 0.5}
 --- !u!1001 &6666225049253654179
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -162,11 +199,48 @@ PrefabInstance:
       propertyPath: m_Name
       value: office-cupboard (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: dba546700257e4e4eb879665d9de3068, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 9126932762892500256, guid: dba546700257e4e4eb879665d9de3068, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: dba546700257e4e4eb879665d9de3068, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2317919594367653107}
   m_SourcePrefab: {fileID: 100100000, guid: dba546700257e4e4eb879665d9de3068, type: 3}
+--- !u!1 &5783283333917971442 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: dba546700257e4e4eb879665d9de3068, type: 3}
+  m_PrefabInstance: {fileID: 6666225049253654179}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &2317919594367653107
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5783283333917971442}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.60964775, y: 1.45, z: 1}
+  m_Center: {x: -0.30482388, y: 0, z: 0.5}
 --- !u!4 &6559925109403830600 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: dba546700257e4e4eb879665d9de3068, type: 3}

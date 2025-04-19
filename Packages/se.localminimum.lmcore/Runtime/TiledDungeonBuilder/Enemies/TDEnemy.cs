@@ -758,7 +758,7 @@ namespace LMCore.TiledDungeon.Enemies
                 else
                 {
                     var states = GetComponentsInChildren<ActivityState>()
-                        .Where(s => s.State == enemySave.activeStateType)
+                        .Where(s => enemySave.activeStateType == StateType.None || s.State == enemySave.activeStateType)
                         .ToList();
 
                     if (states.Count == 0)

@@ -16,6 +16,9 @@ public class MainMenu : MonoBehaviour
     [SerializeField]
     SettingsMenu SettingsMenu;
 
+    [SerializeField]
+    Crossfader crossfader;
+
     public void LoadSave()
     {
         WWSaveSystem.SafeInstance.LoadAutoSave();
@@ -25,6 +28,12 @@ public class MainMenu : MonoBehaviour
     {
         WWSaveSystem.SafeInstance.DeleteAutoSave();
         // TODO: Do something nicer here!
+
+        crossfader.FadeIn(SwapToOfficeScene, keepUIAfterFaded: true);
+    }
+
+    void SwapToOfficeScene()
+    {
         SceneManager.LoadScene("OfficeScene");
     }
 

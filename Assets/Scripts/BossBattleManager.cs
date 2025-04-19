@@ -2,7 +2,7 @@ using LMCore.AbstractClasses;
 using LMCore.Crawler;
 using LMCore.IO;
 using LMCore.TiledDungeon;
-using UnityEditor.PackageManager;
+using LMCore.UI;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -20,6 +20,9 @@ public class BossBattleManager : Singleton<BossBattleManager, BossBattleManager>
 
     [SerializeField]
     int managerGroggyAfterLossSteps = 10;
+
+    [SerializeField]
+    Crossfader crossfader;
 
     private void Start()
     {
@@ -71,6 +74,17 @@ public class BossBattleManager : Singleton<BossBattleManager, BossBattleManager>
     }
 
     public void LoadBossFight()
+    {
+        if (crossfader == null)
+        {
+            SwapToBossScene();
+        } else
+        {
+            crossfader.FadeIn(SwapToBossScene, keepUIAfterFaded: true);
+        }
+    }
+
+    private void SwapToBossScene()
     {
         BBFight.BaseDifficulty = BattleDifficulty;
         SceneManager.LoadScene("BossBattleScene");

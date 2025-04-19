@@ -24,22 +24,24 @@
         },
         "C:/Users/Admin/Documents/Unity/untitled-dungeon-crawler/Assets/Tiled/DemoLevel.tmx": {
             "expandedGroupLayers": [
+                7,
                 9
             ],
             "expandedObjectLayers": [
                 9,
                 13
             ],
-            "scale": 4,
-            "selectedLayer": 3,
+            "scale": 0.33,
+            "selectedLayer": 9,
             "viewCenter": {
-                "x": 716.25,
-                "y": 241.625
+                "x": 675.7575757575756,
+                "y": 289.39393939393926
             }
         },
         "C:/Users/Admin/Documents/Unity/untitled-dungeon-crawler/Assets/Tiled/Level1.tmx": {
             "expandedGroupLayers": [
-                12
+                12,
+                2
             ],
             "expandedObjectLayers": [
                 26,
@@ -47,11 +49,11 @@
                 12,
                 11
             ],
-            "scale": 4,
-            "selectedLayer": 4,
+            "scale": 1.5,
+            "selectedLayer": 24,
             "viewCenter": {
-                "x": 520.75,
-                "y": 695.875
+                "x": 528.6666666666666,
+                "y": 463
             }
         },
         "C:/Users/Admin/Documents/Unity/untitled-dungeon-crawler/Assets/Tiled/Mapping.tsx": {
@@ -63,18 +65,18 @@
         },
         "Office.tmx": {
             "expandedGroupLayers": [
-                2,
-                12
+                12,
+                2
             ],
             "expandedObjectLayers": [
-                2,
-                22
+                22,
+                2
             ],
-            "scale": 4,
+            "scale": 0.5,
             "selectedLayer": 6,
             "viewCenter": {
-                "x": 612.5,
-                "y": 691.125
+                "x": 832,
+                "y": 407
             }
         },
         "Rules/AutomappingDungeons.tmx": {
@@ -281,7 +283,7 @@
         "C:/Users/Admin/Documents/Unity/untitled-dungeon-crawler/Assets/Tiled/Level1.tmx"
     ],
     "project": "Office.tiled-project",
-    "property.type": "bool",
+    "property.type": "string",
     "recentFiles": [
         "Office.tmx",
         "Mapping.tsx",

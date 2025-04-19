@@ -1,3 +1,4 @@
+using LMCore.UI;
 using TMPro;
 using UnityEngine;
 
@@ -74,10 +75,24 @@ public class BBFight : MonoBehaviour
         if (health <= 0)
         {
             FightStatus = FightStatus.Died;
-            Time.timeScale = 1f;
-            WWSaveSystem.SafeInstance.LoadAutoSave();
-            enabled = false;
+            DelayedLoadingSave("Cornered!");
         }
+    }
+
+    [SerializeField]
+    Crossfader crossfader;
+
+    void DelayedLoadingSave(string msg)
+    {
+        Time.timeScale = 0f;
+        enabled = false;
+        crossfader.FadeIn(LoadSave, msg, keepUIAfterFaded: true);
+    }
+
+    void LoadSave()
+    {
+        Time.timeScale = 1f;
+        WWSaveSystem.SafeInstance.LoadAutoSave();
     }
 
     private void Update()
@@ -86,9 +101,7 @@ public class BBFight : MonoBehaviour
         if (Remaining <= 0f)
         {
             FightStatus = FightStatus.Survived;
-            Time.timeScale = 1f;
-            WWSaveSystem.SafeInstance.LoadAutoSave();
-            enabled = false;
+            DelayedLoadingSave("Somehow you dodged that!");
             return;
         }
 

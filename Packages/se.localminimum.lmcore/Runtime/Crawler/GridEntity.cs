@@ -442,7 +442,10 @@ namespace LMCore.Crawler
 
             if (forced)
             {
-                checkpoint.Node.PushOccupants(this, movementDirection);
+                if (checkpoint.Node != null)
+                {
+                    checkpoint.Node.PushOccupants(this, movementDirection);
+                }
             }
 
             Sync();

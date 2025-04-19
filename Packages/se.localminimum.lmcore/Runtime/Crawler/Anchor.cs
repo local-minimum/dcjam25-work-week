@@ -132,7 +132,7 @@ namespace LMCore.Crawler
             {
                 if (_node == null || ManagingMovingCubeFace != null)
                 {
-                    _node = GetComponentInParent<IDungeonNode>();
+                    _node = GetComponentInParent<IDungeonNode>(true);
                 }
                 return _node;
             }

@@ -43,6 +43,8 @@ public class AttackingBoxesAnomaly : AbsAnomaly
     private void GridEntity_OnPositionTransition(GridEntity entity)
     {
 
+        if (!activeAnomaly || triggered || completed) return;
+
         // Debug.Log($"BadBox: Coordinates {Coordinates} match {entity.Coordinates == Coordinates} and {entity.EntityType}==Player {entity.EntityType == GridEntityType.PlayerCharacter}");
 
         if (entity.EntityType == GridEntityType.PlayerCharacter && entity.Coordinates == Coordinates)
