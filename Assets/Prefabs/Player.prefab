@@ -50,7 +50,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: ed6cc317eec402244af6fa1c4aead4ff, type: 3}
   - {fileID: 8300000, guid: 52ce87c0b1bfc6e41b8e83df63464f19, type: 3}
   - {fileID: 8300000, guid: 6794b7aa4a79e46488b87478fae9fdc2, type: 3}
-  volumeScale: 0.5
+  volumeScale: 0.25
 --- !u!82 &88195973396591456
 AudioSource:
   m_ObjectHideFlags: 0
