@@ -10,6 +10,12 @@ public class BBFaceController : MonoBehaviour
     public static event StartSpittingEvent OnStartSpitting;
 
     [SerializeField]
+    AudioSource speaker;
+
+    [SerializeField]
+    List<AudioClip> SpitSounds = new List<AudioClip>();
+
+    [SerializeField]
     Camera cam;
 
     [SerializeField]
@@ -118,6 +124,7 @@ public class BBFaceController : MonoBehaviour
                 var bbLetter = alphabet.Get(letter);
                 if (bbLetter != null)
                 {
+                    speaker.PlayOneShot(SpitSounds.GetRandomElement());
                     bbLetter.SpitOut(letterSpawnPoint, spitSpeed);
                 }
                 letterIdx++;

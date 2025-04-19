@@ -51,6 +51,10 @@ public class IntroSlideshow : MonoBehaviour
     {
         if (context.performed)
         {
+            if (finalizing)
+            {
+                finalizeTime = Time.timeSinceLevelLoad - 1f;
+            }
             Progress();
         }
     }
@@ -60,7 +64,9 @@ public class IntroSlideshow : MonoBehaviour
         var instruction = steps[step];
 
         anim.SetTrigger(instruction.trigger);
-        speaker.PlayOneShot(instruction.clip);
+        speaker.Stop();
+        speaker.clip = instruction.clip;
+        speaker.Play();
 
         step++;
     }
