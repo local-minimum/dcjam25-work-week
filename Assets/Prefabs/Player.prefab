@@ -485,7 +485,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   anomalyId: monster-manager
-  managerGroggyAfterLossSteps: 13
+  LOSFilter:
+    serializedVersion: 2
+    m_Bits: 0
+  maxDistance: 10
   lookDuration: 0.5
 --- !u!114 &2052305777037944072
 MonoBehaviour:
@@ -650,6 +653,7 @@ MonoBehaviour:
   lookAmount: 0.5
   verticalLookClamp: 0.1
   forwardTranslation: 0.6
+  manageNativeCursor: 0
   translationLerp: 0.05
 --- !u!1 &6964800340789305541
 GameObject:

@@ -27,7 +27,7 @@ public class MainMenu : MonoBehaviour
     public void NewGame()
     {
         WWSaveSystem.SafeInstance.DeleteAutoSave();
-
+        Cursor.visible = false;
         intro.Show(SwapToOfficeScene);
     }
 
@@ -65,6 +65,8 @@ public class MainMenu : MonoBehaviour
 
         ResumeButton.gameObject.SetActive(WWSaveSystem.SafeInstance.HasAutoSave);
         SetDefaultSelectedButton();
+
+        Cursor.visible = true;
     }
 
     void SetDefaultSelectedButton()

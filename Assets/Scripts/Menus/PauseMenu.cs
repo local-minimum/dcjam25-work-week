@@ -63,6 +63,7 @@ public class PauseMenu : AbsMenu
     protected override void Focus()
     {
         transform.ShowAllChildren();
+        Cursor.visible = true;
     }
 
     protected override void Blur()
@@ -71,5 +72,6 @@ public class PauseMenu : AbsMenu
 
         transform.HideAllChildren();
         settings.gameObject.SetActive(false);
+        Cursor.visible = false;
     }
 }

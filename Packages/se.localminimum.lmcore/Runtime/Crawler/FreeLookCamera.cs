@@ -33,6 +33,9 @@ namespace LMCore.Crawler
         [SerializeField, Range(0f, 3f)]
         float forwardTranslation = 1f;
 
+        [SerializeField]
+        bool manageNativeCursor = true;
+
         bool overriddenForwardTranslation;
         float translationForwardOverride;
 
@@ -87,7 +90,10 @@ namespace LMCore.Crawler
 
         void SyncNativeCursor()
         {
-            Cursor.visible = !freeLooking && NativeCursorAllowed;
+            if (manageNativeCursor)
+            {
+                Cursor.visible = !freeLooking && NativeCursorAllowed;
+            }
         }
 
         Camera cam;

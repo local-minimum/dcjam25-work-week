@@ -1,4 +1,5 @@
 using LMCore.Crawler;
+using LMCore.Extensions;
 using LMCore.TiledDungeon;
 using LMCore.TiledDungeon.DungeonFeatures;
 using LMCore.TiledDungeon.Integration;
@@ -119,6 +120,9 @@ public class ExitTrigger : TDFeature, ITDCustom
     bool turning;
     float exitTime;
 
+    [SerializeField, HelpBox("This value must be set in the prefab to stay", HelpBoxMessageType.Warning)]
+    float waitForElevatorDoorClose = 2f;
+
     private void Update()
     {
         if (exitType != ExitType.MainExit || !exiting) return;
@@ -131,7 +135,7 @@ public class ExitTrigger : TDFeature, ITDCustom
                 door.CloseDoor(capturedPlayer);
             }
             turning = false;
-            exitTime = Time.timeSinceLevelLoad + 1f;
+            exitTime = Time.timeSinceLevelLoad + waitForElevatorDoorClose;
         } else if (!turning && Time.timeSinceLevelLoad > exitTime)
         {
             exiting = false;

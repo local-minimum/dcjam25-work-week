@@ -45,6 +45,7 @@ public class ActiveOS : MonoBehaviour
         Debug.Log("ActiveOS: Disabled");
         showPointer = false;
         pointer.enabled = false;
+        Cursor.visible = false;
         osActive = false;
         osCam.gameObject.SetActive(false);
         transform.HideAllChildren();
