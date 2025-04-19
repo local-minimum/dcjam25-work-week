@@ -4235,7 +4235,7 @@ AudioSource:
   m_GameObject: {fileID: 1894533783}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: -2995359356932599386, guid: c9736687044cc2f409eb17245f6d39ba, type: 2}
   m_audioClip: {fileID: 8300000, guid: 34a468df12da5f341a06689eb687d50c, type: 3}
   m_Resource: {fileID: 8300000, guid: 34a468df12da5f341a06689eb687d50c, type: 3}
   m_PlayOnAwake: 1
@@ -4603,14 +4603,50 @@ PrefabInstance:
       propertyPath: m_Name
       value: Settings
       objectReference: {fileID: 0}
+    - target: {fileID: 3253014246668174903, guid: cf0117534452ca948b28c10e3e22c493, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3866421794442309154, guid: cf0117534452ca948b28c10e3e22c493, type: 3}
       propertyPath: bindingConf
       value: 
       objectReference: {fileID: 1711133898}
+    - target: {fileID: 4342979740854772074, guid: cf0117534452ca948b28c10e3e22c493, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4808712237975218836, guid: cf0117534452ca948b28c10e3e22c493, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4859591880135498410, guid: cf0117534452ca948b28c10e3e22c493, type: 3}
       propertyPath: bindingConf
       value: 
       objectReference: {fileID: 1711133896}
+    - target: {fileID: 4871634970274040604, guid: cf0117534452ca948b28c10e3e22c493, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4871634970274040604, guid: cf0117534452ca948b28c10e3e22c493, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4871634970274040604, guid: cf0117534452ca948b28c10e3e22c493, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5979614931994209345, guid: cf0117534452ca948b28c10e3e22c493, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5979614931994209345, guid: cf0117534452ca948b28c10e3e22c493, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6042599681475399113, guid: cf0117534452ca948b28c10e3e22c493, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6115022221682452605, guid: cf0117534452ca948b28c10e3e22c493, type: 3}
       propertyPath: bindingConf
       value: 

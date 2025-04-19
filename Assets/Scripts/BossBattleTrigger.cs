@@ -43,7 +43,10 @@ public class BossBattleTrigger : AbsAnomaly, IOnLoadSave
         var player = this.Player;
         var manager = this.Manager;
 
-        if (player.Coordinates.ChebyshevDistance(manager.Coordinates) > 1) return false;
+        var distance = player.Coordinates.ChebyshevDistance(manager.Coordinates);
+
+        if (distance > 1) return false;
+        else if (distance == 0) return true;
 
         var sources = manager
             .GetComponentsInChildren<TDEnemyPerception>()
