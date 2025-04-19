@@ -9,5 +9,8 @@ namespace LMCore.IO
 
         public override GameSettings.StringSetting Settings =>
             string.IsNullOrEmpty(storageLocation) ? null : GameSettings.GetCustomString(storageLocation);
+
+        public bool Defines(string id, int bindingIndex) =>
+            storageLocation == id && this.bindingIndex == bindingIndex;
     }
 }

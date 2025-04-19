@@ -23,6 +23,19 @@ namespace LMCore.IO
             }
         }
 
+        List<CustomBindingConf> _customBindings;
+        List<CustomBindingConf> customBindings
+        {
+            get
+            {
+                if (_customBindings == null)
+                {
+                    _customBindings = GetComponentsInChildren<CustomBindingConf>(includeInactiveBindings).ToList();
+                }
+                return _customBindings;
+            }
+        }
+
         private void Start()
         {
             DontDestroyOnLoad(gameObject);
@@ -42,6 +55,26 @@ namespace LMCore.IO
             if (options.Count == 0)
             {
                 Debug.LogWarning($"No binding for {action} and device {device} found among {actionBindings.Count} bindings!");
+                return missing;
+            }
+
+            return decoration.Replace("%HINT%", options[0].HumanizedBinding());
+        }
+
+        public string GetActiveCustomHint(
+            string customId,
+            string decoration = "[%HINT%]",
+            string missing = "<UNSET>")
+        {
+            var device = ActionMapToggler.LastDevice;
+
+            var options = customBindings 
+                .Where(c => c.Defines(customId, 0) && c.For(device))
+                .ToList();
+
+            if (options.Count == 0)
+            {
+                Debug.LogWarning($"No binding for '{customId}' and device {device} found among {actionBindings.Count} bindings!");
                 return missing;
             }
 

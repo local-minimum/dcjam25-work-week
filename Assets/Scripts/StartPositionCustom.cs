@@ -4,6 +4,7 @@ using LMCore.TiledDungeon;
 using LMCore.TiledDungeon.DungeonFeatures;
 using LMCore.TiledDungeon.Enemies;
 using LMCore.TiledImporter;
+using LMCore.UI;
 using System.Linq;
 using UnityEngine;
 
@@ -145,6 +146,11 @@ public class StartPositionCustom : TDFeature, ITDCustom
             }
         }
 
+        var keyHint = InputBindingsManager
+            .InstanceOrResource("InputBindingsManager")
+            .GetActiveCustomHint("Binding.ShowMenus");
+
+        PromptUI.instance.ShowText($"{keyHint} Pause Game & Settings", 5);
         player = null;
         releasing = false;
     }
