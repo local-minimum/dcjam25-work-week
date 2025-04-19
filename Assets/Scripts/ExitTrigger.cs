@@ -1,6 +1,7 @@
 using LMCore.Crawler;
 using LMCore.TiledDungeon;
 using LMCore.TiledDungeon.DungeonFeatures;
+using LMCore.TiledDungeon.Integration;
 using LMCore.TiledImporter;
 using UnityEngine;
 
@@ -10,6 +11,25 @@ public delegate void ExitOfficeEvent(ExitType exitType);
 
 public class ExitTrigger : TDFeature, ITDCustom
 {
+    [SerializeField, HideInInspector]
+    Direction doorDirection;
+
+    [SerializeField, HideInInspector]
+    bool hideDoorPrompts;
+
+    TDDoor door
+    {
+        get
+        {
+            Debug.Log($"ExitTrigger: Door should be in the {doorDirection} direction");
+            var coords = doorDirection.Translate(Coordinates);
+            var node = Dungeon[coords];
+            if (node == null) return null;
+
+            return node.GetComponentInChildren<TDDoor>();
+        }
+    }
+
     public static event ExitOfficeEvent OnExitOffice;
 
     [SerializeField, HideInInspector]
@@ -17,6 +37,10 @@ public class ExitTrigger : TDFeature, ITDCustom
 
     private void OnEnable()
     {
+        if (hideDoorPrompts)
+        {
+            door.SilenceAllPrompts = true;
+        }
         GridEntity.OnPositionTransition += GridEntity_OnPositionTransition;
         TiledDungeon.OnDungeonUnload += TiledDungeon_OnDungeonUnload;
     }
@@ -40,6 +64,8 @@ public class ExitTrigger : TDFeature, ITDCustom
 
         if (entity.EntityType == GridEntityType.PlayerCharacter && entity.Coordinates == Coordinates)
         {
+            door.OpenDoor(entity);
+
             entity.MovementBlockers.Add(this);
 
             // TODO: Some fancy animation
@@ -53,5 +79,7 @@ public class ExitTrigger : TDFeature, ITDCustom
     {
         var mainExit = properties.Bool("MainExit");
         exitType = mainExit ? ExitType.MainExit : ExitType.FireEscape;
+        doorDirection = properties.Direction("DoorDirection", TDEnumDirection.None).AsDirection();
+        hideDoorPrompts = properties.Bool("HideDoorPrompts", false);
     }
 }

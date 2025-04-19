@@ -34,6 +34,8 @@ namespace LMCore.TiledDungeon.DungeonFeatures
     {
         private enum Transition { None, Opening, Closing };
 
+        public bool SilenceAllPrompts { get; set; }
+
         [SerializeField]
         bool silenceManageDoorPrompt;
 
@@ -337,7 +339,7 @@ namespace LMCore.TiledDungeon.DungeonFeatures
                     PromptUI.instance.RemoveText(previousPrompt);
                 }
 
-                if (!string.IsNullOrEmpty(lastPrompt))
+                if (!SilenceAllPrompts && !string.IsNullOrEmpty(lastPrompt))
                 {
                     PromptUI.instance.ShowText(lastPrompt);
                 }
@@ -448,7 +450,10 @@ namespace LMCore.TiledDungeon.DungeonFeatures
                     {
                         if (keyHolder.Consume(key, out string _))
                         {
-                            PromptUI.instance.ShowText("Lost key", 2);
+                            if (!SilenceAllPrompts)
+                            {
+                                PromptUI.instance.ShowText("Lost key", 2);
+                            }
                         }
                         else
                         {

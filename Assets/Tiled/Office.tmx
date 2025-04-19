@@ -334,6 +334,8 @@
    </object>
    <object id="76" name="Fire Escape Exit" type="Custom" x="462" y="944">
     <properties>
+     <property name="DoorDirection" propertytype="Direction" value="East"/>
+     <property name="HideDoorPrompts" type="bool" value="true"/>
      <property name="Id" value="ExitTrigger"/>
      <property name="MainExit" type="bool" value="false"/>
     </properties>
@@ -586,19 +588,19 @@
    </object>
    <object id="110" name="Outside Office" type="Custom" x="304" y="918">
     <properties>
-     <property name="OutsideOffice" type="int" value="0"/>
+     <property name="Id" value="OutsideOffice"/>
     </properties>
     <point/>
    </object>
    <object id="111" name="Outside Office" type="Custom" x="430" y="240">
     <properties>
-     <property name="OutsideOffice" type="int" value="0"/>
+     <property name="Id" value="OutsideOffice"/>
     </properties>
     <point/>
    </object>
    <object id="112" name="Outside Office" type="Custom" x="463" y="240.5">
     <properties>
-     <property name="OutsideOffice" type="int" value="0"/>
+     <property name="Id" value="OutsideOffice"/>
     </properties>
     <point/>
    </object>
