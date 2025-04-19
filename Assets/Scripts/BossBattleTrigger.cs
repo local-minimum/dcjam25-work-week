@@ -163,6 +163,8 @@ public class BossBattleTrigger : AbsAnomaly, IOnLoadSave
         lookStart = Time.timeSinceLevelLoad;
         lookEasing = Manager != null;
 
+        Player.MovementBlockers.Add(this);
+
         // We're just gonna be  dead soon if anomaly no need to save that
         if (!anomalousBoss)
         {
