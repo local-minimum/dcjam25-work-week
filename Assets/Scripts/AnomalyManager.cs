@@ -139,7 +139,6 @@ public class AnomalyManager : Singleton<AnomalyManager, AnomalyManager>, IOnLoad
             wantedDifficulty = START_DIFFICULTY;
             activeAnomaly = null;
             weekday = Weekday.Monday;
-            activeAnomaly = null;
         }
     }
 
@@ -154,6 +153,18 @@ public class AnomalyManager : Singleton<AnomalyManager, AnomalyManager>, IOnLoad
 
     Weekday _weekday;
     public Weekday Weekday => _weekday;
+
+    public void ResetProgress()
+    {
+        _weekday = Weekday.Monday;
+        _weekNumber = 0;
+        wantedDifficulty = START_DIFFICULTY;
+        missedAnomalies.Clear();
+        encounteredAnomalies.Clear();
+        activeAnomaly = null;
+        anomalyLoaded = false;
+    }
+
     #endregion
 
 
@@ -257,6 +268,7 @@ public class AnomalyManager : Singleton<AnomalyManager, AnomalyManager>, IOnLoad
 
     private void ExitTrigger_OnExitOffice(ExitType exitType)
     {
+        anomalyLoaded = false;
         bool success = false;
 
         if (exitType.Either(ExitType.FireEscape, ExitType.AnomalyDeath) && activeAnomaly != null)

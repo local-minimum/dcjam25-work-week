@@ -395,7 +395,7 @@ namespace LMCore.TiledDungeon
 
                 if (outcome.Either(MovementOutcome.Refused, MovementOutcome.Blocked))
                 {
-                    Debug.LogWarning(PrefixLogMessage($"There is no valid neighbour ({outcome}) in the {direction} for {originAnchor}"));
+                    // Debug.LogWarning(PrefixLogMessage($"There is no valid neighbour ({outcome}) in the {direction} for {originAnchor}"));
                     targetCoordinates = targetAnchor == null ? origin : targetAnchor.Node.Coordinates;
                     return outcome;
                 }
@@ -438,7 +438,6 @@ namespace LMCore.TiledDungeon
                 /*
             if (withPush)
             {
-                */
                 Debug.LogWarning(PrefixLogMessage(
                     $"Simple translation refused for {entity.name} {origin}({direction})->{targetCoordinates}, " +
                     $"AllowExit({AllowExit(entity, direction, withPush)}) Target({translationTarget !=null}) " +
@@ -450,7 +449,6 @@ namespace LMCore.TiledDungeon
                     $"{direction} == Direction.Down && HasFloorHole({HasFloorHole})) && " +
                     $"!temporaryExitBlocker.Overrides({direction}) [{!temporaryExitBlocker.Overrides(direction)}] && " +
                     $"!BlockEdgeTraversal(entity, {direction}, SideCheckMode.Exit) [{!BlockEdgeTraversal(entity, direction, SideCheckMode.Exit)}]"));
-                /*
             }
                 */
 

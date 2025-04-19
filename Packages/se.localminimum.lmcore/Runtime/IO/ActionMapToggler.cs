@@ -29,7 +29,8 @@ namespace LMCore.IO
         public static InputActionMap EnabledMap => instance.enabledMap;
 
         SimplifiedDevice lastDevice = SimplifiedDevice.MouseAndKeyboard;
-        public static SimplifiedDevice LastDevice => instance.lastDevice;
+        public static SimplifiedDevice LastDevice => 
+            instance != null ? instance.lastDevice : SimplifiedDevice.MouseAndKeyboard;
 
         private void SetupPlayerInput(PlayerInput playerInput)
         {

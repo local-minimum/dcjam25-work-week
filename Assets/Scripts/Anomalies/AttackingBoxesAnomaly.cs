@@ -22,16 +22,17 @@ public class AttackingBoxesAnomaly : AbsAnomaly
     [SerializeField]
     AudioSource speaker;
 
-    protected override void OnDisableExtra()
-    {
-        GridEntity.OnPositionTransition -= GridEntity_OnPositionTransition;
-    }
-
     protected override void OnEnableExtra()
     {
         GridEntity.OnPositionTransition += GridEntity_OnPositionTransition;
         if (speaker != null) speaker.Stop();
     }
+
+    protected override void OnDisableExtra()
+    {
+        GridEntity.OnPositionTransition -= GridEntity_OnPositionTransition;
+    }
+
 
     bool triggered = false;
     GridEntity player;

@@ -108,19 +108,19 @@ public class BBPlayerController : MonoBehaviour
             switch (cardinal)
             {
                 case "North":
-                    direction.y = 0;
+                    if (direction.y > 0) direction.y = 0;
                     break;
 
                 case "South":
-                    direction.y = 0;
+                    if (direction.y < 0) direction.y = 0;
                     break;
 
                 case "West":
-                    direction.x = 0;
+                    if (direction.x < 0) direction.x = 0;
                     break;
 
                 case "East":
-                    direction.x = 0;
+                    if (direction.x > 0) direction.x = 0;
                     break;
 
             }
@@ -175,6 +175,8 @@ public class BBPlayerController : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        if (Health == 0) return;
+
         if (collision.gameObject.CompareTag("Room"))
         {
             // Nothing to do but we still might be in a letter

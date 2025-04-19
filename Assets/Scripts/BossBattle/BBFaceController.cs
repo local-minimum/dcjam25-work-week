@@ -116,6 +116,8 @@ public class BBFaceController : MonoBehaviour
 
         SyncFacePosition();
 
+        if (BBFight.FightStatus != FightStatus.InProgress) return;
+
         if (wording)
         {
             if (Time.timeSinceLevelLoad > nextSpit)

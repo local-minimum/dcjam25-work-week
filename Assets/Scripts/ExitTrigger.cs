@@ -97,10 +97,11 @@ public class ExitTrigger : TDFeature, ITDCustom
 
             if (exitType == ExitType.MainExit)
             {
-                entity.InjectForcedMovement(LMCore.IO.Movement.YawCCW);
-                entity.InjectForcedMovement(LMCore.IO.Movement.YawCCW, pushQueue: true);
                 turning = true;
                 exiting = true;
+
+                entity.InjectForcedMovement(LMCore.IO.Movement.YawCCW);
+                entity.InjectForcedMovement(LMCore.IO.Movement.YawCCW, pushQueue: true);
             } else
             {
                 OnExitOffice?.Invoke(exitType);

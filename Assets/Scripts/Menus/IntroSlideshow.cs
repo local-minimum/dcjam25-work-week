@@ -1,5 +1,7 @@
 using LMCore.Extensions;
+using LMCore.IO;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -28,6 +30,9 @@ public class IntroSlideshow : MonoBehaviour
     [SerializeField]
     float finalDuration = 2f;
 
+    [SerializeField]
+    TextMeshProUGUI skipText;
+
     System.Action OnComplete;
     int step = 0;
 
@@ -45,6 +50,13 @@ public class IntroSlideshow : MonoBehaviour
         OnComplete = onCompleteCallback;
         step = 0;
         PlayStep();
+
+
+        var keyHint = InputBindingsManager
+            .InstanceOrResource("InputBindingsManager")
+            .GetActiveActionHint(GamePlayAction.Interact);
+
+        skipText.text = $"{keyHint} Skip";
     }
 
     public void Skip(InputAction.CallbackContext context)
@@ -69,6 +81,8 @@ public class IntroSlideshow : MonoBehaviour
         speaker.Play();
 
         step++;
+
+        skipText.gameObject.SetActive(true);
     }
 
     bool finalizing;
@@ -83,6 +97,7 @@ public class IntroSlideshow : MonoBehaviour
         } else if (!finalizing)
         {
             anim.SetTrigger(finalTrigger);
+            skipText.gameObject.SetActive(true);
             finalizing = true;
             finalizeTime = Time.timeSinceLevelLoad + finalDuration;
         } else if (Time.timeSinceLevelLoad > finalizeTime)

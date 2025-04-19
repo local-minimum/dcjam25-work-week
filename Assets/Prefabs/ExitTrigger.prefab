@@ -44,4 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f81fea3a1574bb479dce088c1b87888, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  doorDirection: 0
+  hideDoorPrompts: 0
   exitType: 0
+  waitForElevatorDoorClose: 1.1

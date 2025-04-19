@@ -22,7 +22,29 @@ public class RadioAnomaly : AbsAnomaly
     float maxDistanceRollOffNormal = 5f;
 
     [SerializeField]
-    List<TDNode> triggerLocations = new List<TDNode>();
+    List<Vector3Int> triggeringLocationOffsets = new List<Vector3Int>();
+
+    List<TDNode> _triggerLocations;
+    List<TDNode> triggerLocations
+    {
+        get
+        {
+            if (_triggerLocations == null)
+            {
+                _triggerLocations = new List<TDNode>();
+                foreach (var offset in triggeringLocationOffsets)
+                {
+                    var coords = Coordinates + offset;
+                    var node = Dungeon[coords];
+                    if (node != null)
+                    {
+                        _triggerLocations.Add(node);
+                    }
+                }
+            }
+            return _triggerLocations;
+        }
+    }
 
     [SerializeField]
     Transform radio;
@@ -113,7 +135,7 @@ public class RadioAnomaly : AbsAnomaly
         if (!anomalous || Activated || entity.EntityType != GridEntityType.PlayerCharacter) return;
 
         player = entity;
-        if (triggerLocations.Any(n => n.Coordinates == entity.Coordinates))
+        if (triggerLocations != null && triggerLocations.Any(n => n.Coordinates == entity.Coordinates))
         {
             Activated = true;
             Debug.Log($"Radio anomaly activated at {entity.Coordinates}");

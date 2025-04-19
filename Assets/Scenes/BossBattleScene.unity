@@ -2783,11 +2783,11 @@ RectTransform:
   - {fileID: 1026796516}
   m_Father: {fileID: 1193478134}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 20, y: -20}
+  m_AnchorMin: {x: 0.5, y: 1}
+  m_AnchorMax: {x: 0.5, y: 1}
+  m_AnchoredPosition: {x: 0, y: -20}
   m_SizeDelta: {x: 150, y: 32}
-  m_Pivot: {x: 0, y: 1}
+  m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &682105424
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5225,9 +5225,9 @@ RectTransform:
   - {fileID: 1206139760}
   m_Father: {fileID: 1193478134}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 180, y: -20}
+  m_AnchorMin: {x: 0.5, y: 1}
+  m_AnchorMax: {x: 0.5, y: 1}
+  m_AnchoredPosition: {x: 104.61, y: -20}
   m_SizeDelta: {x: 120, y: 36}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1219935457
@@ -6319,6 +6319,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 0.5
+  initialDelay: 3
 --- !u!1 &1556416417
 GameObject:
   m_ObjectHideFlags: 0
@@ -6348,6 +6349,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d183159245759274b9781b75df699ef9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  speaker: {fileID: 1534069613}
+  winMusic: {fileID: 8300000, guid: 85a037fb8e67d3946978d94fc5547a1c, type: 3}
+  failMusic: {fileID: 8300000, guid: d72367cc95fcd6b48a50d757d72e8265, type: 3}
   player: {fileID: 639530562}
   RemainingUI: {fileID: 118654947}
   survivalTime: 45

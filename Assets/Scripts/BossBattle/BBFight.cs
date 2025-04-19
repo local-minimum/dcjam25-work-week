@@ -7,6 +7,15 @@ public enum FightStatus { None, InProgress, Survived, Died };
 
 public class BBFight : MonoBehaviour
 {
+    [SerializeField]
+    AudioSource speaker;
+
+    [SerializeField]
+    AudioClip winMusic;
+
+    [SerializeField]
+    AudioClip failMusic;
+
     public static FightStatus FightStatus { get; set; } = FightStatus.None;
 
     public static int BaseDifficulty { get; set; } = 1;
@@ -75,6 +84,11 @@ public class BBFight : MonoBehaviour
         if (health <= 0)
         {
             FightStatus = FightStatus.Died;
+
+            speaker.clip = failMusic;
+            speaker.loop = false;
+            speaker.Play();
+
             DelayedLoadingSave("Cornered!");
         }
     }
@@ -101,6 +115,11 @@ public class BBFight : MonoBehaviour
         if (Remaining <= 0f)
         {
             FightStatus = FightStatus.Survived;
+
+            speaker.clip = winMusic;
+            speaker.loop = false;
+            speaker.Play();
+
             DelayedLoadingSave("Somehow you dodged that!");
             return;
         }

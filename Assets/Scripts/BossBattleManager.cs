@@ -37,7 +37,7 @@ public class BossBattleManager : Singleton<BossBattleManager, BossBattleManager>
 
     private void OnDisable()
     {
-        GridEntity.OnPositionTransition += GridEntity_OnPositionTransition;
+        GridEntity.OnPositionTransition -= GridEntity_OnPositionTransition;
         TDLevelManager.OnSceneLoaded -= TDLevelManager_OnSceneLoaded;
     }
 

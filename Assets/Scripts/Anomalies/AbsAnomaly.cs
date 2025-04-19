@@ -38,4 +38,9 @@ public abstract class AbsAnomaly : TDFeature
     abstract protected void SetAnomalyState();
 
     abstract protected void SetNormalState();
+
+    private void OnDestroy()
+    {
+        OnDisable(); 
+    }
 }

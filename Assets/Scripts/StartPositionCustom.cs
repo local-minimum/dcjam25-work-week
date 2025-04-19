@@ -15,6 +15,8 @@ public class StartPositionCustom : TDFeature, ITDCustom
     public static event StartPositionPlayerEvent OnReleasePlayer;
     public static event StartPositionPlayerEvent OnCapturePlayer;
 
+    static bool notShownPauseHintToday = true;
+
     [SerializeField]
     Transform cameraPosition;
 
@@ -106,6 +108,9 @@ public class StartPositionCustom : TDFeature, ITDCustom
         releaseStart = Time.timeSinceLevelLoad;
     }
 
+    [SerializeField]
+    float showPauseHintDuration = 3f;
+
     void CompleteReleasePlayer()
     {
         if (freeLookCamera != null)
@@ -150,7 +155,12 @@ public class StartPositionCustom : TDFeature, ITDCustom
             .InstanceOrResource("InputBindingsManager")
             .GetActiveCustomHint("Binding.ShowMenus");
 
-        PromptUI.instance.ShowText($"{keyHint} Pause Game & Settings", 5);
+        if (AnomalyManager.instance.Weekday == Weekday.Monday || notShownPauseHintToday)
+        {
+            PromptUI.instance.ShowText($"{keyHint} Pause Game & Settings", showPauseHintDuration);
+            notShownPauseHintToday = false;
+        }
+
         player = null;
         releasing = false;
     }

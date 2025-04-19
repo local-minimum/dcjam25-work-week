@@ -19,15 +19,29 @@ public class MainMenu : MonoBehaviour
     [SerializeField]
     IntroSlideshow intro;
 
+    [SerializeField]
+    AudioSource musicPlayer;
+
+    [SerializeField]
+    AnimationCurve easeDownMusic;
+
+    [SerializeField]
+    float easeDownMusicDuration;
+
     public void LoadSave()
     {
         WWSaveSystem.SafeInstance.LoadAutoSave();
     }
 
+    bool lowerMusic;
+    float lowerMusicStartTime;
+
     public void NewGame()
     {
         WWSaveSystem.SafeInstance.DeleteAutoSave();
         Cursor.visible = false;
+        lowerMusic = true;
+        lowerMusicStartTime = Time.timeSinceLevelLoad;
         intro.Show(SwapToOfficeScene);
     }
 
@@ -67,6 +81,24 @@ public class MainMenu : MonoBehaviour
         SetDefaultSelectedButton();
 
         Cursor.visible = true;
+
+        var anomalyManager = AnomalyManager.instance;
+        if (anomalyManager != null)
+        {
+            anomalyManager.ResetProgress();
+        }
+    }
+
+    private void Update()
+    {
+        if (!lowerMusic) return;
+
+        var progress = Mathf.Clamp01((Time.timeSinceLevelLoad - lowerMusicStartTime) / easeDownMusicDuration);
+        musicPlayer.volume = easeDownMusic.Evaluate(progress);
+        if (progress == 1f)
+        {
+            lowerMusic = false;
+        }
     }
 
     void SetDefaultSelectedButton()

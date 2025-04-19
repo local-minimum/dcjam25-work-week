@@ -16,6 +16,8 @@ public class BBCamera : MonoBehaviour
 
     private void Update()
     {
+        if (BBFight.FightStatus != FightStatus.InProgress) return;
+
         if (Time.realtimeSinceStartup < realtimeStart) return;
 
         transform.position += Vector3.right * speed * Time.deltaTime;
