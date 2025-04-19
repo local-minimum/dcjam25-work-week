@@ -104,12 +104,18 @@ namespace LMCore.Crawler
             }
         }
 
-        public void InjectMovement(Movement movement, bool forced)
+        public void InjectMovement(Movement movement, bool forced, bool pushQueue = false)
         {
             Debug.Log(PrefixLogMessage($"Injected movement {movement} forced({forced})"));
+            if (pushQueue)
+            {
+                nextNextMovement = nextMovement;
+            } else
+            {
+                nextNextMovement = Movement.None;
+            }
             nextMovement = movement;
             nextMovementForced = forced;
-            nextNextMovement = Movement.None;
         }
 
         /// <summary>

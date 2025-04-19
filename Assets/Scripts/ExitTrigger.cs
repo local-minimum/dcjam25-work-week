@@ -41,6 +41,24 @@ public class ExitTrigger : TDFeature, ITDCustom
         {
             door.SilenceAllPrompts = true;
         }
+
+        if (exitType == ExitType.MainExit)
+        {
+            var door = this.door.transform;
+            var parent = transform.parent;
+            // Hide all the default walls, we just want the elevator
+            for (int i = 0, n = parent.childCount; i<n; i++)
+            {
+                var sib = parent.GetChild(i);
+                if (sib == transform || sib == door || sib.GetComponent<TDDecoration>() != null) continue;
+                var rend = sib.GetComponentInChildren<Renderer>();
+                if (rend != null)
+                {
+                    rend.enabled = false;
+                }
+            }
+        }
+
         GridEntity.OnPositionTransition += GridEntity_OnPositionTransition;
         TiledDungeon.OnDungeonUnload += TiledDungeon_OnDungeonUnload;
     }
@@ -60,18 +78,32 @@ public class ExitTrigger : TDFeature, ITDCustom
 
     private void GridEntity_OnPositionTransition(GridEntity entity)
     {
-        if (capturedPlayer) return;
+        if (capturedPlayer || exiting) return;
 
         if (entity.EntityType == GridEntityType.PlayerCharacter && entity.Coordinates == Coordinates)
         {
-            door.OpenDoor(entity);
+            var door = this.door;
+            if (!door.OpenOrOpening)
+            {
+                door.OpenDoor(entity);
+            }
+
+            door.SilenceAllPrompts = true;
 
             entity.MovementBlockers.Add(this);
 
-            // TODO: Some fancy animation
             capturedPlayer = entity;
 
-            OnExitOffice?.Invoke(exitType);
+            if (exitType == ExitType.MainExit)
+            {
+                entity.InjectForcedMovement(LMCore.IO.Movement.YawCCW);
+                entity.InjectForcedMovement(LMCore.IO.Movement.YawCCW, pushQueue: true);
+                turning = true;
+                exiting = true;
+            } else
+            {
+                OnExitOffice?.Invoke(exitType);
+            }
         }
     }
 
@@ -81,5 +113,29 @@ public class ExitTrigger : TDFeature, ITDCustom
         exitType = mainExit ? ExitType.MainExit : ExitType.FireEscape;
         doorDirection = properties.Direction("DoorDirection", TDEnumDirection.None).AsDirection();
         hideDoorPrompts = properties.Bool("HideDoorPrompts", false);
+    }
+
+    bool exiting;
+    bool turning;
+    float exitTime;
+
+    private void Update()
+    {
+        if (exitType != ExitType.MainExit || !exiting) return;
+
+        if (turning && capturedPlayer.Moving == MovementType.Stationary)
+        {
+            var door = this.door;
+            if (door.OpenOrOpening)
+            {
+                door.CloseDoor(capturedPlayer);
+            }
+            turning = false;
+            exitTime = Time.timeSinceLevelLoad + 1f;
+        } else if (!turning && Time.timeSinceLevelLoad > exitTime)
+        {
+            exiting = false;
+            OnExitOffice?.Invoke(exitType);
+        }
     }
 }

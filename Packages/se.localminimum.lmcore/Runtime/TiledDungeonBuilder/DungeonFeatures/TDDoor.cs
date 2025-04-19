@@ -165,6 +165,8 @@ namespace LMCore.TiledDungeon.DungeonFeatures
         }
 
         public bool FullyClosed => !isOpen && ActiveTransition == Transition.None;
+        public bool OpenOrOpening => isOpen && ActiveTransition == Transition.None || 
+            ActiveTransition == Transition.Opening;
 
         public DirectionAxis TraversalAxis
         {
@@ -504,6 +506,8 @@ namespace LMCore.TiledDungeon.DungeonFeatures
         public void Interact() => Interact(null);
         public void Interact(GridEntity entity)
         {
+            if (entity.MovementBlocked) return;
+
             Debug.Log(PrefixLogMessage($"Toggling door from Open({isOpen} / {ActiveTransition})"));
             switch (ActiveTransition)
             {

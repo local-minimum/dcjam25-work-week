@@ -377,20 +377,20 @@ namespace LMCore.Crawler
         ///
         /// Uses game clock for move duration
         /// </summary>
-        public void InjectForcedMovement(Movement movement) =>
-            InjectForcedMovement(movement, ElasticGameClock.instance.baseTickDuration);
+        public void InjectForcedMovement(Movement movement, bool pushQueue = false) =>
+            InjectForcedMovement(movement, ElasticGameClock.instance.baseTickDuration, pushQueue);
 
         /// <summary>
         /// Forces a movement upon the grid entity.
         /// 
         /// Normal rules for node exit and target node entry still apply
         /// </summary>
-        public void InjectForcedMovement(Movement movement, float duration)
+        public void InjectForcedMovement(Movement movement, float duration, bool pushQueue = false)
         {
             var input = Input;
             if (input != null)
             {
-                input.InjectMovement(movement, true);
+                input.InjectMovement(movement, true, pushQueue: pushQueue);
             }
             else
             {
