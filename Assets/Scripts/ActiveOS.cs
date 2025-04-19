@@ -1,5 +1,6 @@
 using LMCore.Extensions;
 using LMCore.UI;
+using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
@@ -21,6 +22,9 @@ public class ActiveOS : MonoBehaviour
 
     [SerializeField]
     Camera osCam;
+
+    [SerializeField]
+    List<ActiveOSAppLauncher> hiddenLaunchers = new List<ActiveOSAppLauncher>();
 
     bool osActive;
 
@@ -59,6 +63,14 @@ public class ActiveOS : MonoBehaviour
         osActive = true;
         osCam.gameObject.SetActive(true);
         transform.ShowAllChildren();
+
+        if (AnomalyManager.instance.WonGame)
+        {
+            foreach (var launcher in hiddenLaunchers)
+            {
+                launcher.gameObject.SetActive(true);
+            }
+        }
     }
 
     private void Start()

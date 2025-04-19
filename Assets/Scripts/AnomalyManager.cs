@@ -5,6 +5,7 @@ using LMCore.TiledDungeon;
 using LMCore.UI;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -23,6 +24,22 @@ public class AnomalyManager : Singleton<AnomalyManager, AnomalyManager>, IOnLoad
 
     [SerializeField]
     List<AnomalySetting> anomalies = new List<AnomalySetting>();
+
+    public IEnumerable<string> GetCensuredAnomalies()
+    {
+        foreach (var anomaly in anomalies)
+        {
+            if (encounteredAnomalies.Contains(anomaly.id))
+            {
+                yield return anomaly.humanizedName;
+            } else
+            {
+                var name = anomaly.humanizedName;
+                yield return Regex.Replace(name, @"[A-Za-z0-9]", "?");
+            }
+
+        }
+    }
 
     IEnumerable<AnomalySetting> anomalyHistory =>
         encounteredAnomalies.Select(id =>
@@ -120,6 +137,7 @@ public class AnomalyManager : Singleton<AnomalyManager, AnomalyManager>, IOnLoad
         public int wantedDifficulty;
         public string activeAnomaly;
         public Weekday weekday;
+        public bool won;
 
         public AnomalyManagerSaveData(AnomalyManager manager)
         {
@@ -129,6 +147,7 @@ public class AnomalyManager : Singleton<AnomalyManager, AnomalyManager>, IOnLoad
             weekday = manager.Weekday;
             wantedDifficulty = manager.wantedDifficulty;
             activeAnomaly = manager.activeAnomaly?.id;
+            won = manager.won;
         }
 
         public AnomalyManagerSaveData()
@@ -139,6 +158,7 @@ public class AnomalyManager : Singleton<AnomalyManager, AnomalyManager>, IOnLoad
             wantedDifficulty = START_DIFFICULTY;
             activeAnomaly = null;
             weekday = Weekday.Monday;
+            won = false;
         }
     }
 
@@ -154,6 +174,9 @@ public class AnomalyManager : Singleton<AnomalyManager, AnomalyManager>, IOnLoad
     Weekday _weekday;
     public Weekday Weekday => _weekday;
 
+    bool won;
+    public bool WonGame => won;
+
     public void ResetProgress()
     {
         _weekday = Weekday.Monday;
@@ -163,6 +186,7 @@ public class AnomalyManager : Singleton<AnomalyManager, AnomalyManager>, IOnLoad
         encounteredAnomalies.Clear();
         activeAnomaly = null;
         anomalyLoaded = false;
+        won = false;
     }
 
     #endregion
@@ -190,6 +214,8 @@ public class AnomalyManager : Singleton<AnomalyManager, AnomalyManager>, IOnLoad
 
         activeAnomaly =
             this.anomalies.FirstOrDefault(a => a.id == anomalies.activeAnomaly);
+
+        won = anomalies.won;
 
         anomalyLoaded = true;
 
@@ -284,7 +310,6 @@ public class AnomalyManager : Singleton<AnomalyManager, AnomalyManager>, IOnLoad
             missedAnomalies.Add(activeAnomaly.id);
         }
 
-        // TODO: Some fancy transition perhaps
         if (success)
         {
             _weekday = Weekday.NextDay();
@@ -297,7 +322,7 @@ public class AnomalyManager : Singleton<AnomalyManager, AnomalyManager>, IOnLoad
             if (Weekday == Weekday.Monday)
             {
                 _weekNumber++;
-                // We won!
+                won = true;
                 Debug.Log($"AnomalyManager: We won the game in week {WeekNumber}");
                 WWSaveSystem.instance.AutoSave();
 
@@ -407,5 +432,12 @@ public class AnomalyManager : Singleton<AnomalyManager, AnomalyManager>, IOnLoad
         Debug.Log($"{noHorrors} non-horror and {horrors} scary anomalies");
         Debug.Log(string.Join(", ", rooms.Select(kvp => $"{kvp.Key}: {kvp.Value}")));
         Debug.Log($"Difficulties: {string.Join(", ", difficulties.OrderBy(kvp => kvp.Key).Select(kvp => $"{kvp.Key}: {kvp.Value}"))}");
+    }
+
+    [ContextMenu("Set Sunday")]
+    void SetSunday()
+    {
+        _weekday = Weekday.Sunday;
+        OnSetDay?.Invoke(_weekday);
     }
 }

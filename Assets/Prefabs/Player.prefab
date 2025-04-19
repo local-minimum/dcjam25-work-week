@@ -1,5 +1,180 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2473820357230629069
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1969574277720298275}
+  - component: {fileID: 5579114802594197300}
+  - component: {fileID: 88195973396591456}
+  m_Layer: 8
+  m_Name: FootSounds
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1969574277720298275
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2473820357230629069}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -0.34}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 548299357336418206}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5579114802594197300
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2473820357230629069}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e90d2039e2b3fe4f9ec4c4bab1ad447, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speaker: {fileID: 88195973396591456}
+  clips:
+  - {fileID: 8300000, guid: ed6cc317eec402244af6fa1c4aead4ff, type: 3}
+  - {fileID: 8300000, guid: 52ce87c0b1bfc6e41b8e83df63464f19, type: 3}
+  - {fileID: 8300000, guid: 6794b7aa4a79e46488b87478fae9fdc2, type: 3}
+  volumeScale: 0.5
+--- !u!82 &88195973396591456
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2473820357230629069}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 0}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 10
+  Pan2D: 0
+  rolloffMode: 2
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0.1
+      value: 1
+      inSlope: -10.0039835
+      outSlope: -10.0039835
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.2
+      value: 0.5
+      inSlope: -2.5009959
+      outSlope: -2.5009959
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.4
+      value: 0.25
+      inSlope: -0.62524897
+      outSlope: -0.62524897
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.7508057
+      value: 0.052459717
+      inSlope: -0.38504344
+      outSlope: -0.38504344
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.46274948
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: -0.10003988
+      outSlope: -0.10003988
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &2598266067030501177
 GameObject:
   m_ObjectHideFlags: 0
@@ -97,6 +272,7 @@ Transform:
   - {fileID: 1098687311186933231}
   - {fileID: 5954340930787082686}
   - {fileID: 7096041699614057689}
+  - {fileID: 1969574277720298275}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &229770331026211457
@@ -365,18 +541,6 @@ MonoBehaviour:
     m_ActionName: Crawling/Translate
   - m_PersistentCalls:
       m_Calls: []
-    m_ActionId: 5f3c4c1c-be3e-4771-be74-33e2073d4c25
-    m_ActionName: 'Crawling/NextCard[/Keyboard/l]'
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: f8025cbd-ca48-41c3-92c0-152c30fcc20a
-    m_ActionName: 'Crawling/PreviousCard[/Keyboard/j]'
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: c5a0a5f7-5b82-4a51-94a5-97036e75f5c4
-    m_ActionName: 'Crawling/ActivateCard[/Keyboard/enter]'
-  - m_PersistentCalls:
-      m_Calls: []
     m_ActionId: 0f77cebd-7115-4b8a-a63c-59ba2011a675
     m_ActionName: 'Crawling/ShowMenus[/Keyboard/m]'
   - m_PersistentCalls:
@@ -395,10 +559,6 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 209d0319-f231-4163-a3a8-f1257bb87eea
     m_ActionName: 'Crawling/DevConsole[/Keyboard/slash]'
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 406a8a50-7bd5-40c3-a0dc-e4e7bea8b93a
-    m_ActionName: 'Crawling/UseQuickslot[/Keyboard/f,/Keyboard/backspace]'
   - m_PersistentCalls:
       m_Calls: []
     m_ActionId: 9775036a-0393-4f3b-b578-178ad8424798
@@ -445,24 +605,8 @@ MonoBehaviour:
     m_ActionName: 'MenuUI/ExitMenus[/Keyboard/m]'
   - m_PersistentCalls:
       m_Calls: []
-    m_ActionId: 23806f39-4c6f-44a8-af45-361d69da73d3
-    m_ActionName: 'MenuUI/NextMenu[/Keyboard/l]'
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: ca610583-1fea-4fef-ba24-9a4427bc2707
-    m_ActionName: 'MenuUI/PreviousMenu[/Keyboard/j]'
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 42bab30b-9973-4568-8ae9-4b0c5922a362
-    m_ActionName: 'MenuUI/ExitMenu[/Keyboard/escape]'
-  - m_PersistentCalls:
-      m_Calls: []
     m_ActionId: bf09ef02-96ab-4844-91e7-eabe9c06ec24
     m_ActionName: MenuUI/VirtualClick
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 4d465c85-50d8-4a04-b1a2-f845e61dcdf9
-    m_ActionName: 'MenuUI/QuickTransferSelected[/Keyboard/ctrl,/Mouse/rightButton]'
   - m_PersistentCalls:
       m_Calls: []
     m_ActionId: 5c538e12-03e9-4aea-b1fc-2934f47f912f

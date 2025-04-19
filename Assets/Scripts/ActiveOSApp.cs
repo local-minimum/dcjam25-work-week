@@ -1,11 +1,15 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 
 [RequireComponent(typeof(RectTransform))]
 public class ActiveOSApp : MonoBehaviour
 {
     [SerializeField]
     TextMeshProUGUI Title;
+
+    [SerializeField]
+    UnityEvent OnShow;
 
     Vector2 resetAnchorPosition;
 
@@ -28,5 +32,6 @@ public class ActiveOSApp : MonoBehaviour
     {
         gameObject.SetActive(true);
         GetComponentInParent<ActiveOS>().FocusApp(this);
+        OnShow?.Invoke();
     }
 }
