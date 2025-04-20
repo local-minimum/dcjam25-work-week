@@ -58,7 +58,7 @@ public class MainMenu : MonoBehaviour
     public void Settings()
     {
         transform.HideAllChildren();
-        SettingsMenu.gameObject.SetActive(true);
+        SettingsMenu.Show();
     }
 
     public void RegainFocus()
