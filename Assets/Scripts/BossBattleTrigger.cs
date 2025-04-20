@@ -3,7 +3,6 @@ using LMCore.Extensions;
 using LMCore.IO;
 using LMCore.TiledDungeon;
 using LMCore.TiledDungeon.Enemies;
-using LMCore.UI;
 using System.Linq;
 using UnityEngine;
 
@@ -165,6 +164,7 @@ public class BossBattleTrigger : AbsAnomaly, IOnLoadSave
 
         lookStart = Time.timeSinceLevelLoad;
         lookEasing = Manager != null;
+        Debug.Log($"BBTrigger: Need easing {lookEasing} (Manager is {Manager})");
 
         Player.MovementBlockers.Add(this);
 
@@ -179,6 +179,8 @@ public class BossBattleTrigger : AbsAnomaly, IOnLoadSave
 
     void TriggerBossGame()
     {
+        lookEasing = false;
+
         if (anomalousBoss)
         {
             Debug.Log("BBTrigger: We're entering anomaly death");
@@ -211,9 +213,12 @@ public class BossBattleTrigger : AbsAnomaly, IOnLoadSave
 
             Player.transform.rotation = Quaternion.Lerp(playerStartLook, playerGoalLook, progress);
             Manager.transform.rotation = Quaternion.Lerp(managerStartLook, managerGoalLook, progress);
-            lookEasing = false;
 
-            TriggerBossGame();
+            if (progress == 1f)
+            {
+                Debug.Log($"BBTrigger: Look easing done, trigger boss fight");
+                TriggerBossGame();
+            }
         }
     }
 

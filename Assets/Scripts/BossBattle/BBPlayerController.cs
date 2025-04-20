@@ -192,7 +192,10 @@ public class BBPlayerController : MonoBehaviour
             return;
         } else if (collision.gameObject.CompareTag("Spikes"))
         {
-            speaker.PlayOneShot(HurtSounds.GetRandomElement());
+            if (HurtSounds.Count > 0)
+            {
+                speaker.PlayOneShot(HurtSounds.GetRandomElement());
+            }
             Health = 0;
             OnHealthChange?.Invoke(Health);
         }
@@ -203,12 +206,18 @@ public class BBPlayerController : MonoBehaviour
         {
             invulnUntil = Time.timeSinceLevelLoad + invulnDuration;
             Health = Mathf.Max(0, Health - 1);
-            speaker.PlayOneShot(HurtSounds.GetRandomElement());
+            if (HurtSounds.Count > 0)
+            {
+                speaker.PlayOneShot(HurtSounds.GetRandomElement());
+            }
             OnHealthChange?.Invoke(Health);
         } else if (collision.gameObject.CompareTag("BBFace"))
         {
             Health = 0;
-            speaker.PlayOneShot(HurtSounds.GetRandomElement());
+            if (HurtSounds.Count > 0)
+            {
+                speaker.PlayOneShot(HurtSounds.GetRandomElement());
+            }
             OnHealthChange?.Invoke(Health);
         }
 

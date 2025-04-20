@@ -14,6 +14,9 @@ namespace LMCore.Crawler
         public Vector3 Position(GridEntity entity);
         public Vector3 Position(Vector3Int coordinates, Direction anchor, bool rotationRespectsAnchorDirection);
 
+        public Vector3Int PlayerStartPosition { get; }
+        public Direction PlayerStartDirection { get; }
+
         public GridEntity GetEntity(string identifier);
 
         /// <summary>

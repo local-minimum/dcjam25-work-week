@@ -144,7 +144,14 @@ namespace LMCore.TiledDungeon.Enemies
                 Enemy.MayTaxStay = true;
 
                 var checkUpdateActivity = lookDirection != Direction.None;
-                lookDirection = directions.GetRandomElement();
+                if (directions.Count > 0)
+                {
+                    lookDirection = directions.GetRandomElement();
+                } else
+                {
+                    lookDirection = DirectionExtensions.AllPlanarDirections.FirstOrDefault();
+                    Debug.LogWarning(PrefixLogMessage($"We have no directions to choose from, looking {lookDirection} at random"));
+                }
                 if (checkUpdateActivity || lookDirection == Direction.None)
                 {
                     Enemy.UpdateActivity();

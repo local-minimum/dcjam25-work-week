@@ -75,6 +75,8 @@ public class BossBattleManager : Singleton<BossBattleManager, BossBattleManager>
 
     public void LoadBossFight()
     {
+        Debug.Log($"BBManager: Loading boss fight, current status is {BBFight.FightStatus}");
+
         if (crossfader == null)
         {
             SwapToBossScene();

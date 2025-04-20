@@ -26,6 +26,9 @@ public class GridEntityFootSounds : MonoBehaviour
     {
         if (entity != myEntity || entity.Moving != MovementType.Translating) return;
 
-        speaker.PlayOneShot(clips.GetRandomElement(), volumeScale);
+        if (speaker != null && clips.Count > 0)
+        {
+            speaker.PlayOneShot(clips.GetRandomElement(), volumeScale);
+        }
     }
 }

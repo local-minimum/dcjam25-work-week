@@ -38,8 +38,18 @@ namespace LMCore.TiledDungeon.Enemies
 
             if (transition == null) return null;
 
-            var loop = transition.TargetLoops.GetRandomElement();
-            return Enemy.GetCheckpoints(loop, 0).FirstOrDefault();
+            var options = transition.TargetLoops;
+            if (options != null || options.Count == 0)
+            {
+                return null;
+            }
+
+            var loop = options.GetRandomElement();
+
+            var checkpoints = Enemy.GetCheckpoints(loop, 0);
+            if (checkpoints == null) return null;
+
+            return checkpoints.FirstOrDefault();
         }
     }
 }

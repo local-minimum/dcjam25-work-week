@@ -120,8 +120,24 @@ namespace LMCore.TiledDungeon.SaveLoad
             }
 
             entity.AnchorDirection = anchor;
-            entity.LookDirection = lookDirection;
-            entity.Coordinates = position;
+
+            if (!entity.Dungeon.HasNodeAt(position))
+            {
+                if (entity.EntityType == GridEntityType.PlayerCharacter)
+                {
+                    Debug.LogWarning($"Player {entity} wanted to load outside map {position}, loading into start position instead.");
+                    entity.Coordinates = entity.Dungeon.PlayerStartPosition;
+                    entity.LookDirection = entity.Dungeon.PlayerStartDirection;
+                } else
+                {
+                    Debug.LogWarning($"Entity {entity} wanted to load outside map {position}, just ignoring that.");
+                }
+            } else
+            {
+                entity.Coordinates = position;
+                entity.LookDirection = lookDirection;
+            }
+
             entity.TransportationMode = transportationMode;
             entity.RotationRespectsAnchorDirection = rotationRespectsAnchorDirection;
         }

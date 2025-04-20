@@ -107,7 +107,7 @@ namespace LMCore.Juice
                     StopAnimation(Phase.Completed);
                 } else
                 {
-                    Debug.Log(PrefixLogMessage($"{ActivePhase} active & anim {anim.IsActiveAnimation(animState, fadeOutClip.name)} isAnimating {anim.IsAnimating(animState, fadeOutClip.name)}"));
+                    // Debug.Log(PrefixLogMessage($"{ActivePhase} active & anim {anim.IsActiveAnimation(animState, fadeOutClip.name)} isAnimating {anim.IsAnimating(animState, fadeOutClip.name)}"));
                 }
             } else
             {

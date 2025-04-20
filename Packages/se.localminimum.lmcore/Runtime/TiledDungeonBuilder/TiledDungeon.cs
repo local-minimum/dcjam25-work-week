@@ -107,8 +107,28 @@ namespace LMCore.TiledDungeon
         [SerializeField]
         TDNode SpawnTile;
 
+        public Vector3Int PlayerStartPosition {
+            get
+            {
+                if (SpawnTile != null) return SpawnTile.Coordinates;
+                if (backupSettings != null) return backupSettings.SpawnCoordinates;
+                Debug.LogError(PrefixLogMessage($"There's no spawn point for the player"));
+
+                var rndNode = nodes.Values.FirstOrDefault();
+                if (rndNode == null)
+                {
+                    Debug.LogError(PrefixLogMessage("Dungeon has no nodes"));
+                    return Vector3Int.zero;
+                }
+
+                return rndNode.Coordinates;
+            }
+        }
+
         [SerializeField]
         Direction StartLookDirection;
+
+        public Direction PlayerStartDirection => StartLookDirection;
 
         public AbsDungeonStyle Style;
 

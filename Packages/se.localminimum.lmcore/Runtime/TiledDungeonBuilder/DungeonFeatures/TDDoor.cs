@@ -502,7 +502,7 @@ namespace LMCore.TiledDungeon.DungeonFeatures
             if (transition == Transition.Opening) return;
             _activeTransition = Transition.Opening;
             anim.SetTrigger(OpenAnimation);
-            if (speaker != null)
+            if (speaker != null && openSounds.Count > 0)
             {
                 speaker.PlayOneShot(openSounds.GetRandomElement());
             }

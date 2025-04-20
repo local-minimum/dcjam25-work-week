@@ -18,6 +18,10 @@ namespace LMCore.Crawler
             Direction.North, Direction.South, Direction.West, Direction.East, Direction.Up, Direction.Down
         };
 
+        public static Direction[] AllPlanarDirections = new Direction[] {
+            Direction.North, Direction.South, Direction.West, Direction.East
+        };
+
         public static IEnumerable<Direction> OrthogonalDirections(this Direction direction) =>
             AllDirections.Where(d => d != direction && d != direction.Inverse());
         public static IEnumerable<Direction> ParalellDirections(this Direction direction)
