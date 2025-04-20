@@ -50,6 +50,7 @@ namespace LMCore.IO
             try
             {
                 value = JsonUtility.FromJson<TSave>(File.ReadAllText(FilePath(id)));
+                Debug.Log(PrefixLogMessage($"Loaded save {id} from {FilePath(id)}"));
             }
             catch
             {
@@ -86,6 +87,7 @@ namespace LMCore.IO
 #if UNITY_WEBGL
                 Directory.CreateDirectory(Path.GetDirectoryName(path));
 #endif
+                Delete(id);
                 File.WriteAllText(path, JsonUtility.ToJson(value, Pretty));
 
                 Debug.Log(PrefixLogMessage($"Saved slot {id} at {path}"));

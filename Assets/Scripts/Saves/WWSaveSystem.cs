@@ -28,6 +28,7 @@ public class WWSaveSystem : TDSaveSystem<WWSave, WWSaveSystem>
         save.anomalies = AnomalyManager.instance.Save();
         save.battle = BossBattleManager.SafeInstance.Save();
 
+        Debug.Log($"WWSaveSystem: saving anomalies {save.anomalies}");
 
         return save;
     }

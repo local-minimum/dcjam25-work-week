@@ -129,6 +129,8 @@ MonoBehaviour:
   KeyReaderNorth: {fileID: 0}
   KeyReaderSouth: {fileID: 0}
   anim: {fileID: 1464602023889407461}
+  speaker: {fileID: 0}
+  openSounds: []
   ReaderImageNorth: {fileID: 0}
   ReaderImageSouth: {fileID: 0}
   lockedSprite: {fileID: 0}
@@ -140,7 +142,7 @@ MonoBehaviour:
   interactionDirectionLimitation: 6
   edge: 0
   autoCloseTime: 0.5
-  considerOpenAfterProgress: 0.4
+  considerOpenAfterProgress: 0.25
 --- !u!1001 &7312911105388485289
 PrefabInstance:
   m_ObjectHideFlags: 0

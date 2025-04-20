@@ -160,6 +160,9 @@ public class AnomalyManager : Singleton<AnomalyManager, AnomalyManager>, IOnLoad
             weekday = Weekday.Monday;
             won = false;
         }
+
+        public override string ToString() =>
+            $"<AnomSave {weekday} {weekNumber} Anom:{activeAnomaly}>";
     }
 
     List<string> encounteredAnomalies = new List<string>();
@@ -196,11 +199,12 @@ public class AnomalyManager : Singleton<AnomalyManager, AnomalyManager>, IOnLoad
     public AnomalyManagerSaveData Save() => 
         new AnomalyManagerSaveData(this);
 
-    public int OnLoadPriority => 100;
+    public int OnLoadPriority => 100000;
 
     public void OnLoadWWSave(WWSave save)
     {
         var anomalies = save.anomalies ?? new AnomalyManagerSaveData();
+
         encounteredAnomalies.Clear();
         encounteredAnomalies.AddRange(anomalies.encounteredAnomalies);
 
@@ -210,21 +214,34 @@ public class AnomalyManager : Singleton<AnomalyManager, AnomalyManager>, IOnLoad
         _weekNumber = anomalies.weekNumber;
         _weekday = anomalies.weekday;
 
-        wantedDifficulty = anomalies.wantedDifficulty;
+        if (BBFight.FightStatus == FightStatus.Died)
+        {
+            wantedDifficulty = Mathf.Max(1, wantedDifficulty - 1);
 
-        activeAnomaly =
-            this.anomalies.FirstOrDefault(a => a.id == anomalies.activeAnomaly);
+            SetAnomalyOfTheDay(false);
+        } else
+        {
+            wantedDifficulty = anomalies.wantedDifficulty;
+
+            activeAnomaly =
+                this.anomalies.FirstOrDefault(a => a.id == anomalies.activeAnomaly);
+        }
 
         won = anomalies.won;
 
         anomalyLoaded = true;
 
-        Debug.Log($"AnomalyManger: Loaded save and it's {Weekday} in week {WeekNumber} with {(activeAnomaly == null ? "a regular office" : activeAnomaly.ToString())}");
+        if (BBFight.FightStatus == FightStatus.Survived)
+        {
+            wantedDifficulty = Mathf.Min(10, wantedDifficulty + 1);
+        }
+
+        Debug.Log($"AnomalyManger: Loaded save {save.anomalies} and it's {Weekday} in week {WeekNumber} with {(activeAnomaly == null ? "a regular office" : activeAnomaly.ToString())}");
         OnSetAnomaly?.Invoke(activeAnomaly?.id);
     }
 
     [SerializeField()]
-    void SetAnomalyOfTheDay()
+    void SetAnomalyOfTheDay(bool emitEvent = true)
     {
         if (WeekNumber == 0 && Weekday == Weekday.Monday)
         {
@@ -246,8 +263,11 @@ public class AnomalyManager : Singleton<AnomalyManager, AnomalyManager>, IOnLoad
             }
         }
 
-        Debug.Log($"AnomalyManger: It's a new day and it is {Weekday} in week {WeekNumber} with {(activeAnomaly == null ? "a regular office" : activeAnomaly.ToString())}");
-        OnSetAnomaly?.Invoke(activeAnomaly?.id);
+        Debug.Log($"AnomalyManager: It's a new day and it is {Weekday} in week {WeekNumber} with {(activeAnomaly == null ? "a regular office" : activeAnomaly.ToString())}");
+        if (emitEvent)
+        {
+            OnSetAnomaly?.Invoke(activeAnomaly?.id);
+        }
     }
 
     public void OnLoad<T>(T save) where T : new()
@@ -309,6 +329,8 @@ public class AnomalyManager : Singleton<AnomalyManager, AnomalyManager>, IOnLoad
         {
             missedAnomalies.Add(activeAnomaly.id);
         }
+
+        Debug.Log($"AnomalyManager: Exit {success} of type {exitType}, fight: {BBFight.FightStatus} {BBFight.BaseDifficulty}");
 
         if (success)
         {

@@ -70,6 +70,9 @@ namespace LMCore.TiledDungeon.DungeonFeatures
         [SerializeField]
         Animator anim;
 
+        [SerializeField]
+        int animLayer;
+
         [SerializeField, Header("Sounds")]
         AudioSource speaker;
 
@@ -137,10 +140,18 @@ namespace LMCore.TiledDungeon.DungeonFeatures
         {
             get
             {
-                if (anim.GetCurrentAnimatorStateInfo(0).normalizedTime == 1f)
+                /*
+                if (_activeTransition != Transition.None)
                 {
-                    return Transition.None;
+                    var info = anim.GetCurrentAnimatorStateInfo(animLayer);
+                    // TODO: This is a hack but something isn't right with normalized time
+                    Debug.Log($"Door {_activeTransition} has normalized time: {info.normalizedTime}");
+                    if (info.normalizedTime == 1f || info.length < 0.25f && !info.loop)
+                    {
+                        _activeTransition = Transition.None;
+                    }
                 }
+                */
 
                 return _activeTransition;
             }
@@ -730,9 +741,21 @@ namespace LMCore.TiledDungeon.DungeonFeatures
 
         private void Update()
         {
-            if (ActiveTransition == Transition.Opening && !isOpen)
+            if (ActiveTransition != Transition.None)
             {
-                isOpen = (Time.timeSinceLevelLoad - openingStart) > considerOpenAfterProgress;
+                if (ActiveTransition == Transition.Opening && !isOpen)
+                {
+                    isOpen = (Time.timeSinceLevelLoad - openingStart) > considerOpenAfterProgress;
+                } else
+                {
+                    var info = anim.GetCurrentAnimatorStateInfo(animLayer);
+                    // TODO: This is a hack but something isn't right with normalized time
+                    if (info.normalizedTime >= info.length || info.length < 0.25f && !info.loop)
+                    {
+                        isOpen = _activeTransition == Transition.Opening;
+                        _activeTransition = Transition.None;
+                    }
+                }
             }
 
             if (activelyMovingEntities.Any(AutomaticTrapdoorAction))

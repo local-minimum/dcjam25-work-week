@@ -71,7 +71,7 @@ MonoBehaviour:
   interactionDirectionLimitation: 6
   edge: 6
   autoCloseTime: 0.5
-  considerOpenAfterProgress: 0.4
+  considerOpenAfterProgress: 0.25
 --- !u!82 &7957887603334405178
 AudioSource:
   m_ObjectHideFlags: 0

@@ -45,15 +45,24 @@ public class DoorAreaCustomOpeners : TDFeature, ITDCustom
         if (!Doors.ContainsKey(areaId))
         {
             Doors.Add(areaId, doors.ToList());
-        } else
+        } else if (Doors[areaId].Count == 0)
         {
             Doors[areaId].AddRange(doors);
+        } else
+        {
+            foreach (var door in doors)
+            {
+                if (Doors[areaId].Contains(door)) continue;
+
+                Doors[areaId].Add(door);
+            }
         }
 
         if (!Areas.ContainsKey(areaId))
         {
             Areas.Add(areaId, new List<DoorAreaCustomOpeners>() { this });
-        } else
+        }
+        else if (!Areas[areaId].Contains(this))
         {
             Areas[areaId].Add(this);
         }
@@ -115,6 +124,7 @@ public class DoorAreaCustomOpeners : TDFeature, ITDCustom
             WasHere[areaId] = true;
             foreach (var door in doors)
             {
+                Debug.Log($"Custom area door opener opening {door}");
                 door.OpenDoor(entity);
             }
             Debug.Log($"Custom area door opener {name}: Opening doors");
@@ -123,6 +133,7 @@ public class DoorAreaCustomOpeners : TDFeature, ITDCustom
             WasHere[areaId] = false;
             foreach (var door in doors)
             {
+                Debug.Log($"Custom area door opener closing {door} ({door.Node.name})");
                 door.CloseDoor(entity);
             }
             Debug.Log($"Custom area door opener {name}: Closing doors");
@@ -132,8 +143,10 @@ public class DoorAreaCustomOpeners : TDFeature, ITDCustom
     [ContextMenu("Info")]
     void Info()
     {
-        Debug.Log($"Custom area door opener {name} / {areaId}:" +
-            $"{Doors.Count} doors, was here: {wasHere}. " +
+        var doors = Doors.ContainsKey(areaId) ? Doors[areaId].Count : 0;
+
+        Debug.Log($"Custom area door opener '{name}' Area {areaId}:" +
+            $"{doors} doors known, was here: {wasHere}. " +
             $"Opens for player({openForPlayer}), opens for enemy {openForEnemy}");
     }
 }
