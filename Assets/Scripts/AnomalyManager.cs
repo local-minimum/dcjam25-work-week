@@ -370,7 +370,14 @@ public class AnomalyManager : Singleton<AnomalyManager, AnomalyManager>, IOnLoad
             }
         } else
         {
-            _weekday = Weekday.Monday;
+            if (!SettingsMenu.EasyMode.Value)
+            {
+                _weekday = Weekday.Monday;
+            } else
+            {
+
+                _weekday = _weekday.PreviousDay(wrapWeek: false);
+            }
 
             _weekNumber++;
 

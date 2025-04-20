@@ -15,6 +15,29 @@ public enum Weekday { Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Su
 
 public static class WeekdayExtensions
 {
+    public static Weekday PreviousDay(this Weekday weekday, bool wrapWeek = true)
+    {
+        switch (weekday)
+        {
+            case Weekday.Monday:
+                return wrapWeek ? Weekday.Sunday : Weekday.Monday;
+            case Weekday.Tuesday:
+                return Weekday.Monday;
+            case Weekday.Wednesday:
+                return Weekday.Tuesday;
+            case Weekday.Thursday:
+                return Weekday.Wednesday;
+            case Weekday.Friday:
+                return Weekday.Thursday;
+            case Weekday.Saturday:
+                return Weekday.Friday;
+            case Weekday.Sunday:
+                return Weekday.Saturday;
+            default:
+                return Weekday.Monday;
+        }
+    }
+
     public static Weekday NextDay(this Weekday weekday)
     {
         switch (weekday)

@@ -756,7 +756,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  movementDuration: 0.3
+  movementDuration: 0.45
   fallDurationFactor: 0.5
   taxActivityStayDistance: 5
   checkActivityTransitionDistance: 3

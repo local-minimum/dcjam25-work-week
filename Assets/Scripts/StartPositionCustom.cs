@@ -29,6 +29,8 @@ public class StartPositionCustom : TDFeature, ITDCustom
 
     private void OnEnable()
     {
+        // Hopefully this is good enough place to ensure this isn't funky
+        Time.timeScale = 1f;
         GridEntity.OnPositionTransition += GridEntity_OnPositionTransition;
         ActiveOS.OnReleasePlayer += ReleasePlayer;
     }

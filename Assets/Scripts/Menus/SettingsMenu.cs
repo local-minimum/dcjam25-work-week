@@ -22,6 +22,12 @@ public class SettingsMenu : MonoBehaviour
     [SerializeField]
     Button InstantTransitionBtn;
 
+    [SerializeField]
+    Button EasymodeBtn;
+
+    [SerializeField]
+    Button NormalmodeBtn;
+
     [SerializeField, Header("Music")]
     Slider MusicVolume;
     [SerializeField]
@@ -36,6 +42,7 @@ public class SettingsMenu : MonoBehaviour
     Slider DialogueVolume;
     [SerializeField]
     TextMeshProUGUI DialogueMutedUI;
+
 
     bool showing;
 
@@ -71,6 +78,8 @@ public class SettingsMenu : MonoBehaviour
         SyncAudioUI(MixerGroup.Music, MusicVolume, MusicMutedUI);
         SyncAudioUI(MixerGroup.Effects, EffectsVolume, EffectsMutedUI);
         SyncAudioUI(MixerGroup.Dialogue, DialogueVolume, DialogueMutedUI);
+
+        SyncEasyModeButtons();
     }
 
     private void OnDisable()
@@ -168,5 +177,20 @@ public class SettingsMenu : MonoBehaviour
         {
             Debug.LogWarning($"SettingsMenu: Could not set {group} to {sliderValue} slider value");
         }
+    }
+
+    public static GameSettings.BoolSetting EasyMode => GameSettings.GetCustomBool("gameplay.easymode", false);
+
+    public void SetEasyMode(bool easymode)
+    {
+        EasyMode.Value = easymode;
+        SyncEasyModeButtons();
+    }
+
+    void SyncEasyModeButtons()
+    {
+        var easy = EasyMode.Value;
+        EasymodeBtn.interactable = !easy;
+        NormalmodeBtn.interactable = easy;
     }
 }

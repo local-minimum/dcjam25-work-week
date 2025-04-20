@@ -1,3 +1,4 @@
+using LMCore.IO;
 using LMCore.UI;
 using TMPro;
 using UnityEngine;
@@ -68,6 +69,12 @@ public class BBFight : MonoBehaviour
     {
         difficulty = BaseDifficulty;
         FightStatus = FightStatus.InProgress;
+
+        var keyHint = InputBindingsManager
+            .InstanceOrResource("InputBindingsManager")
+            .GetActiveActionHint(GamePlayAction.Interact);
+
+        crossfader.FadeOut(fadeMessage: $"{keyHint} to Dash");
     }
 
     private void OnEnable()
