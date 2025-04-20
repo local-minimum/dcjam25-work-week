@@ -66,7 +66,7 @@ public class SettingsMenu : MonoBehaviour
         GameSettings.InstantMovement.OnChange += InstantMovement_OnChange;
         InstantMovement_OnChange(GameSettings.InstantMovement.Value);
 
-        SyncVideoButtons();
+        SyncVideoButtons(Screen.fullScreen);
 
         SyncAudioUI(MixerGroup.Music, MusicVolume, MusicMutedUI);
         SyncAudioUI(MixerGroup.Effects, EffectsVolume, EffectsMutedUI);
@@ -93,17 +93,18 @@ public class SettingsMenu : MonoBehaviour
     {
         if (Screen.fullScreen) return;
         Screen.fullScreen = true;
+        SyncVideoButtons(true);
     }
 
     public void SetWindowed()
     {
         if (!Screen.fullScreen) return;
         Screen.fullScreen = false;
+        SyncVideoButtons(false);
     }
 
-    void SyncVideoButtons()
+    void SyncVideoButtons(bool fullscreen)
     {
-        bool fullscreen = Screen.fullScreen;
         WindowedBtn.interactable = fullscreen;
         FullscreenBtn.interactable = !fullscreen;
     }

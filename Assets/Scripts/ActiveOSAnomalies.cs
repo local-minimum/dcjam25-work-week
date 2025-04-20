@@ -9,6 +9,6 @@ public class ActiveOSAnomalies : MonoBehaviour
     public void LoadApp()
     {
         var anomalies = string.Join("\n\n", AnomalyManager.instance.GetCensuredAnomalies());
-        TextUI.text = $"\n\n{anomalies}";
+        TextUI.text = anomalies;
     }
 }
