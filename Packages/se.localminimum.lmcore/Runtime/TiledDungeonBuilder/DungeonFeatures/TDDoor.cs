@@ -70,6 +70,12 @@ namespace LMCore.TiledDungeon.DungeonFeatures
         [SerializeField]
         Animator anim;
 
+        [SerializeField, Header("Sounds")]
+        AudioSource speaker;
+
+        [SerializeField]
+        List<AudioClip> openSounds = new List<AudioClip>();
+
         [SerializeField, Header("Readers")]
         Image ReaderImageNorth;
 
@@ -496,6 +502,10 @@ namespace LMCore.TiledDungeon.DungeonFeatures
             if (transition == Transition.Opening) return;
             _activeTransition = Transition.Opening;
             anim.SetTrigger(OpenAnimation);
+            if (speaker != null)
+            {
+                speaker.PlayOneShot(openSounds.GetRandomElement());
+            }
             openingStart = Time.timeSinceLevelLoad;
 
             SyncImage(ReaderImageSouth, true, false);

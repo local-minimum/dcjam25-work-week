@@ -6,8 +6,12 @@ using LMCore.UI;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+public delegate void PauseDurationEvent(float time);
+
 public class MenusManager : Singleton<MenusManager, MenusManager>, IOnLoadSave
 {
+    public event PauseDurationEvent OnResumeGame;
+
     [SerializeField]
     PauseMenu pauseMenu;
 
@@ -87,8 +91,10 @@ public class MenusManager : Singleton<MenusManager, MenusManager>, IOnLoadSave
 
         if (Time.timeScale == 0 && stopTimeWhenPaused)
         {
+            var pauseDuration = Time.realtimeSinceStartup - showMenuTime;
             Time.timeScale = timeScale;
             timeScale = 0f;
+            OnResumeGame?.Invoke(pauseDuration);
         }
     }
 

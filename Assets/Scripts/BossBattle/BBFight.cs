@@ -16,6 +16,9 @@ public class BBFight : MonoBehaviour
     [SerializeField]
     AudioClip failMusic;
 
+    [SerializeField]
+    MenusManager pauseMenuManager;
+
     public static FightStatus FightStatus { get; set; } = FightStatus.None;
 
     public static int BaseDifficulty { get; set; } = 1;
@@ -34,6 +37,12 @@ public class BBFight : MonoBehaviour
     [SerializeField]
     float increaseDifficultyEvery = 10f;
 
+    [SerializeField]
+    float difficultyIncreaseDecay = 0.5f;
+
+    [SerializeField]
+    float minDifficultyIncreaseFreq = 2f; 
+
     float startTime;
     float nextDifficulty;
     bool started;
@@ -43,11 +52,16 @@ public class BBFight : MonoBehaviour
     float timeScalePerDifficulty = 0.25f;
 
     float Remaining =>
-        started ? survivalTime - (Time.timeSinceLevelLoad - startTime) : survivalTime;
+        started ? Mathf.Max(0, survivalTime - (Time.realtimeSinceStartup - startTime)) : survivalTime;
 
     void SyncCountdown()
     {
-        RemainingUI.text = $"Survive for {Remaining.ToString("##")}s";
+        var remaining = Remaining;
+        if (remaining <= 0)
+        {
+            RemainingUI.text = $"Survive for 0s";
+        }
+        RemainingUI.text = $"Survive for {remaining.ToString("##")}s";
     }
 
     private void Start()
@@ -61,22 +75,41 @@ public class BBFight : MonoBehaviour
         player.OnHealthChange += Player_OnHealthChange;
         BBFaceController.OnStartSpitting += BBFaceController_OnStartSpitting;
 
+        pauseMenuManager.OnResumeGame += PauseMenuManager_OnResumeGame;
+
         SyncCountdown();
     }
-
 
     private void OnDisable()
     {
         player.OnHealthChange -= Player_OnHealthChange;
         BBFaceController.OnStartSpitting -= BBFaceController_OnStartSpitting;
+        pauseMenuManager.OnResumeGame -= PauseMenuManager_OnResumeGame;
+    }
+
+    private void PauseMenuManager_OnResumeGame(float time)
+    {
+        nextDifficulty += time;
+        startTime += time;
     }
 
     private void BBFaceController_OnStartSpitting()
     {
         started = true;
-        startTime = Time.timeSinceLevelLoad;
-        nextDifficulty = startTime + increaseDifficultyEvery;
+        startTime = Time.realtimeSinceStartup;
+        ElevateDifficulty(false);
+    }
+
+    void ElevateDifficulty(bool elevate)
+    {
+        nextDifficulty = Time.realtimeSinceStartup + increaseDifficultyEvery;
+        if (elevate)
+        {
+            difficulty++;
+            increaseDifficultyEvery = Mathf.Max(minDifficultyIncreaseFreq, increaseDifficultyEvery - difficultyIncreaseDecay);
+        }
         Time.timeScale = 1f + (difficulty - 1) * timeScalePerDifficulty;
+        Debug.Log($"BBFight: Difficulty now at {difficulty}, next increase is {nextDifficulty} done every {increaseDifficultyEvery}");
     }
 
     private void Player_OnHealthChange(int health)
@@ -111,6 +144,8 @@ public class BBFight : MonoBehaviour
 
     private void Update()
     {
+        if (Time.timeScale == 0) return;
+
         if (started) SyncCountdown();
         if (Remaining <= 0f)
         {
@@ -124,14 +159,10 @@ public class BBFight : MonoBehaviour
             return;
         }
 
-        if (Time.timeSinceLevelLoad > nextDifficulty)
+        if (Time.realtimeSinceStartup > nextDifficulty)
         {
-
-            difficulty++;
+            ElevateDifficulty(true);
             OnChangeDifficulty?.Invoke(difficulty);
-            Time.timeScale = 1f + (difficulty - 1) * timeScalePerDifficulty;
-
-            nextDifficulty = Time.timeSinceLevelLoad + increaseDifficultyEvery;
         }
     }
 }

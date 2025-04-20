@@ -6352,10 +6352,13 @@ MonoBehaviour:
   speaker: {fileID: 1534069613}
   winMusic: {fileID: 8300000, guid: 85a037fb8e67d3946978d94fc5547a1c, type: 3}
   failMusic: {fileID: 8300000, guid: d72367cc95fcd6b48a50d757d72e8265, type: 3}
+  pauseMenuManager: {fileID: 1193478135}
   player: {fileID: 639530562}
   RemainingUI: {fileID: 118654947}
-  survivalTime: 45
+  survivalTime: 30
   increaseDifficultyEvery: 7
+  difficultyIncreaseDecay: 0.5
+  minDifficultyIncreaseFreq: 2
   crossfader: {fileID: 710145136}
 --- !u!4 &1556416419
 Transform:
