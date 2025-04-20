@@ -28,8 +28,9 @@ public class PauseMenu : AbsMenu
 
     public void ShowSettings()
     {
-        settings.gameObject.SetActive(true);
+        settings.Show();
         actionsButtons.SetActive(false);
+        Debug.Log($"PauseMenu: Showing settings {settings.gameObject.activeSelf} and hiding own buttons {actionsButtons.activeSelf}");
     }
 
     public void RegainFocus()

@@ -37,8 +37,17 @@ public class SettingsMenu : MonoBehaviour
     [SerializeField]
     TextMeshProUGUI DialogueMutedUI;
 
+    bool showing;
+
+    public void Show()
+    {
+        showing = true;
+        gameObject.SetActive(true);
+    }
+
     public void Back()
     {
+        showing = false;
         gameObject.SetActive(false);
         OnBack?.Invoke();
     }
@@ -46,13 +55,19 @@ public class SettingsMenu : MonoBehaviour
 
     private void Start()
     {
-        gameObject.SetActive(false);
+        if (!showing)
+        {
+            gameObject.SetActive(false);
+        }
     }
 
     private void OnEnable()
     {
         GameSettings.InstantMovement.OnChange += InstantMovement_OnChange;
         InstantMovement_OnChange(GameSettings.InstantMovement.Value);
+
+        SyncVideoButtons();
+
         SyncAudioUI(MixerGroup.Music, MusicVolume, MusicMutedUI);
         SyncAudioUI(MixerGroup.Effects, EffectsVolume, EffectsMutedUI);
         SyncAudioUI(MixerGroup.Dialogue, DialogueVolume, DialogueMutedUI);
