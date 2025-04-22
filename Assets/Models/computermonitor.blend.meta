@@ -7,6 +7,11 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
+      name: HotPanda
+    second: {fileID: 2100000, guid: 25a5097c6e344db45877a3d9633aa7c0, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
       name: Screen
     second: {fileID: 2100000, guid: e07aa366c45998046990cbd29d7a233c, type: 2}
   materials:
