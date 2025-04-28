@@ -112,22 +112,33 @@ namespace LMCore.EntitySM
         /// 
         /// Else active state is exited and the new state is entered
         /// </summary>
-        public void ForceState(StateType newStateType)
+        public void ForceState(StateType newStateType, bool allowNullState = false, bool emitEvents = true)
         {
             var newState = States.FirstOrDefault(s => s.State == newStateType);
 
-            if (newState == null)
+            if (newState == null && !allowNullState)
             {
                 Debug.LogError(PrefixLogMessage($"{ActiveState} wanted to transition to {newStateType}, but we don't know it"));
                 return;
             }
 
-            if (ActiveState == newState) return;
+            if (ActiveState == newState)
+            {
+                Debug.LogWarning(PrefixLogMessage($"Already was {newStateType} - {ActiveState}"));
+                return;
+            }
 
             //Taxing personality is done by 
-            ActiveState?.Exit();
+            if (ActiveState != null && emitEvents)
+            {
+                ActiveState.Exit();
+            }
             ActiveState = newState;
-            ActiveState.Enter();
+            if (ActiveState != null && emitEvents)
+            {
+                ActiveState.Enter();
+            }
+            Debug.Log($"New state is {ActiveState} ({ActiveState.State})");
         }
 
         /// <summary>

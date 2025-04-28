@@ -3,12 +3,11 @@ using LMCore.EntitySM.State;
 using LMCore.Extensions;
 using LMCore.IO;
 using LMCore.TiledDungeon.DungeonFeatures;
-using LMCore.TiledDungeon.Enemies;
 using LMCore.TiledDungeon.SaveLoad;
 using System.Linq;
 using UnityEngine;
 
-namespace LMCore.TiledDungeon
+namespace LMCore.TiledDungeon.Enemies
 {
     public class TDEnemyPatrolling : TDAbsEnemyBehaviour, IOnLoadSave
     {
@@ -20,6 +19,9 @@ namespace LMCore.TiledDungeon
 
         [SerializeField, Range(0f, 1f)]
         float fallDurationFactor = 0.5f;
+
+        [SerializeField]
+        float checkActivityEvery = 1.5f;
 
         #region SaveState
         bool Patrolling => HasTarget && enabled;
@@ -65,6 +67,7 @@ namespace LMCore.TiledDungeon
         private void Perception_OnDetectPlayer(GridEntity player)
         {
             Enemy.UpdateActivity();
+            nextUpdateActivity = Time.timeSinceLevelLoad + checkActivityEvery;
         }
 
         private void Update()
@@ -74,10 +77,15 @@ namespace LMCore.TiledDungeon
             var entity = Enemy.Entity;
             if (entity.Moving != MovementType.Stationary) return;
 
+            if (Time.timeSinceLevelLoad > nextUpdateActivity)
+            {
+                Enemy.UpdateActivity();
+                if (!enabled) return;
+            }
+
             if (entity.Coordinates == target.Coordinates)
             {
                 GetNextCheckpoint();
-                Enemy.UpdateActivity();
                 if (!Patrolling) return;
             }
 
@@ -106,6 +114,15 @@ namespace LMCore.TiledDungeon
                             target.Coordinates,
                             movementDuration,
                             prefixLogMessage: PrefixLogMessage);
+                    } else
+                    {
+                        Debug.LogWarning($"We got a dubious result where my coords {entity.Coordinates} equals {translation.Checkpoint.Coordinates} and " +
+                            $"we need to look {translation.TranslationHere} is same as my look direction {entity.LookDirection}");
+
+                        Debug.Log(path.Debug());
+                        entity.Coordinates = translation.Checkpoint.Coordinates;
+                        entity.LookDirection = translation.TranslationHere;
+                        entity.Sync();
                     }
                 }
                 else
@@ -117,11 +134,14 @@ namespace LMCore.TiledDungeon
                         movementDuration,
                         false);
                     Enemy.UpdateActivity();
+                    nextUpdateActivity = Time.timeSinceLevelLoad + checkActivityEvery;
                 }
             }
 
             Enemy.MayTaxStay = true;
         }
+
+        float nextUpdateActivity;
 
         void TrySwappingPatrolLoop()
         {
@@ -144,6 +164,7 @@ namespace LMCore.TiledDungeon
             {
                 Debug.LogError(PrefixLogMessage($"Didn't find any new target after {target} in direction {direction}"));
                 Enemy.UpdateActivity();
+                nextUpdateActivity = Time.timeSinceLevelLoad + checkActivityEvery;
             }
         }
 

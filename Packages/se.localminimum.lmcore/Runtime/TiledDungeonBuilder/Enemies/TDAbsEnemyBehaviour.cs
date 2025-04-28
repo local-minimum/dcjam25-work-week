@@ -121,6 +121,8 @@ namespace LMCore.TiledDungeon.Enemies
             {
                 Gizmos.color = n == 1f ? currentPathColor : Color.Lerp(oldColorPathColor, currentPathColor, i / n);
 
+                if (oldPath.Count == 0) continue;
+
                 var first = oldPath.First();
                 var node = dungeon[first.Checkpoint.Coordinates];
 
@@ -237,7 +239,11 @@ namespace LMCore.TiledDungeon.Enemies
 
             if ((strafe && movement.IsTranslation()) || movement == Movement.Forward)
             {
-                if (outcome == MovementOutcome.Refused || TDSafeZone.In(translationTarget)) return Movement.None;
+                if (outcome == MovementOutcome.Refused || TDSafeZone.In(translationTarget))
+                {
+                    Debug.LogWarning(prefixLogMessage($"{movement} refused because {outcome} or {translationTarget} in safe zone"));
+                    return Movement.None;
+                }
                 // if (prefixLogMessage != null) Debug.Log(prefixLogMessage("Moving forward"));
                 entity.MovementInterpreter.InvokeMovement(movement, movementDuration, easing);
                 return movement;
@@ -245,7 +251,11 @@ namespace LMCore.TiledDungeon.Enemies
 
             if (movement == Movement.Up || movement == Movement.Down)
             {
-                if (outcome == MovementOutcome.Refused || TDSafeZone.In(translationTarget)) return Movement.None;
+                if (outcome == MovementOutcome.Refused || TDSafeZone.In(translationTarget))
+                {
+                    Debug.LogWarning(prefixLogMessage($"{movement} refused because {outcome} or {translationTarget} in safe zone"));
+                    return Movement.None;
+                }
 
                 // if (prefixLogMessage != null) Debug.Log(prefixLogMessage($"Moving {movement}"));
                 entity.MovementInterpreter.InvokeMovement(movement, movementDuration, easing);
@@ -275,6 +285,8 @@ namespace LMCore.TiledDungeon.Enemies
                     Debug.LogError($"We have no movement based on needed direction {translationDirection} while looking {entity.LookDirection}");
                 }
             }
+
+            Debug.LogWarning(prefixLogMessage($"{movement} refused because {translationTarget} doesn't allow entry."));
             return Movement.None;
         }
     }

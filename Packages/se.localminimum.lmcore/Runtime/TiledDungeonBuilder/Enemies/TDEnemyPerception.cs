@@ -114,8 +114,19 @@ namespace LMCore.TiledDungeon.Enemies
             }
         }
 
+        private bool passingChecked;
         private bool _passing;
-        public override bool Passing => _passing;
+        public override bool Passing
+        {
+            get
+            {
+                if (_passing && OneTime)
+                {
+                    passingChecked = true;
+                }
+                return _passing;
+            }
+        }
 
         private bool CheckLOS(GridEntity target)
         {
@@ -226,6 +237,15 @@ namespace LMCore.TiledDungeon.Enemies
 
             OnDetectPlayer?.Invoke(player);
             OnDetection?.Invoke(player);
+        }
+
+        private void Update()
+        {
+            if (passingChecked && OneTime)
+            {
+                passingChecked = false;
+                enabled = false;
+            }
         }
     }
 }

@@ -14,7 +14,20 @@ public class BossBattleTrigger : AbsAnomaly, IOnLoadSave
     [SerializeField]
     float maxDistance = 10f;
 
-    bool ManagerGroggy => BossBattleManager.instance.GroggyBoss;
+    bool ManagerGroggy
+    {
+        get
+        {
+            var manager = Manager;
+            if (manager != null)
+            {
+                var criteria = manager.GetComponentInChildren<CountDownCriteria>(true);
+                return criteria != null && criteria.enabled;
+            }
+
+            return false;
+        }
+    }
 
     GridEntity Player => Dungeon.Player;
     GridEntity Manager => Dungeon.GetEntity("Manager");
@@ -22,20 +35,15 @@ public class BossBattleTrigger : AbsAnomaly, IOnLoadSave
     protected override void OnEnableExtra()
     {
         GridEntity.OnPositionTransition += GridEntity_OnPositionTransition;
-        BossBattleManager.OnMangerNotGroggy += BossBattleManager_OnMangerNotGroggy;
+        BossBattleManager.OnGroggyManger += SetManagerGroggyPatrolling;
     }
-
 
     protected override void OnDisableExtra()
     {
         GridEntity.OnPositionTransition -= GridEntity_OnPositionTransition;
-        BossBattleManager.OnMangerNotGroggy -= BossBattleManager_OnMangerNotGroggy;
+        BossBattleManager.OnGroggyManger -= SetManagerGroggyPatrolling;
     }
 
-    private void BossBattleManager_OnMangerNotGroggy()
-    {
-        RestoreManger();
-    }
 
     bool FallbackManagerDanger()
     {
@@ -109,13 +117,21 @@ public class BossBattleTrigger : AbsAnomaly, IOnLoadSave
         Manager.GetComponent<TDDangerZone>().enabled = false;
     }
 
-    void RestoreManger()
+    void SetManagerGroggyPatrolling()
     {
         Manager.transform.rotation = managerStartLook;
         var enemy = Manager.GetComponent<TDEnemy>();
         enemy.Paused = false;
-        enemy.ForceActivity(LMCore.EntitySM.State.StateType.Guarding);
-        Manager.GetComponent<TDDangerZone>().enabled = true;
+        // Use count down criteria instead
+        var criteria = enemy.GetComponentInChildren<CountDownCriteria>(true);
+        if (criteria != null)
+        {
+            criteria.Restore();
+            Debug.Log("BBTrigger: Patroling duration critera restored");
+        }
+        enemy.ForceActivity(LMCore.EntitySM.State.StateType.Patrolling);
+        // Manager.GetComponent<TDDangerZone>().enabled = false;
+        Debug.Log($"BBTrigger: Forcing {enemy.name} to patrol");
     }
 
     void DisablePlayer()
@@ -146,7 +162,7 @@ public class BossBattleTrigger : AbsAnomaly, IOnLoadSave
 
     void EnterBossBattle()
     {
-        Debug.Log("BBTrigger: Start Conflict!");
+        Debug.Log($"BBTrigger: Start Conflict with {Manager.name}, groggy {ManagerGroggy}!");
         DisablePlayer();
 
         if (Manager != null)
@@ -174,10 +190,10 @@ public class BossBattleTrigger : AbsAnomaly, IOnLoadSave
             BossBattleManager.SafeInstance.SetBattleStartedAndSave();
         }
 
-        if (!lookEasing) TriggerBossGame();
+        if (!lookEasing) LoadManagerFightMiniGame();
     }
 
-    void TriggerBossGame()
+    void LoadManagerFightMiniGame()
     {
         lookEasing = false;
 
@@ -217,7 +233,7 @@ public class BossBattleTrigger : AbsAnomaly, IOnLoadSave
             if (progress == 1f)
             {
                 Debug.Log($"BBTrigger: Look easing done, trigger boss fight");
-                TriggerBossGame();
+                LoadManagerFightMiniGame();
             }
         }
     }
@@ -231,7 +247,14 @@ public class BossBattleTrigger : AbsAnomaly, IOnLoadSave
     {
         if (ManagerGroggy)
         {
-            DisableManager();
+            SetManagerGroggyPatrolling();
         }
     }
+
+    [ContextMenu("Info")]
+    void Info()
+    {
+        Debug.Log($"BBTrigger: Groggy {ManagerGroggy}, InZone {TDDangerZone.In(Player)}, Fallback {FallbackManagerDanger()}");
+    }
+
 }

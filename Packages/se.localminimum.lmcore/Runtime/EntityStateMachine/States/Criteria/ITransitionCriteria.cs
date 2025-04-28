@@ -2,6 +2,8 @@
 {
     public interface ITransitionCriteria
     {
+        public bool Enabled { get; }
+
         /// <summary>
         /// If the current state of the personality satisfies the criteria
         /// </summary>

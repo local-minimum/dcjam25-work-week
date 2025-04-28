@@ -369,7 +369,7 @@ namespace LMCore.TiledDungeon.Enemies
         /// </summary>
         public bool MayTaxStay { get; set; }
 
-        ActivityState activeState;
+        ActivityState activeState => ActivityManager.ActiveState;
         #endregion
 
         private void ActivityState_OnStayState(ActivityManager manager, ActivityState state)
@@ -378,7 +378,6 @@ namespace LMCore.TiledDungeon.Enemies
 
             if (state != activeState)
             {
-                activeState = state;
                 OnChangeState?.Invoke(state.State);
             }
 
@@ -408,9 +407,10 @@ namespace LMCore.TiledDungeon.Enemies
             {
                 activeState.enabled = false;
                 activeState.Exit();
-                activeState = null;
                 OnChangeState?.Invoke(StateType.None);
             }
+
+            ActivityManager.enabled = false;
 
             foreach (var behaviour in behaviours)
             {
@@ -462,7 +462,7 @@ namespace LMCore.TiledDungeon.Enemies
                 return;
             }
 
-            // Debug.Log(PrefixLogMessage("Checking for new state"));
+            Debug.Log(PrefixLogMessage("Checking for new state"));
             ActivityManager.CheckTransition(avoidActive);
         }
 
@@ -564,7 +564,6 @@ namespace LMCore.TiledDungeon.Enemies
             if (manager != ActivityManager && Stats.IsAlive) return;
 
             Debug.Log(PrefixLogMessage($"Getting state {state.State}"));
-            activeState = state;
             SynchActiveStateBehavior();
             OnChangeState?.Invoke(state.State);
         }
@@ -752,31 +751,17 @@ namespace LMCore.TiledDungeon.Enemies
                 // Reinstate the active state from save info
                 if (enemySave.activeState == null)
                 {
-                    activeState = null;
+                    ActivityManager.ForceState(StateType.None, true, false);
                     Debug.LogWarning(PrefixLogMessage("Entity loads into no active state"));
                 }
                 else
                 {
-                    var states = GetComponentsInChildren<ActivityState>()
-                        .Where(s => enemySave.activeStateType == StateType.None || s.State == enemySave.activeStateType)
-                        .ToList();
+                    ActivityManager.ForceState(enemySave.activeStateType, emitEvents: false);
 
-                    if (states.Count == 0)
+                    if (activeState != null)
                     {
-                        Debug.LogError(PrefixLogMessage($"Could not load enemy into {enemySave.activeStateType} because I don't have one"));
+                        activeState.Load(true, enemySave.activeStateActiveDuration);
                     }
-                    else if (states.Count == 1)
-                    {
-                        activeState = states[0];
-                    }
-                    else
-                    {
-                        activeState = states
-                             .OrderBy(s => s.name.LevenshteinDistance(enemySave.activeState))
-                             .First();
-                    }
-
-                    activeState?.Load(true, enemySave.activeStateActiveDuration);
                     SynchActiveStateBehavior(false);
                     OnChangeState?.Invoke(activeState.State);
                 }

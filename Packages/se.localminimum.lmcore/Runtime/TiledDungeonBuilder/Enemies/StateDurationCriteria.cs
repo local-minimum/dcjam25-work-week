@@ -14,7 +14,26 @@ namespace LMCore.TiledDungeon.Enemies
 
         float duration;
 
-        public override bool Passing => isActive && state.ActiveDuration > duration;
+        bool passingChecked;
+        public override bool Passing {
+            get
+            {
+                var passing = isActive && state.ActiveDuration > duration;
+                if (OneTime && passing)
+                {
+                    Debug.Log($"DurationCriteria {name}: Onetime passing check done");
+                    passingChecked = true;
+                }
+                return passing;
+            }
+        }
+
+        public void Restore()
+        {
+            isActive = false;
+            passingChecked = false;
+            enabled = true;
+        }
 
         ActivityState state;
         bool isActive;
@@ -36,6 +55,11 @@ namespace LMCore.TiledDungeon.Enemies
                 {
                     duration = Random.Range(minDuration, maxDuration);
                     isActive = true;
+                } else if (OneTime && passingChecked)
+                {
+                    passingChecked = false;
+                    enabled = false;
+                    Debug.Log($"DurationCriteria {name}: Used up");
                 }
             } else
             {

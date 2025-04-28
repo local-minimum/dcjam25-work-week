@@ -21,6 +21,8 @@ namespace LMCore.EntitySM.State
             {
                 for (int i = 0, l = _CustomCriteria.Count; i < l; i++)
                 {
+                    if (!_CustomCriteria[i].Enabled) continue;
+
                     yield return _CustomCriteria[i];
                 }
             }

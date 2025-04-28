@@ -27,6 +27,10 @@ namespace LMCore.EntitySM.State.Critera
         public void Clear()
         {
             repititions = 0;
+            if (OneTime)
+            {
+                enabled = false;
+            }
         }
 
         void SetNextTick()

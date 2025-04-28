@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1524756389208240137}
   - component: {fileID: 4948443189127103716}
+  - component: {fileID: 9033530060891763998}
   m_Layer: 0
   m_Name: 'state: Loitering'
   m_TagString: Untagged
@@ -63,9 +64,42 @@ MonoBehaviour:
   Transitions:
   - _Target: 7
     _CustomCriteria:
-    - Weight: 5
+    - Weight: 10
+      criteria: {fileID: 1638064737645386510}
+      Inverted: 0
+    - Weight: 10
       criteria: {fileID: 338529799072279607}
       Inverted: 0
+--- !u!114 &9033530060891763998
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1196539419791325743}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 98664e1657e1f6845af1b5926477d068, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enterStateTrigger: Guard
+  exitStateTrigger: 
+  translateAnimTrigger: 
+  rotateAnimTrigger: 
+  noMovementAnimTrigger: 
+  translationEasing:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  rotationEasing:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  checkActivityEvery: 1
 --- !u!1 &1227010189801669717
 GameObject:
   m_ObjectHideFlags: 0
@@ -131,14 +165,17 @@ MonoBehaviour:
   Transitions:
   - _Target: 7
     _CustomCriteria:
-    - Weight: 5
-      criteria: {fileID: 0}
+    - Weight: 10
+      criteria: {fileID: 1638064737645386510}
+      Inverted: 0
+    - Weight: 10
+      criteria: {fileID: 338529799072279607}
       Inverted: 0
   - _Target: 1
     _CustomCriteria:
-    - Weight: 0.1
+    - Weight: 1
       criteria: {fileID: 7470791465135871738}
-      Inverted: 0
+      Inverted: 1
 --- !u!114 &2182325134861639195
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -218,6 +255,7 @@ Transform:
   - {fileID: 2635128972756630570}
   - {fileID: 5716816027125432472}
   - {fileID: 4041235335724565009}
+  - {fileID: 2514098783127787720}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &8646123087200770544
@@ -418,6 +456,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ce557aa50762264ba3d78551f9df6ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  OneTime: 0
   decreaseOverBySeconds: 0.5
   increaseResetsTickTime: 1
   threshold: 3
@@ -465,6 +504,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 750b9fa8b6506bc44a8a3c287921e794, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  OneTime: 0
   maxDistance: 6
   requireLOS: 1
   LOSFilter:
@@ -716,17 +756,11 @@ MonoBehaviour:
   Transitions:
   - _Target: 7
     _CustomCriteria:
-    - Weight: 5
-      criteria: {fileID: 338529799072279607}
+    - Weight: 10
+      criteria: {fileID: 1638064737645386510}
       Inverted: 0
   - _Target: 1
-    _CustomCriteria:
-    - Weight: 5
-      criteria: {fileID: 1817409870007732169}
-      Inverted: 0
-    - Weight: 5
-      criteria: {fileID: 338529799072279607}
-      Inverted: 0
+    _CustomCriteria: []
 --- !u!114 &4970551743712669383
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -816,6 +850,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: efc28f47eefe2c64390376a4260b570d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  OneTime: 0
   minDuration: 5
   maxDuration: 8
 --- !u!1 &4926194037669568966
@@ -849,6 +884,53 @@ Transform:
   m_Children: []
   m_Father: {fileID: 8381589432820477335}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &8572580936704016968
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2514098783127787720}
+  - component: {fileID: 1638064737645386510}
+  m_Layer: 0
+  m_Name: Post Fight Countdown Criteria
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2514098783127787720
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8572580936704016968}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8381589432820477335}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1638064737645386510
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8572580936704016968}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9df879ddba177b741a2066ed44231a36, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OneTime: 1
+  minDuration: 20
+  maxDuration: 30
 --- !u!1 &8762065281388495662
 GameObject:
   m_ObjectHideFlags: 0
@@ -914,7 +996,10 @@ MonoBehaviour:
   Transitions:
   - _Target: 7
     _CustomCriteria:
-    - Weight: 5
+    - Weight: 10
+      criteria: {fileID: 1638064737645386510}
+      Inverted: 0
+    - Weight: 10
       criteria: {fileID: 338529799072279607}
       Inverted: 0
 --- !u!114 &2706112413775401808
@@ -949,6 +1034,7 @@ MonoBehaviour:
   askPathManagerAtEndOfPath: 1
   movementDuration: 0.5
   fallDurationFactor: 0.5
+  checkActivityEvery: 1.5
 --- !u!114 &8629522697431868852
 MonoBehaviour:
   m_ObjectHideFlags: 0

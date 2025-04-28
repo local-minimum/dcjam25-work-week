@@ -4,6 +4,9 @@ namespace LMCore.EntitySM.State.Critera
 {
     public abstract class AbsCustomPassingCriteria : MonoBehaviour
     {
+        [SerializeField, Tooltip("Disables itself after use")]
+        protected bool OneTime = false;
+
         public abstract bool Passing { get; }
     }
 
@@ -21,6 +24,8 @@ namespace LMCore.EntitySM.State.Critera
 
         [SerializeField, Tooltip("Make passing failing and failing passing")]
         bool Inverted = false;
+
+        public bool Enabled => criteria == null ? false : criteria.enabled;
 
         public bool Permissable(Personality personality, out float weight)
         {
