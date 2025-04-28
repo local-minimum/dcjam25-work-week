@@ -49,4 +49,10 @@ public class BBRoom : MonoBehaviour
     {
         gameObject.SetActive(false);
     }
+
+    [ContextMenu("Info")]
+    void Info()
+    {
+        Debug.Log($"BBRoom: {entry.transform.position} -> {exit.transform.position}");
+    }
 }

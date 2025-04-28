@@ -3245,8 +3245,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   topRooms:
   - {fileID: 7140396370801863427, guid: 4f302556a3e8d7b40b6b30b821133f98, type: 3}
+  - {fileID: 6481014963125471357, guid: e08ce746d16e9a14f886809819d32d03, type: 3}
   bottomRooms:
   - {fileID: 216984134025401041, guid: 19f893f3d375d8041ac3c1fe026f4220, type: 3}
+  - {fileID: 29483395702039568, guid: dd5fafba69736504681da50609400f52, type: 3}
 --- !u!4 &714596035
 Transform:
   m_ObjectHideFlags: 0
