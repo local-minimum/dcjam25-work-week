@@ -10,8 +10,15 @@ public class MirrorCamera : MonoBehaviour
     [SerializeField]
     Renderer mirror;
 
+    Vector3 up;
+    bool recordedUp;
+
     private void OnEnable()
     {
+        if (!recordedUp)
+        {
+            up = cameraTransform.up;
+        }
         GridEntity.OnPositionTransition += GridEntity_OnPositionTransition;
     }
 
@@ -85,16 +92,47 @@ public class MirrorCamera : MonoBehaviour
         return limit1 + Mathf.Clamp01(t) * lineVector;
     }
 
+    bool grabbedInitialPicture;
+    bool disableAfterGrab;
+
+    void EnsureGrabbedPicture()
+    {
+        if (!grabbedInitialPicture && cameraTransform.GetComponent<Camera>().enabled == false)
+        {
+            disableAfterGrab = true;
+            cameraTransform.GetComponent<Camera>().enabled = true;
+        } else if (disableAfterGrab)
+        {
+            if (grabbedInitialPicture)
+            {
+                disableAfterGrab = false;
+                cameraTransform.GetComponent<Camera>().enabled = false;
+            }
+            grabbedInitialPicture = true;
+        }
+    }
+
     private void LateUpdate()
     {
+        EnsureGrabbedPicture();
+
         if (sentinel != null && sentinel.VisibleToPlayer && null != mirror && null != entityCamera)
         {
+            /*
             //Invert y rotation
             var rotation = 180 - entityCamera.transform.eulerAngles.y;
             var myEulers = transform.eulerAngles;
             myEulers.y = rotation;
             transform.eulerAngles = myEulers;
+            */
 
+            var mirrorPos = mirror.transform.position;
+            mirrorPos.y = cameraTransform.position.y;
+            var offset = mirrorPos - entityCamera.transform.position;
+            // Assuming camera is sliding along x axis
+            offset.z *= -1f;
+            offset.y *= -1f;
+            cameraTransform.LookAt(cameraTransform.position + offset, up);
 
             //Approximate view angle
             var mirrorOnSlide = ClosestPoint(minPosition.position, maxPosition.position, mirror.transform.position);
@@ -105,17 +143,19 @@ public class MirrorCamera : MonoBehaviour
 
             if (lowPt == highPt)
             {
-                transform.position = lowPt;
-            } else if (lowPt == mirrorOnSlide)
+                cameraTransform.position = lowPt;
+            }
+            else if (lowPt == mirrorOnSlide)
             {
                 var d = (highPt - mirrorOnSlide).magnitude;
                 var m = (mirrorOnSlide - maxPosition.position).magnitude;
-                transform.position = Vector3.Lerp(mirrorOnSlide, maxPosition.position, d / m);
-            } else
+                cameraTransform.position = Vector3.Lerp(mirrorOnSlide, maxPosition.position, d / m);
+            }
+            else
             {
                 var d = (lowPt - mirrorOnSlide).magnitude;
                 var m = (mirrorOnSlide - minPosition.position).magnitude;
-                transform.position = Vector3.Lerp(mirrorOnSlide, minPosition.position, d / m);
+                cameraTransform.position = Vector3.Lerp(mirrorOnSlide, minPosition.position, d / m);
             }
         }
     }

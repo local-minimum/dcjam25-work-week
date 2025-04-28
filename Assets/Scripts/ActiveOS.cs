@@ -1,4 +1,5 @@
 using LMCore.Extensions;
+using LMCore.IO;
 using LMCore.UI;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +8,7 @@ using UnityEngine;
 
 public delegate void ReleasePlayerEvent();
 
-public class ActiveOS : MonoBehaviour
+public class ActiveOS : MonoBehaviour, IOnLoadSave
 {
     public static event ReleasePlayerEvent OnReleasePlayer;
     
@@ -30,24 +31,21 @@ public class ActiveOS : MonoBehaviour
 
     private void OnEnable()
     {
-        AnomalyManager.OnSetDay += AnomalyManager_OnSetDay;
-        StartPositionCustom.OnCapturePlayer += StartPositionCustom_OnCapturePlayer;
-        StartPositionCustom.OnReleasePlayer += StartPositionCustom_OnReleasePlayer;
+        AnomalyManager.OnSetDay += SetDay;
+        StartPositionCustom.OnCapturePlayer += EnableOS;
+        StartPositionCustom.OnReleasePlayer += DisableOS;
     }
 
     private void OnDisable()
     {
-        AnomalyManager.OnSetDay += AnomalyManager_OnSetDay;
-        StartPositionCustom.OnCapturePlayer -= StartPositionCustom_OnCapturePlayer;
-        StartPositionCustom.OnReleasePlayer -= StartPositionCustom_OnReleasePlayer;
+        AnomalyManager.OnSetDay += SetDay;
+        StartPositionCustom.OnCapturePlayer -= EnableOS;
+        StartPositionCustom.OnReleasePlayer -= DisableOS;
     }
 
-    bool showPointer;
-
-    private void StartPositionCustom_OnReleasePlayer(LMCore.Crawler.GridEntity player)
+    private void DisableOS(LMCore.Crawler.GridEntity player)
     {
         Debug.Log("ActiveOS: Disabled");
-        showPointer = false;
         pointer.enabled = false;
         Cursor.visible = false;
         osActive = false;
@@ -55,10 +53,9 @@ public class ActiveOS : MonoBehaviour
         transform.HideAllChildren();
     }
 
-    private void StartPositionCustom_OnCapturePlayer(LMCore.Crawler.GridEntity player)
+    private void EnableOS(LMCore.Crawler.GridEntity player)
     {
         Debug.Log("ActiveOS: Enabled");
-        showPointer = true;
         pointer.enabled = true;
         osActive = true;
         osCam.gameObject.SetActive(true);
@@ -69,18 +66,27 @@ public class ActiveOS : MonoBehaviour
             foreach (var launcher in hiddenLaunchers)
             {
                 launcher.gameObject.SetActive(true);
+                if (launcher.AutoStart)
+                {
+                    launcher.OpenApp();
+                }
+            }
+        } else
+        {
+            foreach (var launcher in hiddenLaunchers)
+            {
+                launcher.gameObject.SetActive(false);
+                launcher.CloseApp();
             }
         }
     }
 
     private void Start()
     {
-        Debug.Log("ActiveOS: Start");
-        AnomalyManager_OnSetDay(AnomalyManager.instance.Weekday);
-        pointer.enabled = showPointer;
+        SetDay(AnomalyManager.instance.Weekday);
     }
 
-    private void AnomalyManager_OnSetDay(Weekday day)
+    private void SetDay(Weekday day)
     {
         DayField.text = day.ToString();
     }
@@ -110,5 +116,13 @@ public class ActiveOS : MonoBehaviour
         }
         var firstOverlay = overlays.Min(o => o.GetSiblingIndex());
         app.transform.SetSiblingIndex(Mathf.Min(firstOverlay - 1));
+    }
+
+    public int OnLoadPriority => 1;
+
+    public void OnLoad<T>(T save) where T : new()
+    {
+        SetDay(AnomalyManager.instance.Weekday);
+        DisableOS(null);
     }
 }

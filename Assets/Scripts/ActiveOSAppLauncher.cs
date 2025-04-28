@@ -7,22 +7,25 @@ public class ActiveOSAppLauncher : MonoBehaviour
 
     [SerializeField]
     bool autoStart;
+    public bool AutoStart => autoStart;
 
     public void ClickLauncher()
     {
-        app.OpenApp();
+        OpenApp();
     }
-
 
     private void Start()
     {
         if (autoStart)
         {
-            app.OpenApp();
+            OpenApp();
         } else
         {
-            app.CloseApp();
+            CloseApp();
         }
     }
 
+    public void OpenApp() => app.OpenApp();
+
+    public void CloseApp() => app.CloseApp();
 }
