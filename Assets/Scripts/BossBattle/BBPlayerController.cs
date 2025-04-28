@@ -3,12 +3,21 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+public delegate void PlayerReadyEvent();
+
 public delegate void BBPlayerHealthEvent(int health);
 
 public class BBPlayerController : MonoBehaviour
 {
+    public event PlayerReadyEvent OnPlayerReady;
     public event BBPlayerHealthEvent OnHealthChange;
 
+    [SerializeField]
+    float initialNoInputTime = 1f;
+
+    [SerializeField]
+    BBInfo info;
+    
     [SerializeField]
     AudioSource speaker;
 
@@ -81,6 +90,8 @@ public class BBPlayerController : MonoBehaviour
 
     void HandleWalk(InputAction.CallbackContext context, string cardinal)
     {
+        if (Time.timeSinceLevelLoad < initialNoInputTime || info.gameObject.activeSelf) return;
+
         if (context.performed)
         {
             anim.SetTrigger(cardinal);
@@ -146,6 +157,18 @@ public class BBPlayerController : MonoBehaviour
 
     public void Dash(InputAction.CallbackContext context)
     {
+        if (Time.timeSinceLevelLoad < initialNoInputTime) return;
+
+        if (info.gameObject.activeSelf)
+        {
+            if (context.performed)
+            {
+                info.gameObject.SetActive(false);
+                OnPlayerReady?.Invoke();
+            }
+            return;
+        }
+
         if (!context.performed || Dashing || Time.timeSinceLevelLoad < dashTimeThreshold)
         {
             return;
@@ -200,11 +223,11 @@ public class BBPlayerController : MonoBehaviour
             OnHealthChange?.Invoke(Health);
         }
 
-        if (Dashing || Time.timeSinceLevelLoad < invulnUntil) return;
+        if (Dashing || Time.realtimeSinceStartup < invulnUntil) return;
 
         if (collision.gameObject.CompareTag("Letter"))
         {
-            invulnUntil = Time.timeSinceLevelLoad + invulnDuration;
+            invulnUntil = Time.realtimeSinceStartup + invulnDuration;
             Health = Mathf.Max(0, Health - 1);
             if (HurtSounds.Count > 0)
             {

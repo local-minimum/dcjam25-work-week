@@ -74,7 +74,7 @@ public class BBFight : MonoBehaviour
             .InstanceOrResource("InputBindingsManager")
             .GetActiveActionHint(GamePlayAction.Interact);
 
-        crossfader.FadeOut(fadeMessage: $"{keyHint} to Dash");
+        crossfader.FadeOut(); 
     }
 
     private void OnEnable()

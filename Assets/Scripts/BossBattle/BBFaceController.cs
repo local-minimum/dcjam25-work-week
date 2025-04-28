@@ -10,6 +10,9 @@ public class BBFaceController : MonoBehaviour
     public static event StartSpittingEvent OnStartSpitting;
 
     [SerializeField]
+    BBPlayerController player;
+
+    [SerializeField]
     AudioSource speaker;
 
     [SerializeField]
@@ -92,15 +95,29 @@ public class BBFaceController : MonoBehaviour
         face.localPosition = pos;
     }
 
-    private void Start()
+    private void OnEnable()
+    {
+        player.OnPlayerReady += Player_OnPlayerReady;
+    }
+
+    private void OnDisable()
+    {
+        player.OnPlayerReady -= Player_OnPlayerReady;
+    }
+
+    bool started = false;
+    private void Player_OnPlayerReady()
     {
         opening = true;
         mouthDuration = mouthOpenDuration;
         mouthStart = nextSpit - mouthDuration;
+        started = true;
     }
 
     private void Update()
     {
+        if (!started) return;
+
         if (sliding)
         {
             yPosition = Mathf.Clamp01(yPosition + slideSpeed * slideSpeedDirection * Time.deltaTime);
