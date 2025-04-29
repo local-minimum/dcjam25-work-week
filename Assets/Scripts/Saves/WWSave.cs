@@ -66,6 +66,7 @@ public class WWSave : GameSave
 {
     public AnomalyManager.AnomalyManagerSaveData anomalies = new AnomalyManager.AnomalyManagerSaveData();
     public BossBattleSave battle = new BossBattleSave();
+    public List<string> visitedRegions = new List<string>();
 
     public WWSave(GameSave save)
     {
