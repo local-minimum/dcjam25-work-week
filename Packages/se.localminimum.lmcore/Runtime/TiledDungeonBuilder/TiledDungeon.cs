@@ -242,6 +242,26 @@ namespace LMCore.TiledDungeon
             return config;
         }
 
+        bool _noElevationMap;
+        bool _noElevationMapInited;
+
+        public Direction[] AllDirections
+        {
+            get
+            {
+                if (!_noElevationMapInited)
+                {
+
+                    _noElevationMap = map
+                        .FindInLayers(l => l.CustomProperties.Int(TiledConfiguration.instance.LayerElevationKey))
+                        .ToHashSet()
+                        .Count() == 1;
+                    _noElevationMapInited = true;
+                }
+                return _noElevationMap ? DirectionExtensions.AllPlanarDirections : DirectionExtensions.AllDirections;
+            }
+        }
+
         Dictionary<Vector3Int, TDNodeConfig> nodeConfigurations = new Dictionary<Vector3Int, TDNodeConfig>();
 
         public TDNodeConfig GetNodeConfig(Vector3Int coordinates, bool warnMissingAboveNode = true)
@@ -485,6 +505,8 @@ namespace LMCore.TiledDungeon
             var startCheckpoint = new PathCheckpoint() { Anchor = entity.AnchorDirection, Coordinates = start };
             seenQueue.Enqueue(startCheckpoint);
 
+            var allDirections = AllDirections;
+
             while (seenQueue.Count > 0)
             {
                 var checkpoint = seenQueue.Dequeue();
@@ -513,8 +535,10 @@ namespace LMCore.TiledDungeon
                     continue;
                 }
 
-                foreach (var direction in DirectionExtensions.AllDirections)
+                for (int i = 0; i < allDirections.Length; i++) 
                 {
+                    var direction = allDirections[i];
+
                     // If we are not falling or flying, lets check abilities if the anchor is allowed to us
                     var anchor = node.GetAnchor(checkpoint.Anchor);
                     if (checkpoint.Anchor != Direction.None && (

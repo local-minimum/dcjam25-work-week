@@ -1,4 +1,3 @@
-using LMCore.TiledDungeon.Enemies;
 using UnityEngine;
 
 namespace LMCore.TiledDungeon.Enemies
@@ -19,7 +18,7 @@ namespace LMCore.TiledDungeon.Enemies
         {
             if (Time.timeSinceLevelLoad > nextCheck)
             {
-                nextCheck = Time.timeSinceLevelLoad + nextCheck;
+                nextCheck = Time.timeSinceLevelLoad + checkActivityEvery;
                 Enemy.UpdateActivity();
             }
         }

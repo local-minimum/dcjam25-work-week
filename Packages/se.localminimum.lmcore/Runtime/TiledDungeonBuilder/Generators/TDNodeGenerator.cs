@@ -1302,6 +1302,20 @@ namespace LMCore.TiledDungeon
             }
         }
 
+        public static void ConfigureLevelRegions(TDNode node, TDNodeConfig config)
+        {
+            foreach (var props in config.GetObjectProps(o => o.Type == TiledConfiguration.instance.ObjRegionClass))
+            {
+                if (props == null) continue;
+
+                var regionId = props.String(TiledConfiguration.instance.ObjIdKey);
+                if (regionId == null) continue;
+
+                var region = node.gameObject.AddComponent<LevelRegion>();
+                region.Configure(regionId);
+            }
+        }
+
         public static void Reset()
         {
             SpawnedEnemies.Clear();
@@ -1349,6 +1363,7 @@ namespace LMCore.TiledDungeon
             ConfigureCheckpointsAndAreaMarkers(node.gameObject, config);
             ConfigureSafeZones(node, config);
             ConfigureCustom(node, config);
+            ConfigureLevelRegions(node, config);
 
             node.Log("Generated", Debug.Log);
         }

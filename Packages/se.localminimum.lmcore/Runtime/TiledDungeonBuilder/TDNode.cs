@@ -663,7 +663,7 @@ namespace LMCore.TiledDungeon
             }
 
             // We don't push up if we don't have to but if we can push down we do
-            foreach (var checkDirection in DirectionExtensions
+            foreach (var checkDirection in Dungeon 
                 .AllDirections
                 .OrderBy(d => d == pushDirection ? 0 : 1)
                 .ThenBy(d => d == Direction.Up ? 1 : 0)

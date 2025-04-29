@@ -89,6 +89,7 @@ namespace LMCore.TiledDungeon
         public string ObjPassivePlatformClass = "PassivePlatform";
         public string ObjContainerClass = "Container";
         public string ObjVariantStyleKey = "Style";
+        public string ObjRegionClass = "Region";
         public string ObjGroupKey = "Group";
         public string ObjManagedByGroupKey = "ManagedByGroup";
         public string ObjAllowPlayerInteractions = "AllowPlayerInteractions";

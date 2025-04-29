@@ -24,14 +24,14 @@
         },
         "C:/Users/Admin/Documents/Unity/untitled-dungeon-crawler/Assets/Tiled/DemoLevel.tmx": {
             "expandedGroupLayers": [
-                7,
-                9
+                9,
+                7
             ],
             "expandedObjectLayers": [
-                14,
-                7,
                 9,
-                13
+                13,
+                7,
+                14
             ],
             "scale": 0.33,
             "selectedLayer": 9,
@@ -48,10 +48,10 @@
             "expandedObjectLayers": [
                 12,
                 11,
+                22,
                 26,
-                2,
                 43,
-                22
+                2
             ],
             "scale": 1.5,
             "selectedLayer": 24,
@@ -73,14 +73,14 @@
                 2
             ],
             "expandedObjectLayers": [
-                2,
-                22
+                22,
+                2
             ],
             "scale": 3,
             "selectedLayer": 6,
             "viewCenter": {
-                "x": 488.33333333333326,
-                "y": 525.8333333333333
+                "x": 512.1666666666666,
+                "y": 511.83333333333326
             }
         },
         "Rules/AutomappingDungeons.tmx": {

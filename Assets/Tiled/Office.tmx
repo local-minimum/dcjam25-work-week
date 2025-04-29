@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="32" height="32" tilewidth="32" tileheight="32" infinite="0" nextlayerid="46" nextobjectid="113">
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="32" height="32" tilewidth="32" tileheight="32" infinite="0" nextlayerid="46" nextobjectid="120">
  <tileset firstgid="1" source="Mapping.tsx"/>
  <group id="2" name="Office">
   <properties>
@@ -603,6 +603,41 @@
      <property name="Id" value="OutsideOffice"/>
     </properties>
     <point/>
+   </object>
+   <object id="113" name="Stalls" type="Region" x="629" y="859.333" width="109.999" height="39.3333">
+    <properties>
+     <property name="Id" value="Stalls"/>
+    </properties>
+   </object>
+   <object id="114" name="Restroom" type="Region" x="596.667" y="795.666" width="150.666" height="104.667">
+    <properties>
+     <property name="Id" value="Bathroom"/>
+    </properties>
+   </object>
+   <object id="115" name="Lunchroom" type="Region" x="601.334" y="504.333" width="204.666" height="268.667">
+    <properties>
+     <property name="Id" value="Lunchroom"/>
+    </properties>
+   </object>
+   <object id="116" name="Manager's Room" type="Region" x="600.334" y="315.666" width="203.333" height="172">
+    <properties>
+     <property name="Id" value="ManagerRoom"/>
+    </properties>
+   </object>
+   <object id="117" name="Storageroom" type="Region" x="181.334" y="665" width="113.333" height="111.334">
+    <properties>
+     <property name="Id" value="Storageroom"/>
+    </properties>
+   </object>
+   <object id="118" name="Meeting Room 1" type="Region" x="154.667" y="251" width="136.666" height="167.334">
+    <properties>
+     <property name="Id" value="Meetingroom1"/>
+    </properties>
+   </object>
+   <object id="119" name="Meeting Room 2" type="Region" x="155.667" y="445" width="136.666" height="199.334">
+    <properties>
+     <property name="Id" value="Meetingroom2"/>
+    </properties>
    </object>
   </objectgroup>
  </group>
