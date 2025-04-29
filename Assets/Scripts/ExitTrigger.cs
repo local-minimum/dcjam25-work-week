@@ -6,7 +6,8 @@ using LMCore.TiledDungeon.Integration;
 using LMCore.TiledImporter;
 using UnityEngine;
 
-public enum ExitType { MainExit, FireEscape, AnomalyDeath, BossDeath };
+[System.Serializable]
+public enum ExitType { None, MainExit, FireEscape, AnomalyDeath, BossDeath };
 
 public delegate void ExitOfficeEvent(ExitType exitType);
 

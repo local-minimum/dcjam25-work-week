@@ -65,7 +65,7 @@ public class FireExitHinter : Singleton<FireExitHinter, FireExitHinter>, IOnLoad
     #region Save / Load
     public IEnumerable<Vector3Int> Save() => playerCoordinatesHistory;
 
-    public int OnLoadPriority => throw new System.NotImplementedException();
+    public int OnLoadPriority => 10;
 
     void OnLoad(WWSave save)
     {

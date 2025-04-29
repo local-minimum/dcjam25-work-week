@@ -129,6 +129,9 @@ public class AnomalyManager : Singleton<AnomalyManager, AnomalyManager>, IOnLoad
 
     #region Save State
     [System.Serializable]
+    public enum PreviousDayOutcome { None, Positive, Negative };
+
+    [System.Serializable]
     public class AnomalyManagerSaveData
     {
         public List<string> encounteredAnomalies;
@@ -138,6 +141,8 @@ public class AnomalyManager : Singleton<AnomalyManager, AnomalyManager>, IOnLoad
         public string activeAnomaly;
         public Weekday weekday;
         public bool won;
+        public PreviousDayOutcome previousDayOutcome;
+        public ExitType previousDayExit;
 
         public AnomalyManagerSaveData(AnomalyManager manager)
         {
@@ -148,6 +153,8 @@ public class AnomalyManager : Singleton<AnomalyManager, AnomalyManager>, IOnLoad
             wantedDifficulty = manager.wantedDifficulty;
             activeAnomaly = manager.activeAnomaly?.id;
             won = manager.won;
+            previousDayOutcome = manager.prevDayOutcome;
+            previousDayExit = manager.prevDayExit;
         }
 
         public AnomalyManagerSaveData()
@@ -159,6 +166,8 @@ public class AnomalyManager : Singleton<AnomalyManager, AnomalyManager>, IOnLoad
             activeAnomaly = null;
             weekday = Weekday.Monday;
             won = false;
+            previousDayOutcome = PreviousDayOutcome.None;
+            previousDayExit = ExitType.None;
         }
 
         public override string ToString() =>
@@ -179,6 +188,12 @@ public class AnomalyManager : Singleton<AnomalyManager, AnomalyManager>, IOnLoad
 
     bool won;
     public bool WonGame => won;
+
+    PreviousDayOutcome prevDayOutcome = PreviousDayOutcome.None;
+    public PreviousDayOutcome PrevDayOutcome => prevDayOutcome;
+
+    ExitType prevDayExit = ExitType.None;
+    public ExitType PrevDayExit => prevDayExit;
 
     public void ResetProgress()
     {
@@ -214,10 +229,13 @@ public class AnomalyManager : Singleton<AnomalyManager, AnomalyManager>, IOnLoad
         _weekNumber = anomalies.weekNumber;
         _weekday = anomalies.weekday;
 
+        prevDayOutcome = save.anomalies.previousDayOutcome;
+        prevDayExit = save.anomalies.previousDayExit;
+
         if (BBFight.FightStatus == FightStatus.Died)
         {
             wantedDifficulty = Mathf.Max(1, wantedDifficulty - 1);
-
+            prevDayOutcome = PreviousDayOutcome.Negative;
             SetAnomalyOfTheDay(false);
         } else
         {
@@ -317,6 +335,8 @@ public class AnomalyManager : Singleton<AnomalyManager, AnomalyManager>, IOnLoad
         anomalyLoaded = false;
         bool success = false;
 
+        prevDayExit = exitType;
+
         if (exitType.Either(ExitType.FireEscape, ExitType.AnomalyDeath) && activeAnomaly != null)
         {
             encounteredAnomalies.Add(activeAnomaly.id);
@@ -334,6 +354,7 @@ public class AnomalyManager : Singleton<AnomalyManager, AnomalyManager>, IOnLoad
 
         if (success)
         {
+            prevDayOutcome = PreviousDayOutcome.Positive;
             _weekday = Weekday.NextDay();
 
             encounteredAnomalies.Add(activeAnomaly?.id);
@@ -370,6 +391,7 @@ public class AnomalyManager : Singleton<AnomalyManager, AnomalyManager>, IOnLoad
             }
         } else
         {
+            prevDayOutcome = PreviousDayOutcome.Negative;
             if (!SettingsMenu.EasyMode.Value)
             {
                 _weekday = Weekday.Monday;
@@ -417,7 +439,7 @@ public class AnomalyManager : Singleton<AnomalyManager, AnomalyManager>, IOnLoad
     [ContextMenu("Info")]
     void Info()
     {
-        Debug.Log($"AnomalyManager: {Weekday} week {WeekNumber} {activeAnomaly}\nEncountered: {string.Join(", ", encounteredAnomalies)}\nMissed: {string.Join(", ", missedAnomalies)}");
+        Debug.Log($"AnomalyManager: {Weekday} week {WeekNumber} prev day was {prevDayExit} {prevDayOutcome} {activeAnomaly}\nEncountered: {string.Join(", ", encounteredAnomalies)}\nMissed: {string.Join(", ", missedAnomalies)}");
     }
 
     [ContextMenu("Summarize anomalies")]

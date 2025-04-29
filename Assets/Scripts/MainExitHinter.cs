@@ -113,7 +113,7 @@ public class MainExitHinter : Singleton<MainExitHinter, MainExitHinter>, IOnLoad
     #region Save / Load
     public IEnumerable<string> Save() => visitedRegions;
 
-    public int OnLoadPriority => throw new System.NotImplementedException();
+    public int OnLoadPriority => 10;
 
     void OnLoad(WWSave save)
     {
