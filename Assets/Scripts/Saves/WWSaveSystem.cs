@@ -1,6 +1,7 @@
 using LMCore.TiledDungeon;
 using LMCore.TiledDungeon.DungeonFeatures;
 using LMCore.TiledDungeon.SaveLoad;
+using System.Linq;
 using UnityEngine;
 
 public class WWSaveSystem : TDSaveSystem<WWSave, WWSaveSystem>
@@ -27,6 +28,8 @@ public class WWSaveSystem : TDSaveSystem<WWSave, WWSaveSystem>
 
         save.anomalies = AnomalyManager.instance.Save();
         save.battle = BossBattleManager.SafeInstance.Save();
+        save.visitedRegions = MainExitHinter.instance.Save().ToList();
+        save.playerCoordsHistory = FireExitHinter.instance.Save().ToList();
 
         Debug.Log($"WWSaveSystem: saving anomalies {save.anomalies}");
 

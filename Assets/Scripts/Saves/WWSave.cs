@@ -1,5 +1,6 @@
 using LMCore.TiledDungeon.SaveLoad;
 using System.Collections.Generic;
+using UnityEngine;
 
 
 [System.Serializable]
@@ -67,6 +68,7 @@ public class WWSave : GameSave
     public AnomalyManager.AnomalyManagerSaveData anomalies = new AnomalyManager.AnomalyManagerSaveData();
     public BossBattleSave battle = new BossBattleSave();
     public List<string> visitedRegions = new List<string>();
+    public List<Vector3Int> playerCoordsHistory = new List<Vector3Int>();
 
     public WWSave(GameSave save)
     {
