@@ -43,9 +43,11 @@ namespace LMCore.TiledDungeon.DungeonFeatures
         [SerializeField]
         bool silenceManageDoorPrompt;
 
+        [SerializeField]
+        bool allowInteractionWhileMoving = true;
+
         [SerializeField, HideInInspector]
         bool isOpen = false;
-
 
         [SerializeField, HideInInspector]
         TileModification[] modifications;
@@ -237,7 +239,7 @@ namespace LMCore.TiledDungeon.DungeonFeatures
         {
             GridEntity.OnInteract += GridEntity_OnInteract;
             GridEntity.OnMove += GridEntity_OnMove;
-            GridEntity.OnPositionTransition += GridEntity_OnPositionTransition;
+            GridEntity.OnPositionTransition += CheckShowPrompt;
 
             TDNode.OnNewOccupant += TDNode_OnNewOccupant;
 
@@ -249,7 +251,7 @@ namespace LMCore.TiledDungeon.DungeonFeatures
         {
             GridEntity.OnInteract -= GridEntity_OnInteract;
             GridEntity.OnMove -= GridEntity_OnMove;
-            GridEntity.OnPositionTransition -= GridEntity_OnPositionTransition;
+            GridEntity.OnPositionTransition -= CheckShowPrompt;
 
             TDNode.OnNewOccupant -= TDNode_OnNewOccupant;
 
@@ -292,7 +294,7 @@ namespace LMCore.TiledDungeon.DungeonFeatures
         }
 
         string lastPrompt;
-        private void GridEntity_OnPositionTransition(GridEntity entity)
+        private void CheckShowPrompt(GridEntity entity)
         {
             if (isTrapdoor || entity.EntityType != GridEntityType.PlayerCharacter) return;
 
@@ -305,7 +307,10 @@ namespace LMCore.TiledDungeon.DungeonFeatures
                 }
             }
 
-            ShowPrompt(entity);
+            if (allowInteractionWhileMoving || entity.Moving == MovementType.Stationary)
+            {
+                ShowPrompt(entity);
+            }
         }
 
         private void ShowPrompt(GridEntity entity)
@@ -383,10 +388,12 @@ namespace LMCore.TiledDungeon.DungeonFeatures
             if (entity.Moving != MovementType.Stationary)
             {
                 activelyMovingEntities.Add(entity);
+                if (!allowInteractionWhileMoving) HideLastPrompt();
             }
             else
             {
                 activelyMovingEntities.Remove(entity);
+                if (!allowInteractionWhileMoving) CheckShowPrompt(entity);
             }
         }
 
@@ -451,7 +458,7 @@ namespace LMCore.TiledDungeon.DungeonFeatures
             var validPosition = ValidInteractionPosition(entity, out bool nextToDoor);
             if (!nextToDoor) return;
 
-            if (!onTheMove && validPosition)
+            if ((!onTheMove || allowInteractionWhileMoving) && validPosition)
             {
                 Debug.Log(PrefixLogMessage("Attempting to open door"));
 
