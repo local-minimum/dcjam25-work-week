@@ -3,6 +3,7 @@ using LMCore.Crawler;
 using LMCore.Extensions;
 using LMCore.IO;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class FireExitHinter : Singleton<FireExitHinter, FireExitHinter>, IOnLoadSave
@@ -20,6 +21,12 @@ public class FireExitHinter : Singleton<FireExitHinter, FireExitHinter>, IOnLoad
 
     bool nag = true;
 
+    [ContextMenu("Info")]
+    void Info()
+    {
+        Debug.Log($"FireExitHinter: Nag({nag}) History Length({playerCoordinatesHistory.Count}) {string.Join(" -> ", playerCoordinatesHistory)}");
+    }
+
     private void OnEnable()
     {
         GridEntity.OnPositionTransition += GridEntity_OnPositionTransition;
@@ -35,7 +42,10 @@ public class FireExitHinter : Singleton<FireExitHinter, FireExitHinter>, IOnLoad
     private void GridEntity_OnPositionTransition(GridEntity entity)
     {
         if (entity.EntityType != GridEntityType.PlayerCharacter) return;
-        playerCoordinatesHistory.Add(entity.Coordinates);
+        if (playerCoordinatesHistory.Count == 0 || playerCoordinatesHistory.Last() != entity.Coordinates)
+        {
+            playerCoordinatesHistory.Add(entity.Coordinates);
+        }
 
     }
 
