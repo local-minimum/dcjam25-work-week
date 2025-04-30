@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 979169811369947971}
   - component: {fileID: 5194472740178436041}
   - component: {fileID: 1304754261260021288}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: RegularThinDoor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -57,6 +57,7 @@ MonoBehaviour:
   KeyReaderNorth: {fileID: 0}
   KeyReaderSouth: {fileID: 0}
   anim: {fileID: 8400565434359160503}
+  animLayer: 0
   speaker: {fileID: 1304754261260021288}
   openSounds:
   - {fileID: 8300000, guid: 269127c6b1873464490addb470233d0c, type: 3}
@@ -234,6 +235,10 @@ PrefabInstance:
       value: thinwall-regulardoor
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 325d59d272258ec418cb41b01aef3447, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 1044151614334120534, guid: 325d59d272258ec418cb41b01aef3447, type: 3}
       propertyPath: m_Layer
       value: 7
       objectReference: {fileID: 0}
