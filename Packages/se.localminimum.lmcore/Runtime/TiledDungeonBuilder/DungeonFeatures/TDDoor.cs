@@ -132,7 +132,7 @@ namespace LMCore.TiledDungeon.DungeonFeatures
         float autoCloseTime = 0.5f;
 
         public override string ToString() =>
-            $"<{(isTrapdoor ? "Trap-" : "")}Door Axis({TraversalAxis}) Blocking({BlockingPassage}) Transition({ActiveTransition}) InteractionDirLim({interactionDirectionLimitation})>";
+            $"<{(isTrapdoor ? "Trap-" : "")}Door Axis({TraversalAxis}) Blocking({BlockingPassage}) Transition({ActiveTransition}) InteractionDirLim({interactionDirectionLimitation}) Open({isOpen})>";
 
         protected string PrefixLogMessage(string message) => $"Door @ {Coordinates}: {message}";
 
@@ -505,6 +505,8 @@ namespace LMCore.TiledDungeon.DungeonFeatures
             _activeTransition = Transition.Closing;
             OnDoorChange?.Invoke(this, ActiveTransition, isOpen, entity);
 
+            // Debug.Log(PrefixLogMessage("Animating as closing"));
+            anim.ResetTrigger(OpenAnimation);
             anim.SetTrigger(CloseAnimation);
 
             SyncImage(ReaderImageSouth, false, false);
@@ -525,6 +527,8 @@ namespace LMCore.TiledDungeon.DungeonFeatures
             _activeTransition = Transition.Opening;
             OnDoorChange?.Invoke(this, ActiveTransition, isOpen, entity);
 
+            // Debug.Log(PrefixLogMessage("Animating as opening"));
+            anim.ResetTrigger(CloseAnimation);
             anim.SetTrigger(OpenAnimation);
             if (speaker != null && openSounds.Count > 0)
             {
@@ -569,7 +573,7 @@ namespace LMCore.TiledDungeon.DungeonFeatures
             }
         }
 
-        void SyncDoor()
+        void SyncDoor(bool triggerAnimations = true)
         {
             if (synced) return;
 
@@ -612,12 +616,19 @@ namespace LMCore.TiledDungeon.DungeonFeatures
             );
             OnDoorChange?.Invoke(this, ActiveTransition, isOpen, null);
 
-            if (isOpen)
+            if (triggerAnimations)
             {
-                anim.SetTrigger(OpenedAnimation);
-            } else
-            {
-                anim.SetTrigger(ClosedAnimation);
+                if (isOpen)
+                {
+                    // Debug.Log(PrefixLogMessage("Animating as opened"));
+                    anim.ResetTrigger(ClosedAnimation);
+                    anim.SetTrigger(OpenedAnimation);
+                } else
+                {
+                    // Debug.Log(PrefixLogMessage("Animating as closed"));
+                    anim.ResetTrigger(OpenedAnimation);
+                    anim.SetTrigger(ClosedAnimation);
+                }
             }
 
             isLocked = modifications.Any(
@@ -715,7 +726,7 @@ namespace LMCore.TiledDungeon.DungeonFeatures
             {
                 return;
             }
-            if (!synced) SyncDoor();
+            if (!synced) SyncDoor(false);
 
             var lvl = Dungeon.MapName;
 
@@ -732,11 +743,16 @@ namespace LMCore.TiledDungeon.DungeonFeatures
 
             isLocked = doorSave.isLocked;
 
+
             if (isOpen)
             {
+                // Debug.Log(PrefixLogMessage("Animating as opened"));
+                anim.ResetTrigger(ClosedAnimation);
                 anim.SetTrigger(OpenedAnimation);
             } else
             {
+                // Debug.Log(PrefixLogMessage("Animating as closed"));
+                anim.ResetTrigger(OpenedAnimation);
                 anim.SetTrigger(ClosedAnimation);
             }
 
