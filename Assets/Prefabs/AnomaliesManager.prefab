@@ -1,0 +1,206 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &6873462781915051023
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3771414102220744104}
+  - component: {fileID: 2552551438300704300}
+  m_Layer: 0
+  m_Name: AnomaliesManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3771414102220744104
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6873462781915051023}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 31.378105, y: 0.5687242, z: 9.397048}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2552551438300704300
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6873462781915051023}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0224995d498fde34d844d17bacf2eb45, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  crossfader: {fileID: 0}
+  weekPlans:
+  - minWeek: 0
+    maxWeek: 2
+    Monday: 0
+    Tueday: 1
+    Wednesday: 2
+    Thursday: 0
+    Friday: 0
+    Saturday: 1
+    Sunday: 0
+  - minWeek: 0
+    maxWeek: 2
+    Monday: 0
+    Tueday: 0
+    Wednesday: 2
+    Thursday: 1
+    Friday: 0
+    Saturday: 0
+    Sunday: 1
+  - minWeek: 0
+    maxWeek: 2
+    Monday: 0
+    Tueday: 1
+    Wednesday: 0
+    Thursday: 1
+    Friday: 0
+    Saturday: 2
+    Sunday: 1
+  - minWeek: 2
+    maxWeek: 99
+    Monday: 2
+    Tueday: 0
+    Wednesday: 0
+    Thursday: 0
+    Friday: 1
+    Saturday: 1
+    Sunday: 0
+  - minWeek: 2
+    maxWeek: 99
+    Monday: 1
+    Tueday: 0
+    Wednesday: 1
+    Thursday: 0
+    Friday: 1
+    Saturday: 1
+    Sunday: 0
+  - minWeek: 2
+    maxWeek: 99
+    Monday: 1
+    Tueday: 1
+    Wednesday: 0
+    Thursday: 1
+    Friday: 0
+    Saturday: 0
+    Sunday: 1
+  - minWeek: 2
+    maxWeek: 99
+    Monday: 1
+    Tueday: 0
+    Wednesday: 0
+    Thursday: 1
+    Friday: 2
+    Saturday: 0
+    Sunday: 0
+  - minWeek: 2
+    maxWeek: 99
+    Monday: 0
+    Tueday: 0
+    Wednesday: 1
+    Thursday: 1
+    Friday: 2
+    Saturday: 0
+    Sunday: 1
+  - minWeek: 2
+    maxWeek: 99
+    Monday: 0
+    Tueday: 1
+    Wednesday: 0
+    Thursday: 0
+    Friday: 1
+    Saturday: 0
+    Sunday: 1
+  - minWeek: 2
+    maxWeek: 99
+    Monday: 0
+    Tueday: 1
+    Wednesday: 1
+    Thursday: 0
+    Friday: 0
+    Saturday: 2
+    Sunday: 0
+  anomalies:
+  - id: reverse-clock
+    humanizedName: Time goes backwards
+    room: 66
+    difficulty: 7
+    horror: 0
+  - id: sinking-ship
+    humanizedName: Ship sinks in watercooler
+    room: 2
+    difficulty: 6
+    horror: 0
+  - id: bad-music
+    humanizedName: Bad music haunts me
+    room: 1
+    difficulty: 3
+    horror: 1
+  - id: kind-postits
+    humanizedName: Love is in the kitchen
+    room: 64
+    difficulty: 9
+    horror: 0
+  - id: bad-boxes
+    humanizedName: Swarm full of boxes
+    room: 16
+    difficulty: 2
+    horror: 1
+  - id: we-chick
+    humanizedName: We chicked so hard
+    room: 128
+    difficulty: 3
+    horror: 0
+  - id: window-eyes
+    humanizedName: Who watches the manager
+    room: 32
+    difficulty: 3
+    horror: 1
+  - id: office-goblin
+    humanizedName: The office golbin
+    room: 8
+    difficulty: 3
+    horror: 0
+  - id: stall-dungeon
+    humanizedName: What lurks behind the toilet
+    room: 128
+    difficulty: 4
+    horror: 0
+  - id: sword-boss
+    humanizedName: Swords for clubs
+    room: 32
+    difficulty: 3
+    horror: 0
+  - id: computer-exit
+    humanizedName: Computer tells the truth
+    room: 2
+    difficulty: 6
+    horror: 0
+  - id: wrong-rolls
+    humanizedName: Zero immersion rolls
+    room: 128
+    difficulty: 10
+    horror: 0
+  - id: everyone-bob
+    humanizedName: My name is Bob
+    room: 2
+    difficulty: 4
+    horror: 0
+  selectFromFirstNCandidates: 3
+  predefAnomaly: stall-dungeon

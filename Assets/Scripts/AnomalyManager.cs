@@ -18,7 +18,8 @@ public class AnomalyManager : Singleton<AnomalyManager, AnomalyManager>, IOnLoad
     public static event SetDayEvent OnSetDay;
 
     [System.Serializable]
-    enum AnomalyType { NormalOffice, Anomaly, ScaryAnomaly }
+    public enum AnomalyType { NormalOffice, Anomaly, ScaryAnomaly }
+
     [System.Serializable]
     struct AnomalyPlan
     {
@@ -58,6 +59,25 @@ public class AnomalyManager : Singleton<AnomalyManager, AnomalyManager>, IOnLoad
                     return AnomalyType.NormalOffice;
             }
         }
+
+        public AnomalyPlan(List<AnomalyType> plan, int minWeek = 0, int maxWeek = 99)
+        {
+            this.minWeek = minWeek;
+            this.maxWeek = maxWeek;
+            Monday = plan.GetNthOrDefault(0, AnomalyType.NormalOffice);
+            Tueday = plan.GetNthOrDefault(1, AnomalyType.Anomaly);
+            Wednesday = plan.GetNthOrDefault(2, AnomalyType.ScaryAnomaly);
+            Thursday = plan.GetNthOrDefault(3, AnomalyType.NormalOffice);
+            Friday = plan.GetNthOrDefault(4, AnomalyType.Anomaly);
+            Saturday = plan.GetNthOrDefault(5, AnomalyType.Anomaly);
+            Sunday = plan.GetNthOrDefault(6, AnomalyType.NormalOffice);
+        }
+
+        public List<AnomalyType> Serialized() =>
+            new List<AnomalyType>() { Monday, Tueday, Wednesday, Thursday, Friday, Saturday, Sunday };
+
+        public override string ToString() =>
+            $"<Plan Mo:{Monday} Tu:{Tueday} We:{Wednesday} Th:{Thursday} Fr:{Friday} Sa:{Saturday} Su:{Sunday}>";
     }
 
     bool anomalyLoaded;
@@ -96,69 +116,70 @@ public class AnomalyManager : Singleton<AnomalyManager, AnomalyManager>, IOnLoad
             return anomalies.FirstOrDefault(a => a.id == id);
         });
 
-    IEnumerable<AnomalySetting> CandidateAnomalies
+    IEnumerable<AnomalySetting> CandidateAnomalies(bool scary)
     {
-        get
+        var roomCount = new Dictionary<OfficeRoom, int>();
+
+        var history = anomalyHistory.ToList();
+
+        foreach (var hist in history)
         {
-            var roomCount = new Dictionary<OfficeRoom, int>();
+            if (hist == null) continue;
 
-            var history = anomalyHistory.ToList();
-
-            foreach (var hist in history)
+            foreach (var room in hist.room.AllFlags())
             {
-                if (hist == null) continue;
-
-                foreach (var room in hist.room.AllFlags())
+                if (!roomCount.ContainsKey(room))
                 {
-                    if (!roomCount.ContainsKey(room))
-                    {
-                        roomCount[room] = 0;
-                    } else
-                    {
-                        roomCount[room]++;
-                    }
+                    roomCount[room] = 0;
+                } else
+                {
+                    roomCount[room]++;
+                }
+            }
+        }
+
+        System.Func<OfficeRoom, float> roomOrder = (OfficeRoom room) =>
+        {
+            float sum = 0;
+            foreach (var pureRoom in room.AllFlags())
+            {
+                if (roomCount.TryGetValue(pureRoom, out var value))
+                {
+                    sum += value;
                 }
             }
 
-            System.Func<OfficeRoom, float> roomOrder = (OfficeRoom room) =>
-            {
-                float sum = 0;
-                foreach (var pureRoom in room.AllFlags())
-                {
-                    if (roomCount.TryGetValue(pureRoom, out var value))
-                    {
-                        sum += value;
-                    }
-                }
+            return sum;
+        };
 
-                return sum;
-            };
+        var unsued = anomalies.Where(a => !history.Contains(a)).ToList();
 
-            var unsued = anomalies.Where(a => !history.Contains(a)).ToList();
+        if (unsued.Count > 0)
+        {
+            return unsued
+                .OrderBy(a => Mathf.Abs(a.difficulty - wantedDifficulty))
+                .ThenBy(a => roomOrder(a.room));
+        }
 
-            if (unsued.Count > 0)
-            {
-                return unsued
-                    .OrderBy(a => Mathf.Abs(a.difficulty - wantedDifficulty))
-                    .ThenBy(a => roomOrder(a.room));
-            }
-
+        if (scary)
+        {
             return anomalies
                 .OrderBy(a => history.LastIndexOf(a) / selectFromFirstNCandidates)
+                .ThenBy(a => !a.horror)
                 .ThenBy(a => Mathf.Abs(a.difficulty - wantedDifficulty))
                 .ThenBy(a => roomOrder(a.room));
         }
+
+        return anomalies
+            .OrderBy(a => history.LastIndexOf(a) / selectFromFirstNCandidates)
+            .ThenBy(a => a.horror)
+            .ThenBy(a => Mathf.Abs(a.difficulty - wantedDifficulty))
+            .ThenBy(a => roomOrder(a.room));
     }
 
 
     [SerializeField]
-    int maxDaysWithSameState = 3;
-
-    [SerializeField]
-    float anomalyBaseBias = 0.6f;
-
-    [SerializeField]
-    int selectFromFirstNCandidates = 5;
+    int selectFromFirstNCandidates = 3;
 
     [SerializeField]
     string predefAnomaly;
@@ -167,7 +188,7 @@ public class AnomalyManager : Singleton<AnomalyManager, AnomalyManager>, IOnLoad
     private void LoadPredef()
     {
         activeAnomaly = anomalies.FirstOrDefault(a => a.id == predefAnomaly);
-        Debug.Log($"AnomalyManger: Hotloading '{predefAnomaly}' and it is {Weekday} in week {WeekNumber} with {(activeAnomaly == null ? "a regular office" : activeAnomaly.ToString())}");
+        Debug.Log($"AnomalyManager: Hotloading '{predefAnomaly}' and it is {Weekday} in week {WeekNumber} with {(activeAnomaly == null ? "a regular office" : activeAnomaly.ToString())}");
         OnSetAnomaly?.Invoke(activeAnomaly?.id);
     }
 
@@ -183,6 +204,7 @@ public class AnomalyManager : Singleton<AnomalyManager, AnomalyManager>, IOnLoad
     {
         public List<string> encounteredAnomalies;
         public List<string> missedAnomalies;
+        public List<AnomalyType> weekPlan;
         public int weekNumber;
         public int wantedDifficulty;
         public string activeAnomaly;
@@ -202,6 +224,7 @@ public class AnomalyManager : Singleton<AnomalyManager, AnomalyManager>, IOnLoad
             won = manager.won;
             previousDayOutcome = manager.prevDayOutcome;
             previousDayExit = manager.prevDayExit;
+            weekPlan = manager.weekPlanSet ? manager.weekPlan.Serialized() : null;
         }
 
         public AnomalyManagerSaveData()
@@ -215,6 +238,7 @@ public class AnomalyManager : Singleton<AnomalyManager, AnomalyManager>, IOnLoad
             won = false;
             previousDayOutcome = PreviousDayOutcome.None;
             previousDayExit = ExitType.None;
+            weekPlan = null;
         }
 
         public override string ToString() =>
@@ -232,6 +256,9 @@ public class AnomalyManager : Singleton<AnomalyManager, AnomalyManager>, IOnLoad
 
     Weekday _weekday;
     public Weekday Weekday => _weekday;
+
+    bool weekPlanSet;
+    AnomalyPlan weekPlan;
 
     bool won;
     public bool WonGame => won;
@@ -252,6 +279,7 @@ public class AnomalyManager : Singleton<AnomalyManager, AnomalyManager>, IOnLoad
         activeAnomaly = null;
         anomalyLoaded = false;
         won = false;
+        weekPlan = new AnomalyPlan();
     }
 
     #endregion
@@ -276,6 +304,16 @@ public class AnomalyManager : Singleton<AnomalyManager, AnomalyManager>, IOnLoad
         _weekNumber = anomalies.weekNumber;
         _weekday = anomalies.weekday;
 
+        if (anomalies.weekPlan != null)
+        {
+            weekPlan = new AnomalyPlan(anomalies.weekPlan);
+        } else
+        {
+            SetWeekPlan();
+            Debug.LogWarning("AnomalyManager: There was no weekplan in the save");
+        }
+        weekPlanSet = true;
+
         prevDayOutcome = save.anomalies.previousDayOutcome;
         prevDayExit = save.anomalies.previousDayExit;
 
@@ -283,6 +321,7 @@ public class AnomalyManager : Singleton<AnomalyManager, AnomalyManager>, IOnLoad
         {
             wantedDifficulty = Mathf.Max(1, wantedDifficulty - 1);
             prevDayOutcome = PreviousDayOutcome.Negative;
+            SetWeekPlan();
             SetAnomalyOfTheDay(false);
         } else
         {
@@ -301,34 +340,53 @@ public class AnomalyManager : Singleton<AnomalyManager, AnomalyManager>, IOnLoad
             wantedDifficulty = Mathf.Min(10, wantedDifficulty + 1);
         }
 
-        Debug.Log($"AnomalyManger: Loaded save {save.anomalies} and it's {Weekday} in week {WeekNumber} with {(activeAnomaly == null ? "a regular office" : activeAnomaly.ToString())}");
+        Debug.Log($"AnomalyManager: Loaded save {save.anomalies} and it's {Weekday} in week {WeekNumber} with {(activeAnomaly == null ? "a regular office" : activeAnomaly.ToString())}");
         OnSetAnomaly?.Invoke(activeAnomaly?.id);
     }
 
-    [SerializeField()]
-    void SetAnomalyOfTheDay(bool emitEvent = true)
+    void SetWeekPlan()
     {
-        if (WeekNumber == 0 && Weekday == Weekday.Monday)
+        var options = weekPlans.Where(plan => plan.AppliesToWeek(WeekNumber)).ToList();
+        if (options.Count() == 0)
         {
-            activeAnomaly = null;
-        } else
-        {
-            var lastDays =
-                anomalyHistory.TakeLast(maxDaysWithSameState).ToList();
-
-            if (lastDays.All(a => a == null) && lastDays.Count == maxDaysWithSameState)
-            {
-                activeAnomaly = CandidateAnomalies.Take(selectFromFirstNCandidates).Shuffle().FirstOrDefault();
-            } else if (lastDays.All(a => a != null) && lastDays.Count == maxDaysWithSameState)
-            {
-                activeAnomaly = null;
-            } else
-            {
-                activeAnomaly = Random.value < anomalyBaseBias ? CandidateAnomalies.Shuffle().FirstOrDefault() : null;
-            }
+            options = weekPlans;
         }
 
-        Debug.Log($"AnomalyManager: It's a new day and it is {Weekday} in week {WeekNumber} with {(activeAnomaly == null ? "a regular office" : activeAnomaly.ToString())}");
+        weekPlan = options.GetRandomElementOrDefault();
+        weekPlanSet = true;
+        Debug.Log($"AnomalyManager: {weekPlan}");
+    }
+
+    void SetAnomalyOfTheDay(bool emitEvent = true)
+    {
+        if (!weekPlanSet)
+        {
+            SetWeekPlan();
+        }
+
+        var type = weekPlan.GetPlan(Weekday);
+
+        switch (type)
+        {
+            case AnomalyType.NormalOffice:
+                activeAnomaly = null;
+                break;
+            case AnomalyType.Anomaly:
+                activeAnomaly = CandidateAnomalies(false)
+                    .Take(selectFromFirstNCandidates)
+                    .Shuffle()
+                    .FirstOrDefault();
+                break;
+            case AnomalyType.ScaryAnomaly:
+                activeAnomaly = CandidateAnomalies(true)
+                    .Take(selectFromFirstNCandidates)
+                    .Shuffle()
+                    .FirstOrDefault();
+                break;
+
+        }
+
+        Debug.Log($"AnomalyManager: It's a new day and it is {Weekday} in week {WeekNumber} with {(activeAnomaly == null ? "a regular office" : activeAnomaly.ToString())} {weekPlan}");
         if (emitEvent)
         {
             OnSetAnomaly?.Invoke(activeAnomaly?.id);
@@ -412,6 +470,7 @@ public class AnomalyManager : Singleton<AnomalyManager, AnomalyManager>, IOnLoad
             if (Weekday == Weekday.Monday)
             {
                 _weekNumber++;
+                SetWeekPlan();
                 won = true;
                 Debug.Log($"AnomalyManager: We won the game in week {WeekNumber}");
                 WWSaveSystem.instance.AutoSave();
@@ -458,7 +517,10 @@ public class AnomalyManager : Singleton<AnomalyManager, AnomalyManager>, IOnLoad
             }
 
             Debug.Log($"AnomalyManager: Wrong exit ({activeAnomaly}), going to {Weekday} {WeekNumber}");
+
+            SetWeekPlan();
             activeAnomaly = null;
+
             WWSaveSystem.instance.AutoSave();
 
             if (crossfader != null)
