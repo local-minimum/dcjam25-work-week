@@ -78,9 +78,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speaker: {fileID: 7113489550086696897}
-  badFireEscapes: []
-  badMainExits: []
-  badBossExits: []
+  badFireEscapes:
+  - {fileID: 8300000, guid: aab98ca521bd24a45adb59379f7949b3, type: 3}
+  - {fileID: 8300000, guid: 4e8b09d8c789d7b40bd77ba4037248d5, type: 3}
+  - {fileID: 8300000, guid: 0b9af50edd037ed458805adb67e625e6, type: 3}
+  - {fileID: 8300000, guid: c0de361bfb315c74b801b2e62d4b2edf, type: 3}
+  - {fileID: 8300000, guid: 35fea19eb754dd54ab1d712378f66fba, type: 3}
+  badMainExits:
+  - {fileID: 8300000, guid: 1c2efc576347ea540bee1aa907fb479d, type: 3}
+  - {fileID: 8300000, guid: 1a7d09ac6500d6d4aa02fceee1a4602e, type: 3}
+  - {fileID: 8300000, guid: 789b562cba34841498a200abffabfac6, type: 3}
+  - {fileID: 8300000, guid: 467f5e2262cf1ba40bd259d8d9a6ce73, type: 3}
+  - {fileID: 8300000, guid: 8ba55690354323648922c7a03a073d57, type: 3}
+  badBossExits:
+  - {fileID: 8300000, guid: c1a3013ac8a6d754b838c0bd2fd763f5, type: 3}
+  - {fileID: 8300000, guid: c0b1f9286a17fe34a9a8e5cab1b78342, type: 3}
+  - {fileID: 8300000, guid: cbb1a1861f36b254f9c3b954c8e68fab, type: 3}
+  - {fileID: 8300000, guid: 7cfc356e349231e4c830a97ca5393eeb, type: 3}
   cameraPosition: {fileID: 1932110388457048861}
   releaseMovement: 2
   showPauseHintDuration: 3
