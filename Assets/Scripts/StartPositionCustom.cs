@@ -1,10 +1,12 @@
 using LMCore.Crawler;
+using LMCore.Extensions;
 using LMCore.IO;
 using LMCore.TiledDungeon;
 using LMCore.TiledDungeon.DungeonFeatures;
 using LMCore.TiledDungeon.Enemies;
 using LMCore.TiledImporter;
 using LMCore.UI;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -17,7 +19,19 @@ public class StartPositionCustom : TDFeature, ITDCustom
 
     static bool notShownPauseHintToday = true;
 
+    [SerializeField, Header("Audio Hints")]
+    AudioSource speaker;
+
     [SerializeField]
+    List<AudioClip> badFireEscapes = new List<AudioClip>();
+
+    [SerializeField]
+    List<AudioClip> badMainExits = new List<AudioClip>();
+
+    [SerializeField]
+    List<AudioClip> badBossExits = new List<AudioClip>();
+
+    [SerializeField, Header("Transition")]
     Transform cameraPosition;
 
     [SerializeField]
@@ -88,7 +102,48 @@ public class StartPositionCustom : TDFeature, ITDCustom
             capturedCamera.localRotation = Quaternion.identity;
         }
 
+        var save = WWSaveSystem.ActiveSaveData;
+        if (save == null)
+        {
+            Debug.Log("CustomStartPos: Today is the first day");
+        } else if (save.anomalies.previousDayOutcome == AnomalyManager.PreviousDayOutcome.Negative)
+        {
+            switch (save.anomalies.previousDayExit)
+            {
+                case ExitType.FireEscape:
+                    // Prompt some I guess yesterday was normal
+                    PlayRandomHint(badFireEscapes);
+                    break;
+                case ExitType.MainExit:
+                    // Prompt I must have missed something
+                    PlayRandomHint(badMainExits);
+                    break;
+                case ExitType.BossDeath:
+                    // Prompt avoid boss
+                    PlayRandomHint(badBossExits);
+                    break;
+            }
+        }
+
         OnCapturePlayer?.Invoke(player);
+    }
+
+    void PlayRandomHint(List<AudioClip> options)
+    {
+        if (speaker == null)
+        {
+            Debug.LogError("CustomStartPos: Missing speaker");
+            return;
+        }
+
+        if (options == null || options.Count == 0)
+        {
+            Debug.LogWarning("CustomStartPos: No optoins avaialbe");
+            return;
+        }
+
+        var clip = options.GetRandomElement();
+        speaker.PlayOneShot(clip);
     }
 
     void Start()
