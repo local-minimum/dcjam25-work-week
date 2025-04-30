@@ -12,6 +12,8 @@ using UnityEngine.UI;
 
 namespace LMCore.TiledDungeon.DungeonFeatures
 {
+    public delegate void DoorChangeEvent(TDDoor door, TDDoor.Transition transition, bool isOpen, GridEntity entity);
+
     /// <summary>
     /// Configures a door
     /// 
@@ -32,7 +34,9 @@ namespace LMCore.TiledDungeon.DungeonFeatures
     /// </summary>
     public class TDDoor : TDFeature, IOnLoadSave
     {
-        private enum Transition { None, Opening, Closing };
+        public event DoorChangeEvent OnDoorChange;
+
+        public enum Transition { None, Opening, Closing };
 
         public bool SilenceAllPrompts { get; set; }
 
@@ -491,16 +495,22 @@ namespace LMCore.TiledDungeon.DungeonFeatures
             }
         }
 
+        GridEntity interactingEntity;
+
         public void CloseDoor(GridEntity entity)
         {
             var transition = ActiveTransition;
             if (transition == Transition.Closing) return;
 
             _activeTransition = Transition.Closing;
+            OnDoorChange?.Invoke(this, ActiveTransition, isOpen, entity);
+
             anim.SetTrigger(CloseAnimation);
 
             SyncImage(ReaderImageSouth, false, false);
             SyncImage(ReaderImageNorth, false, false);
+
+            interactingEntity = entity;
         }
 
         [SerializeField]
@@ -511,7 +521,10 @@ namespace LMCore.TiledDungeon.DungeonFeatures
         {
             var transition = ActiveTransition;
             if (transition == Transition.Opening) return;
+
             _activeTransition = Transition.Opening;
+            OnDoorChange?.Invoke(this, ActiveTransition, isOpen, entity);
+
             anim.SetTrigger(OpenAnimation);
             if (speaker != null && openSounds.Count > 0)
             {
@@ -521,6 +534,8 @@ namespace LMCore.TiledDungeon.DungeonFeatures
 
             SyncImage(ReaderImageSouth, true, false);
             SyncImage(ReaderImageNorth, true, false);
+
+            interactingEntity = entity;
         }
 
         [ContextMenu("Interact")]
@@ -590,10 +605,12 @@ namespace LMCore.TiledDungeon.DungeonFeatures
                 props => props.Interaction(TiledConfiguration.instance.InteractionKey) == TDEnumInteraction.Automatic
             ).Any();
 
+            _activeTransition = Transition.None;
             isOpen = config.FirstValue(
                 TiledConfiguration.instance.ObjInitialClass,
                 props => props == null ? false : props.Bool(TiledConfiguration.instance.OpenKey)
             );
+            OnDoorChange?.Invoke(this, ActiveTransition, isOpen, null);
 
             if (isOpen)
             {
@@ -711,6 +728,8 @@ namespace LMCore.TiledDungeon.DungeonFeatures
             }
 
             isOpen = doorSave.isOpen;
+            OnDoorChange?.Invoke(this, ActiveTransition, isOpen, null);
+
             isLocked = doorSave.isLocked;
 
             if (isOpen)
@@ -746,6 +765,7 @@ namespace LMCore.TiledDungeon.DungeonFeatures
                 if (ActiveTransition == Transition.Opening && !isOpen)
                 {
                     isOpen = (Time.timeSinceLevelLoad - openingStart) > considerOpenAfterProgress;
+                    OnDoorChange?.Invoke(this, ActiveTransition, isOpen, interactingEntity);
                 } else
                 {
                     var info = anim.GetCurrentAnimatorStateInfo(animLayer);
@@ -754,6 +774,10 @@ namespace LMCore.TiledDungeon.DungeonFeatures
                     {
                         isOpen = _activeTransition == Transition.Opening;
                         _activeTransition = Transition.None;
+
+                        OnDoorChange?.Invoke(this, ActiveTransition, isOpen, interactingEntity);
+
+                        interactingEntity = null;
                     }
                 }
             }

@@ -45,7 +45,7 @@ public class MirrorCameraTrigger : TDFeature
 
     private void LevelRegion_OnEnterRegion(GridEntity entity, string regionId)
     {
-        if (!ByRegion) return;
+        if (!ByRegion || entity.EntityType != GridEntityType.PlayerCharacter) return;
 
         var myRegion = GetComponentInParent<LevelRegion>();
 

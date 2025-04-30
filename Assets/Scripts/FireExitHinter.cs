@@ -34,13 +34,15 @@ public class FireExitHinter : Singleton<FireExitHinter, FireExitHinter>, IOnLoad
 
     private void GridEntity_OnPositionTransition(GridEntity entity)
     {
-        if (entity.EntityType == GridEntityType.PlayerCharacter) return;
+        if (entity.EntityType != GridEntityType.PlayerCharacter) return;
         playerCoordinatesHistory.Add(entity.Coordinates);
 
     }
 
     private void LevelRegion_OnEnterRegion(GridEntity entity, string regionId)
     {
+        if (entity.EntityType != GridEntityType.PlayerCharacter) return;
+
         var region = GetComponentInParent<LevelRegion>();
         if (region == null)
         {

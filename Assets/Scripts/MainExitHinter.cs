@@ -28,6 +28,12 @@ public class MainExitHinter : Singleton<MainExitHinter, MainExitHinter>, IOnLoad
 
     List<string> visitedRegions = new List<string>();
 
+    [ContextMenu("Info")]
+    void Info()
+    {
+        Debug.Log($"MainExitHinter: visited regions are {string.Join(", ", visitedRegions)}");
+    }
+
     private void OnEnable()
     {
         LevelRegion.OnEnterRegion += LevelRegion_OnEnterRegion;
@@ -41,6 +47,8 @@ public class MainExitHinter : Singleton<MainExitHinter, MainExitHinter>, IOnLoad
 
     private void LevelRegion_OnEnterRegion(GridEntity entity, string regionId)
     {
+        if (entity.EntityType != GridEntityType.PlayerCharacter) return;
+
         if (!visitedRegions.Contains(regionId))
         {
             visitedRegions.Add(regionId);

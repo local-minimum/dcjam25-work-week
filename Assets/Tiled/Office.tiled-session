@@ -76,11 +76,11 @@
                 22,
                 2
             ],
-            "scale": 3,
+            "scale": 0.5,
             "selectedLayer": 6,
             "viewCenter": {
-                "x": 512.1666666666666,
-                "y": 511.83333333333326
+                "x": 740,
+                "y": 581
             }
         },
         "Rules/AutomappingDungeons.tmx": {

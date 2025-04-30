@@ -116,6 +116,23 @@ namespace LMCore.Crawler
             wasHere.Clear();
         }
 
+        public void Adopt(GridEntity entity)
+        {
+            if (wasHere.Contains(entity))
+            {
+                // Region itself did already think we left so we must regret that
+                entitiesHere.Add(entity);
+                OnEnterRegion?.Invoke(entity, regionId);
+            } else if (entitiesHere.Contains(entity))
+            {
+                OnStayRegion?.Invoke(entity, regionId);
+            } else
+            {
+                entitiesHere.Add(entity);
+                OnEnterRegion?.Invoke(entity, regionId);
+            }
+        }
+
         [ContextMenu("Info")]
         void Info()
         {
