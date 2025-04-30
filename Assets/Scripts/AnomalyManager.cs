@@ -17,13 +17,60 @@ public class AnomalyManager : Singleton<AnomalyManager, AnomalyManager>, IOnLoad
     public static event SetAnomalyEvent OnSetAnomaly;
     public static event SetDayEvent OnSetDay;
 
+    [System.Serializable]
+    enum AnomalyType { NormalOffice, Anomaly, ScaryAnomaly }
+    [System.Serializable]
+    struct AnomalyPlan
+    {
+        public int minWeek;
+        public int maxWeek;
+
+        public AnomalyType Monday;
+        public AnomalyType Tueday;
+        public AnomalyType Wednesday;
+        public AnomalyType Thursday;
+        public AnomalyType Friday;
+        public AnomalyType Saturday;
+        public AnomalyType Sunday;
+
+        public bool AppliesToWeek(int week) => 
+            minWeek <= week && week <= maxWeek;
+
+        public AnomalyType GetPlan(Weekday day)
+        {
+            switch (day)
+            {
+                case Weekday.Monday:
+                    return Monday;
+                case Weekday.Tuesday:
+                    return Tueday;
+                case Weekday.Wednesday:
+                    return Wednesday;
+                case Weekday.Thursday:
+                    return Thursday;
+                case Weekday.Friday:
+                    return Friday;
+                case Weekday.Saturday:
+                    return Saturday;
+                case Weekday.Sunday:
+                    return Sunday;
+                default:
+                    return AnomalyType.NormalOffice;
+            }
+        }
+    }
+
     bool anomalyLoaded;
 
     [SerializeField]
     Crossfader crossfader;
 
     [SerializeField]
+    List<AnomalyPlan> weekPlans = new List<AnomalyPlan>();
+
+    [SerializeField]
     List<AnomalySetting> anomalies = new List<AnomalySetting>();
+
 
     public IEnumerable<string> GetCensuredAnomalies()
     {
