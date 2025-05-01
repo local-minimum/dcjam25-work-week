@@ -60,6 +60,8 @@ public class FireExitHinter : Singleton<FireExitHinter, FireExitHinter>, IOnLoad
             return;
         }
 
+        if (!SettingsMenu.MonologueHints.Value) return;
+
         if (nag && region.RegionId == regionId && playerCoordinatesHistory.Count < triggerIfHistoryLessThan)
         {
             if (!speaker.isPlaying)

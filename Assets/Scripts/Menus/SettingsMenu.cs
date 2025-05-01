@@ -1,4 +1,6 @@
 using LMCore.IO;
+using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Audio;
@@ -7,6 +9,18 @@ using UnityEngine.UI;
 
 public class SettingsMenu : MonoBehaviour
 {
+    [System.Serializable]
+    public class SubSettings
+    {
+        public Button sectionBtn;
+        public List<GameObject> parts = new List<GameObject>();
+    }
+
+    [SerializeField]
+    List<SubSettings> subSettings = new List<SubSettings>();
+
+    SubSettings activeSubSetting;
+
     [SerializeField]
     UnityEvent OnBack;
 
@@ -28,6 +42,9 @@ public class SettingsMenu : MonoBehaviour
     [SerializeField]
     Button NormalmodeBtn;
 
+    [SerializeField]
+    TextMeshProUGUI MonologuesBtnText;
+
     [SerializeField, Header("Music")]
     Slider MusicVolume;
     [SerializeField]
@@ -48,7 +65,14 @@ public class SettingsMenu : MonoBehaviour
 
     public void Show()
     {
+        if (activeSubSetting == null)
+        {
+            activeSubSetting = subSettings.First();
+        }
+        ShowActiveSubSettings();
+
         showing = true;
+
         gameObject.SetActive(true);
     }
 
@@ -59,6 +83,29 @@ public class SettingsMenu : MonoBehaviour
         OnBack?.Invoke();
     }
 
+
+    void ShowActiveSubSettings()
+    {
+        foreach (var sub in subSettings)
+        {
+            bool active = activeSubSetting == sub;
+            sub.sectionBtn.interactable = !active;
+            foreach (var part in sub.parts)
+            {
+                part.SetActive(active);
+            }
+        }
+    }
+
+    public void SetActiveSubSetting(Button btn)
+    {
+        var selected = subSettings.FirstOrDefault(s => s.sectionBtn == btn);
+        if (selected != null)
+        {
+            activeSubSetting = selected;
+            ShowActiveSubSettings();
+        }
+    }
 
     private void Start()
     {
@@ -80,6 +127,7 @@ public class SettingsMenu : MonoBehaviour
         SyncAudioUI(MixerGroup.Dialogue, DialogueVolume, DialogueMutedUI);
 
         SyncEasyModeButtons();
+        SyncMonologues();
     }
 
     private void OnDisable()
@@ -193,4 +241,18 @@ public class SettingsMenu : MonoBehaviour
         EasymodeBtn.interactable = !easy;
         NormalmodeBtn.interactable = easy;
     }
+
+    public static GameSettings.BoolSetting MonologueHints => GameSettings.GetCustomBool("gameplay.monologues", true);
+
+    public void ToggleMonologues()
+    {
+        MonologueHints.Value = !MonologueHints.Value;
+        SyncMonologues();
+    }
+
+    void SyncMonologues()
+    {
+        MonologuesBtnText.enabled = MonologueHints.Value;
+    }
+
 }

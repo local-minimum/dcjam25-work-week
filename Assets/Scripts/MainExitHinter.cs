@@ -94,6 +94,7 @@ public class MainExitHinter : Singleton<MainExitHinter, MainExitHinter>, IOnLoad
 
     void PlayClipFrom(ExpectedRegion region)
     {
+        if (!SettingsMenu.MonologueHints.Value) return;
 
         if (region.clips != null)
         {
@@ -109,6 +110,8 @@ public class MainExitHinter : Singleton<MainExitHinter, MainExitHinter>, IOnLoad
 
     void PlayDefaultClip()
     {
+        if (!SettingsMenu.MonologueHints.Value) return;
+
         var clip = multipleRegionsUnexplored.GetRandomElementOrDefault();
         if (clip == null)
         {

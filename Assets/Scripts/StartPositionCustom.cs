@@ -130,6 +130,8 @@ public class StartPositionCustom : TDFeature, ITDCustom
 
     void PlayRandomHint(List<AudioClip> options)
     {
+        if (!SettingsMenu.MonologueHints.Value) return;
+
         if (speaker == null)
         {
             Debug.LogError("CustomStartPos: Missing speaker");
