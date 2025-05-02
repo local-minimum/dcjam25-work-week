@@ -45,6 +45,15 @@ public class SettingsMenu : MonoBehaviour
     [SerializeField]
     TextMeshProUGUI MonologuesBtnText;
 
+    [SerializeField]
+    Button ClearAnomaliesBtn;
+
+    [SerializeField]
+    Button BalancedAnomaliesBtn;
+
+    [SerializeField]
+    Button SleuthyAnomaliesBtn;
+
     [SerializeField, Header("Music")]
     Slider MusicVolume;
     [SerializeField]
@@ -128,6 +137,7 @@ public class SettingsMenu : MonoBehaviour
 
         SyncEasyModeButtons();
         SyncMonologues();
+        SyncAnomalyDifficulty();
     }
 
     private void OnDisable()
@@ -227,32 +237,69 @@ public class SettingsMenu : MonoBehaviour
         }
     }
 
-    public static GameSettings.BoolSetting EasyMode => GameSettings.GetCustomBool("gameplay.easymode", false);
-
     public void SetEasyMode(bool easymode)
     {
-        EasyMode.Value = easymode;
+        WWSettings.EasyMode.Value = easymode;
         SyncEasyModeButtons();
     }
 
     void SyncEasyModeButtons()
     {
-        var easy = EasyMode.Value;
+        var easy = WWSettings.EasyMode.Value;
         EasymodeBtn.interactable = !easy;
         NormalmodeBtn.interactable = easy;
     }
 
-    public static GameSettings.BoolSetting MonologueHints => GameSettings.GetCustomBool("gameplay.monologues", true);
-
     public void ToggleMonologues()
     {
-        MonologueHints.Value = !MonologueHints.Value;
+        WWSettings.MonologueHints.Value = !WWSettings.MonologueHints.Value;
         SyncMonologues();
     }
 
     void SyncMonologues()
     {
-        MonologuesBtnText.enabled = MonologueHints.Value;
+        MonologuesBtnText.enabled = WWSettings.MonologueHints.Value;
+    }
+
+    public void SetAnomalyDifficulty(Button btn)
+    {
+        if (btn == ClearAnomaliesBtn)
+        {
+            WWSettings.AnomalyDifficulty.Value = AnomalyDifficulty.Clear;
+        } else if (btn == BalancedAnomaliesBtn)
+        {
+            WWSettings.AnomalyDifficulty.Value = AnomalyDifficulty.Balanced;
+        } else if (btn == SleuthyAnomaliesBtn)
+        {
+            WWSettings.AnomalyDifficulty.Value = AnomalyDifficulty.Sleuthy;
+        } else
+        {
+            Debug.LogWarning($"SettingsMenu: Unexpected button call from {btn}");
+        }
+
+        SyncAnomalyDifficulty();
+    }
+
+    void SyncAnomalyDifficulty()
+    {
+        switch (WWSettings.AnomalyDifficulty.Value)
+        {
+            case AnomalyDifficulty.Clear:
+                ClearAnomaliesBtn.interactable = false;
+                BalancedAnomaliesBtn.interactable = true;
+                SleuthyAnomaliesBtn.interactable = true;
+                break;
+            case AnomalyDifficulty.Balanced:
+                ClearAnomaliesBtn.interactable = true;
+                BalancedAnomaliesBtn.interactable = false;
+                SleuthyAnomaliesBtn.interactable = true;
+                break;
+            case AnomalyDifficulty.Sleuthy:
+                ClearAnomaliesBtn.interactable = true;
+                BalancedAnomaliesBtn.interactable = true;
+                SleuthyAnomaliesBtn.interactable = false;
+                break;
+        }
     }
 
 }

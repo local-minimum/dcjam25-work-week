@@ -130,7 +130,7 @@ public class StartPositionCustom : TDFeature, ITDCustom
 
     void PlayRandomHint(List<AudioClip> options)
     {
-        if (!SettingsMenu.MonologueHints.Value) return;
+        if (!WWSettings.MonologueHints.Value) return;
 
         if (speaker == null)
         {

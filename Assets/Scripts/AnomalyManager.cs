@@ -91,6 +91,20 @@ public class AnomalyManager : Singleton<AnomalyManager, AnomalyManager>, IOnLoad
     [SerializeField]
     List<AnomalySetting> anomalies = new List<AnomalySetting>();
 
+    [SerializeField, Range(1, 10)]
+    int clearDifficultyBase = 1;
+
+    [SerializeField, Range(1, 10)]
+    int clearDifficultyMax = 5;
+
+    [SerializeField, Range(1, 10)]
+    int balancedDifficultyBase = 4;
+
+    [SerializeField, Range(1, 10)]
+    int sleuthyDifficultyBase = 8;
+    
+    [SerializeField, Range(1, 10)]
+    int sleuthDifficultyMin = 5;
 
     public IEnumerable<string> GetCensuredAnomalies()
     {
@@ -157,7 +171,7 @@ public class AnomalyManager : Singleton<AnomalyManager, AnomalyManager>, IOnLoad
         if (unsued.Count > 0)
         {
             return unsued
-                .OrderBy(a => Mathf.Abs(a.difficulty - wantedDifficulty))
+                .OrderBy(a => Mathf.Abs(a.difficulty - WantedDifficulty))
                 .ThenBy(a => roomOrder(a.room));
         }
 
@@ -166,14 +180,14 @@ public class AnomalyManager : Singleton<AnomalyManager, AnomalyManager>, IOnLoad
             return anomalies
                 .OrderBy(a => history.LastIndexOf(a) / selectFromFirstNCandidates)
                 .ThenBy(a => !a.horror)
-                .ThenBy(a => Mathf.Abs(a.difficulty - wantedDifficulty))
+                .ThenBy(a => Mathf.Abs(a.difficulty - WantedDifficulty))
                 .ThenBy(a => roomOrder(a.room));
         }
 
         return anomalies
             .OrderBy(a => history.LastIndexOf(a) / selectFromFirstNCandidates)
             .ThenBy(a => a.horror)
-            .ThenBy(a => Mathf.Abs(a.difficulty - wantedDifficulty))
+            .ThenBy(a => Mathf.Abs(a.difficulty - WantedDifficulty))
             .ThenBy(a => roomOrder(a.room));
     }
 
@@ -219,7 +233,7 @@ public class AnomalyManager : Singleton<AnomalyManager, AnomalyManager>, IOnLoad
             missedAnomalies = new List<string>(manager.missedAnomalies);
             weekNumber = manager.WeekNumber;
             weekday = manager.Weekday;
-            wantedDifficulty = manager.wantedDifficulty;
+            wantedDifficulty = manager.difficultyOffset;
             activeAnomaly = manager.activeAnomaly?.id;
             won = manager.won;
             previousDayOutcome = manager.prevDayOutcome;
@@ -232,7 +246,7 @@ public class AnomalyManager : Singleton<AnomalyManager, AnomalyManager>, IOnLoad
             encounteredAnomalies = new List<string>();
             missedAnomalies = new List<string>();
             weekNumber = 0;
-            wantedDifficulty = START_DIFFICULTY;
+            wantedDifficulty = LEGACY_START_DIFFICULTY;
             activeAnomaly = null;
             weekday = Weekday.Monday;
             won = false;
@@ -248,8 +262,35 @@ public class AnomalyManager : Singleton<AnomalyManager, AnomalyManager>, IOnLoad
     List<string> encounteredAnomalies = new List<string>();
     List<string> missedAnomalies = new List<string>();
 
-    const int START_DIFFICULTY = 3;
-    int wantedDifficulty = START_DIFFICULTY;
+    const int LEGACY_START_DIFFICULTY = 3;
+
+    int difficultyOffset;
+    int WantedDifficulty
+    {
+        get
+        {
+            switch (WWSettings.AnomalyDifficulty.Value)
+            {
+                case AnomalyDifficulty.Clear:
+                    return Mathf.Clamp(
+                        clearDifficultyBase + difficultyOffset, 
+                        1, 
+                        clearDifficultyMax);
+                case AnomalyDifficulty.Balanced:
+                    return Mathf.Clamp(
+                        balancedDifficultyBase + difficultyOffset, 
+                        1, 
+                        10);
+                case AnomalyDifficulty.Sleuthy:
+                    return Mathf.Clamp(
+                        sleuthyDifficultyBase + difficultyOffset, 
+                        sleuthDifficultyMin, 
+                        10);
+            }
+
+            throw new System.ArgumentException($"{WWSettings.AnomalyDifficulty.Value} not supported");
+        }
+    }
 
     int _weekNumber;
     public int WeekNumber => _weekNumber;
@@ -273,7 +314,7 @@ public class AnomalyManager : Singleton<AnomalyManager, AnomalyManager>, IOnLoad
     {
         _weekday = Weekday.Monday;
         _weekNumber = 0;
-        wantedDifficulty = START_DIFFICULTY;
+        difficultyOffset = 0;
         missedAnomalies.Clear();
         encounteredAnomalies.Clear();
         activeAnomaly = null;
@@ -295,6 +336,14 @@ public class AnomalyManager : Singleton<AnomalyManager, AnomalyManager>, IOnLoad
     {
         var anomalies = save.anomalies ?? new AnomalyManagerSaveData();
 
+        var stringVersion = save.environment.version;
+        if (System.Version.TryParse(stringVersion, out var version))
+        {
+            if (version < new System.Version(0, 2, 0))
+            {
+                anomalies.wantedDifficulty -= LEGACY_START_DIFFICULTY;
+            }
+        }
         encounteredAnomalies.Clear();
         encounteredAnomalies.AddRange(anomalies.encounteredAnomalies);
 
@@ -319,13 +368,13 @@ public class AnomalyManager : Singleton<AnomalyManager, AnomalyManager>, IOnLoad
 
         if (BBFight.FightStatus == FightStatus.Died)
         {
-            wantedDifficulty = Mathf.Max(1, wantedDifficulty - 1);
+            difficultyOffset = anomalies.wantedDifficulty - 1;
             prevDayOutcome = PreviousDayOutcome.Negative;
             SetWeekPlan();
             SetAnomalyOfTheDay(false);
         } else
         {
-            wantedDifficulty = anomalies.wantedDifficulty;
+            difficultyOffset = anomalies.wantedDifficulty;
 
             activeAnomaly =
                 this.anomalies.FirstOrDefault(a => a.id == anomalies.activeAnomaly);
@@ -337,7 +386,7 @@ public class AnomalyManager : Singleton<AnomalyManager, AnomalyManager>, IOnLoad
 
         if (BBFight.FightStatus == FightStatus.Survived)
         {
-            wantedDifficulty = Mathf.Min(10, wantedDifficulty + 1);
+            difficultyOffset++;
         }
 
         Debug.Log($"AnomalyManager: Loaded save {save.anomalies} and it's {Weekday} in week {WeekNumber} with {(activeAnomaly == null ? "a regular office" : activeAnomaly.ToString())}");
@@ -463,7 +512,7 @@ public class AnomalyManager : Singleton<AnomalyManager, AnomalyManager>, IOnLoad
             _weekday = Weekday.NextDay();
 
             encounteredAnomalies.Add(activeAnomaly?.id);
-            wantedDifficulty = Mathf.Min(10, wantedDifficulty + 1);
+            difficultyOffset++;
 
             activeAnomaly = null;
 
@@ -498,7 +547,7 @@ public class AnomalyManager : Singleton<AnomalyManager, AnomalyManager>, IOnLoad
         } else
         {
             prevDayOutcome = PreviousDayOutcome.Negative;
-            if (!SettingsMenu.EasyMode.Value)
+            if (!WWSettings.EasyMode.Value)
             {
                 _weekday = Weekday.Monday;
             } else
@@ -512,7 +561,7 @@ public class AnomalyManager : Singleton<AnomalyManager, AnomalyManager>, IOnLoad
             if (activeAnomaly != null)
             {
                 // Only lower anomaly difficulty when player misses one
-                wantedDifficulty = Mathf.Max(1, wantedDifficulty - 1);
+                difficultyOffset--;
                 missedAnomalies.Add(activeAnomaly.id);
             }
 

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -138,6 +139,86 @@ namespace LMCore.IO
             }
         }
 
+        public class IntSetting
+        {
+            public delegate void OnChangeEvent(int value);
+
+            public event OnChangeEvent OnChange;
+
+            public readonly string Key;
+            private int DefaultValue;
+
+            public IntSetting(string key, int defaultValue = 0)
+            {
+                Key = key;
+                DefaultValue = defaultValue;
+            }
+
+            public int Value
+            {
+                get
+                {
+                    return PlayerPrefs.GetInt(Key, DefaultValue);
+                }
+
+                set
+                {
+                    PlayerPrefs.SetInt(Key, value);
+                    OnChange?.Invoke(value);
+                }
+            }
+
+            public void RestoreDefault()
+            {
+                PlayerPrefs.DeleteKey(Key);
+            }
+
+            public void StoreCurrrentValue()
+            {
+                Value = Value;
+            }
+        }
+        public class EnumSetting<T> where T : Enum, IConvertible
+        {
+            public delegate void OnChangeEvent(T value);
+
+            public event OnChangeEvent OnChange;
+
+            public readonly string Key;
+            private int DefaultValue;
+
+            public EnumSetting(string key, T defaultValue)
+            {
+                Key = key;
+                DefaultValue = defaultValue.ToInt32(null);
+            }
+
+            public T Value
+            {
+                get
+                {
+                    var rawValue = PlayerPrefs.GetInt(Key, DefaultValue);
+                    return (T) Enum.ToObject(typeof(T), rawValue);
+                }
+
+                set
+                {
+                    PlayerPrefs.SetInt(Key, value.ToInt32(null));
+                    OnChange?.Invoke(value);
+                }
+            }
+
+            public void RestoreDefault()
+            {
+                PlayerPrefs.DeleteKey(Key);
+            }
+
+            public void StoreCurrrentValue()
+            {
+                Value = Value;
+            }
+        }
+
         #region Camera
         public static readonly FloatSetting FOV = new FloatSetting($"{Camera}.FOV", 60f);
         #endregion
@@ -226,6 +307,25 @@ namespace LMCore.IO
 
             return setting;
         }
+
+        private static Dictionary<string, IntSetting> CustomInts = new Dictionary<string, IntSetting>();
+        public static IntSetting GetCustomInt(string key, int defaultValue = 0)
+        {
+            var fullKey = $"{CustomRoot}.{key}";
+            if (CustomInts.ContainsKey(fullKey))
+            {
+                return CustomInts[fullKey];
+            }
+
+            var setting = new IntSetting(fullKey, defaultValue);
+
+            CustomInts[fullKey] = setting;
+
+            return setting;
+        }
+
+        public static string GetCustomEnumKey(string key) =>
+            $"{CustomRoot}.{key}";
         #endregion Custom Settings
     }
 }
