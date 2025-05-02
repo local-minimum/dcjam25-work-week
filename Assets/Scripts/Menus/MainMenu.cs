@@ -1,6 +1,8 @@
 using LMCore.Extensions;
 using LMCore.UI;
+using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -28,6 +30,12 @@ public class MainMenu : MonoBehaviour
     [SerializeField]
     float easeDownMusicDuration;
 
+    [SerializeField]
+    TextMeshProUGUI titleUI;
+
+    [SerializeField]
+    UnityEvent OnNewGame;
+
     public void LoadSave()
     {
         WWSaveSystem.SafeInstance.LoadAutoSave();
@@ -39,9 +47,20 @@ public class MainMenu : MonoBehaviour
     public void NewGame()
     {
         WWSaveSystem.SafeInstance.DeleteAutoSave();
-        Cursor.visible = false;
+
+        transform.HideAllChildren();
+        titleUI.enabled = false;
+
+        OnNewGame?.Invoke();
+    }
+
+    public void ShowSlideshow()
+    {
         lowerMusic = true;
         lowerMusicStartTime = Time.timeSinceLevelLoad;
+
+        Cursor.visible = false;
+
         intro.Show(SwapToOfficeScene);
     }
 
