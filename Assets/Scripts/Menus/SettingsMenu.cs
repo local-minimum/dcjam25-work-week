@@ -54,6 +54,15 @@ public class SettingsMenu : MonoBehaviour
     [SerializeField]
     Button SleuthyAnomaliesBtn;
 
+    [SerializeField]
+    Button GolferBtn;
+
+    [SerializeField]
+    Button StewardBtn;
+
+    [SerializeField]
+    Button ZealousBtn;
+
     [SerializeField, Header("Music")]
     Slider MusicVolume;
     [SerializeField]
@@ -138,6 +147,7 @@ public class SettingsMenu : MonoBehaviour
         SyncEasyModeButtons();
         SyncMonologues();
         SyncAnomalyDifficulty();
+        SyncManagerPersonality();
     }
 
     private void OnDisable()
@@ -298,6 +308,47 @@ public class SettingsMenu : MonoBehaviour
                 ClearAnomaliesBtn.interactable = true;
                 BalancedAnomaliesBtn.interactable = true;
                 SleuthyAnomaliesBtn.interactable = false;
+                break;
+        }
+    }
+
+    public void SetManagerPersonality(Button btn)
+    {
+        if (btn == GolferBtn)
+        {
+            WWSettings.ManagerPersonality.Value = ManagerPersonality.Golfer;
+        } else if (btn == StewardBtn)
+        {
+            WWSettings.ManagerPersonality.Value = ManagerPersonality.Steward;
+        } else if (btn == ZealousBtn)
+        {
+            WWSettings.ManagerPersonality.Value = ManagerPersonality.Zealous;
+        } else
+        {
+            Debug.LogWarning($"SettingsMenu: Unexpected button call from {btn}");
+        }
+
+        SyncManagerPersonality();
+    }
+
+    void SyncManagerPersonality()
+    {
+        switch (WWSettings.ManagerPersonality.Value)
+        {
+            case ManagerPersonality.Golfer:
+                GolferBtn.interactable = false;
+                StewardBtn.interactable = true;
+                ZealousBtn.interactable = true;
+                break;
+            case ManagerPersonality.Steward:
+                GolferBtn.interactable = true;
+                StewardBtn.interactable = false;
+                ZealousBtn.interactable = true;
+                break;
+            case ManagerPersonality.Zealous:
+                GolferBtn.interactable = true;
+                StewardBtn.interactable = true;
+                ZealousBtn.interactable = false;
                 break;
         }
     }

@@ -7,7 +7,14 @@ public enum AnomalyDifficulty
     Sleuthy
 }
 
-public static class WWSettings
+public enum ManagerPersonality
+{
+    Golfer,
+    Steward,
+    Zealous
+}
+
+public static class WWSettings 
 {
     public static GameSettings.BoolSetting MonologueHints => 
         GameSettings.GetCustomBool("gameplay.monologues", true);
@@ -29,6 +36,22 @@ public static class WWSettings
                 global::AnomalyDifficulty.Balanced);
 
             return _anomalyDifficulty;
+        }
+    }
+
+    static GameSettings.EnumSetting<ManagerPersonality> _managerPersonality;
+
+    public static GameSettings.EnumSetting<ManagerPersonality> ManagerPersonality
+    {
+        get
+        {
+            if (_managerPersonality != null) return _managerPersonality;
+
+            _managerPersonality = new GameSettings.EnumSetting<ManagerPersonality>(
+                GameSettings.GetCustomEnumKey("gameplay.manager"),
+                global::ManagerPersonality.Steward);
+
+            return _managerPersonality;
         }
     }
 }
