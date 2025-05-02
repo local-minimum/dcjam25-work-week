@@ -487,12 +487,22 @@ namespace LMCore.Crawler
         {
             AbsMenu.OnShowMenu += AbsMenu_OnShowMenu;
             AbsMenu.OnExitMenu += AbsMenu_OnExitMenu;
+            var n = Node;
+            if (n != null)
+            {
+                n.AddOccupant(this, true);
+            }
         }
 
         private void OnDisable()
         {
             AbsMenu.OnShowMenu -= AbsMenu_OnShowMenu;
             AbsMenu.OnExitMenu -= AbsMenu_OnExitMenu;
+            var n = Node;
+            if (n != null)
+            {
+                n.RemoveOccupant(this);
+            }
         }
 
         private void AbsMenu_OnExitMenu(AbsMenu menu)

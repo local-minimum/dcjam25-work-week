@@ -88,7 +88,12 @@ public class BossBattleTrigger : AbsAnomaly, IOnLoadSave
     {
         if (!ManagerGroggy && (TDDangerZone.In(Player) || FallbackManagerDanger()))
         {
-            EnterBossBattle();
+            var personality = Manager.GetComponent<ManagerPersonalityController>();
+
+            if (personality == null || personality.Attentive)
+            {
+                EnterBossBattle();
+            }
         }
     }
 

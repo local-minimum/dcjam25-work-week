@@ -7,6 +7,9 @@ namespace LMCore.Crawler
 {
     public class SmoothMovementTransitions : MonoBehaviour
     {
+        [SerializeField, Tooltip("If enemies don't have instant movement")]
+        bool alwaysActive;
+
         protected string PrefixLogMessage(string message) =>
             $"Smooth Movement: {message}";
 
@@ -26,7 +29,7 @@ namespace LMCore.Crawler
         private void Awake()
         {
             GameSettings.InstantMovement.OnChange += InstantMovement_OnChange;
-            enabled = !GameSettings.InstantMovement.Value;
+            enabled = alwaysActive || !GameSettings.InstantMovement.Value;
         }
 
         private void OnDestroy()
@@ -36,7 +39,7 @@ namespace LMCore.Crawler
 
         private void InstantMovement_OnChange(bool value)
         {
-            enabled = !value;
+            enabled = alwaysActive || !value;
         }
         private void OnEnable()
         {

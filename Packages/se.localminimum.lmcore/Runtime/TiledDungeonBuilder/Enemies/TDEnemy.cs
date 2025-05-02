@@ -451,6 +451,14 @@ namespace LMCore.TiledDungeon.Enemies
 
         public StateType CurrentActivityState => activeState == null ? StateType.None : activeState.State;
 
+        public void ReEnterActiveState()
+        {
+            if (activeState != null)
+            {
+                activeState.Enter();
+            }
+        }
+
         /// <summary>
         /// Call this whenever the enemy has done something or the player
         /// </summary>
