@@ -21,7 +21,7 @@ namespace LMCore.TiledDungeon.Enemies
                 var passing = (Time.timeSinceLevelLoad - t0) > duration;
                 if (OneTime && passing)
                 {
-                    Debug.Log($"DurationCriteria {name}: Onetime passing check done");
+                    Debug.Log($"CountdownCriteria {name}: Onetime passing check done");
                     passingChecked = true;
                 }
                 return passing;

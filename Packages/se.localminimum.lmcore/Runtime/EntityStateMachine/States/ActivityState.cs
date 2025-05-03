@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace LMCore.EntitySM.State
 {
-    public delegate void EnterStateEvent(ActivityManager manager, ActivityState state);
+    public delegate void EnterStateEvent(ActivityManager manager, ActivityState state, bool forced);
     public delegate void ExitStateEvent(ActivityManager manager, ActivityState state);
     public delegate void StayStateEvent(ActivityManager manager, ActivityState state);
 
@@ -71,11 +71,11 @@ namespace LMCore.EntitySM.State
             entryTime = Time.timeSinceLevelLoad - timeSinceEntry;
         }
 
-        public void Enter()
+        public void Enter(bool forced)
         {
             entryTime = Time.timeSinceLevelLoad;
             isAcitveState = true;
-            OnEnterState?.Invoke(Manager, this);
+            OnEnterState?.Invoke(Manager, this, forced);
         }
 
         public void Exit()

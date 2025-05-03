@@ -43,7 +43,7 @@ namespace LMCore.TiledDungeon.Enemies
 
         public void InitOrResumePatrol()
         {
-            if (!HasTarget) GetNextCheckpoint();
+            if (!HasTarget) SetNextCheckpoint();
         }
 
         private void OnEnable()
@@ -85,7 +85,7 @@ namespace LMCore.TiledDungeon.Enemies
 
             if (entity.Coordinates == target.Coordinates)
             {
-                GetNextCheckpoint();
+                SetNextCheckpoint();
                 if (!Patrolling) return;
             }
 
@@ -183,7 +183,27 @@ namespace LMCore.TiledDungeon.Enemies
             }
         }
 
-        void GetNextCheckpoint()
+        public void ForceSetCheckpoint(int loop, int rank, int direction)
+        {
+            var options = Enemy.GetCheckpoints(loop, rank).ToList();
+            if (options.Count > 0)
+            {
+                this.target = options.First(); 
+                this.direction = direction;
+                Debug.Log(PrefixLogMessage($"Checkpoint updated to {target}"));
+            } else
+            {
+                Debug.LogError(PrefixLogMessage($"There's no loop {loop} rank {rank} checkpoint"));
+            }
+        }
+
+        public void ForceSetCheckpoint(TDPathCheckpoint target, int direction)
+        {
+            this.target = target;
+            this.direction = direction;
+        }
+
+        void SetNextCheckpoint()
         {
             if (target == null) {
                 TrySwappingPatrolLoop();
@@ -240,17 +260,23 @@ namespace LMCore.TiledDungeon.Enemies
             var manager = GetComponentInChildren<TDEnemyPathManager>();
             if (manager != null)
             {
-                target = manager.GetNextTarget(target.Loop);
-                direction = 1;
+                var newTarget = manager.GetNextTarget(target.Loop);
+                if (newTarget != null)
+                {
+                    target = newTarget;
+                    direction = 1;
+                    return;
+                }
             }
 
-            if (target == null)
+            if (target == null && fallback != null)
             {
                 target = fallback;
                 direction = fallbackDirection;
+                return;
             }
 
-            if (target == null) TrySwappingPatrolLoop();
+            TrySwappingPatrolLoop();
         }
 
         public EnemyPatrollingSave Save() =>

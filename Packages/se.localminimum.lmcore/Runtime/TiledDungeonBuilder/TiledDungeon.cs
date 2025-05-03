@@ -438,9 +438,9 @@ namespace LMCore.TiledDungeon
             }
         }
 
-        public GridEntity GetEntity(string identifier)
+        public GridEntity GetEntity(string identifier, bool includeDisabled = false)
         {
-            foreach (var entity in GetComponentsInChildren<GridEntity>())
+            foreach (var entity in GetComponentsInChildren<GridEntity>(includeDisabled))
             {
                 if (entity.Identifier == identifier) return entity;
             }

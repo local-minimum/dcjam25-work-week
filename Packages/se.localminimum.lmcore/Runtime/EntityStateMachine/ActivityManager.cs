@@ -35,7 +35,7 @@ namespace LMCore.EntitySM
 
                 if (ActiveState != null)
                 {
-                    ActiveState.Enter();
+                    ActiveState.Enter(false);
                     return true;
                 }
             }
@@ -66,7 +66,7 @@ namespace LMCore.EntitySM
             }
         }
 
-        private void OnEnterState(ActivityManager manager, ActivityState state)
+        private void OnEnterState(ActivityManager manager, ActivityState state, bool forced)
         {
             if (manager == this)
             {
@@ -124,7 +124,8 @@ namespace LMCore.EntitySM
 
             if (ActiveState == newState)
             {
-                Debug.LogWarning(PrefixLogMessage($"Already was {newStateType} - {ActiveState}"));
+                Debug.Log(PrefixLogMessage($"Already was {newStateType} - {ActiveState}, will still re-enter it"));
+                ActiveState.Enter(true);
                 return;
             }
 
@@ -136,7 +137,7 @@ namespace LMCore.EntitySM
             ActiveState = newState;
             if (ActiveState != null && emitEvents)
             {
-                ActiveState.Enter();
+                ActiveState.Enter(true);
             }
             Debug.Log($"New state is {ActiveState} ({ActiveState.State})");
         }

@@ -48,7 +48,7 @@ namespace LMCore.TiledDungeon.Enemies
             ActivityState.OnEnterState -= SyncState; ;
         }
 
-        private void SyncState(EntitySM.ActivityManager manager, ActivityState state) =>
+        private void SyncState(EntitySM.ActivityManager manager, ActivityState state, bool forced) =>
             SyncState(manager, state.State);
 
         private void SyncState(EntitySM.ActivityManager manager, StateType state)

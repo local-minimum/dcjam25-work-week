@@ -135,7 +135,19 @@ namespace LMCore.Crawler
         float EasedAnimationProgress =>
             animationEasing == null ? AnimationProgress : animationEasing.Evaluate(AnimationProgress);
 
-        private List<IDungeonNode> ReservationNodes = new List<IDungeonNode>();
+        private List<IDungeonNode> _reservationNodes = new List<IDungeonNode>();
+        public List<IDungeonNode> Reservations => _reservationNodes;
+
+        /// <summary>
+        /// Completely abandons current interpretation without cleanup
+        /// </summary>
+        public void Halt()
+        {
+            activeInterpretation = null;
+            currentCheckpoint = null;
+            animationTickId = -1;
+            _reservationNodes.Clear();
+        }
 
         private void FinalizeInterpretation()
         {
@@ -154,13 +166,12 @@ namespace LMCore.Crawler
                     positionConstraint.enabled = true;
                 }
 
-                ReservationNodes.Clear();
+                _reservationNodes.Clear();
             }
         }
 
         MovementCheckpoint currentCheckpoint;
 
-        bool startConstrained;
         bool forced;
 
         private void Interpreter_OnMovement(
@@ -197,7 +208,7 @@ namespace LMCore.Crawler
                 var node = interpretation.Steps[i].Checkpoint.Node;
                 if (node != null && currentCheckpoint.Node != node)
                 {
-                    ReservationNodes.Add(node);
+                    _reservationNodes.Add(node);
                     node.Reserve(entity);
                 }
             }
@@ -232,16 +243,16 @@ namespace LMCore.Crawler
                 out var checkpoint,
                 out var stepProgress);
 
-            if (ReservationNodes.Count > 0)
+            if (_reservationNodes.Count > 0)
             {
                 if (activeInterpretation.Outcome == MovementInterpretationOutcome.DynamicBounce || activeInterpretation.Outcome == MovementInterpretationOutcome.Bouncing)
                 {
-                    foreach (var node in ReservationNodes)
+                    foreach (var node in _reservationNodes)
                     {
                         node.RemoveReservation(Entity);
                     }
 
-                    ReservationNodes.Clear();
+                    _reservationNodes.Clear();
                 }
             }
             transform.rotation = rotation;

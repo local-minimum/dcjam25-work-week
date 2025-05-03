@@ -455,7 +455,7 @@ namespace LMCore.TiledDungeon.Enemies
         {
             if (activeState != null)
             {
-                activeState.Enter();
+                activeState.Enter(true);
             }
         }
 
@@ -490,17 +490,27 @@ namespace LMCore.TiledDungeon.Enemies
         [SerializeField, HideInInspector]
         Direction forceDirection = Direction.None;
 
-        private void SynchActiveStateBehavior(bool initBehaviour = true)
+        public TDEnemyPatrolling ActivePatrolling
+        {
+            get
+            {
+                if (activeState == null) return null;
+                return activeState.GetComponent<TDEnemyPatrolling>();
+            }
+        }
+
+        private void SynchActiveStateBehavior(bool initBehaviour = true, bool alwaysEnter = false)
         {
             if (activeState == null)
             {
+                Debug.LogWarning(PrefixLogMessage("No active state, nothing to do"));
                 return;
             }
 
             var newActiveBehaviour = activeState.GetComponent<TDAbsEnemyBehaviour>();
             if (newActiveBehaviour == null)
             {
-                Debug.LogWarning($"The active state has no behaviour {activeState}");
+                Debug.LogWarning(PrefixLogMessage($"The active state has no behaviour {activeState}"));
                 return;
             }
 
@@ -509,7 +519,10 @@ namespace LMCore.TiledDungeon.Enemies
             if (newActiveBehaviour is TDEnemyPatrolling)
             {
                 TDEnemyPatrolling patrolling = (TDEnemyPatrolling)newActiveBehaviour;
-                if (initBehaviour) SetPatrolGoal(patrolling);
+                if (initBehaviour && patrolling != null)
+                {
+                    patrolling.InitOrResumePatrol();
+                }
             }
             else if (newActiveBehaviour is TDEnemyGuarding)
             {
@@ -561,18 +574,20 @@ namespace LMCore.TiledDungeon.Enemies
 
                 newActiveBehaviour.EnterBehaviour();
                 newActiveBehaviour.enabled = true;
-                SynchActiveStateBehavior();
+            } else if (newActiveBehaviour != null && alwaysEnter)
+            {
+                newActiveBehaviour.EnterBehaviour();
             }
 
             forceDirection = Direction.None;
         }
 
-        private void ActivityState_OnEnterState(ActivityManager manager, ActivityState state)
+        private void ActivityState_OnEnterState(ActivityManager manager, ActivityState state, bool forced)
         {
             if (manager != ActivityManager && Stats.IsAlive) return;
 
             Debug.Log(PrefixLogMessage($"Getting state {state.State}"));
-            SynchActiveStateBehavior();
+            SynchActiveStateBehavior(alwaysEnter: forced);
             OnChangeState?.Invoke(state.State);
         }
 
@@ -670,31 +685,6 @@ namespace LMCore.TiledDungeon.Enemies
             return GetCheckpoints(current.Loop, nextRank);
         }
 
-        void SetPatrolGoal(TDEnemyPatrolling patrolling)
-        {
-            if (patrolling == null)
-            {
-                Debug.LogError(PrefixLogMessage("I don't have a patrolling pattern"));
-                return;
-            }
-
-            patrolling.InitOrResumePatrol();
-
-            /*
-            var pathCheckpoint = ClosestCheckpoint();
-            if (pathCheckpoint == null)
-            {
-                Debug.LogError(PrefixLogMessage("There's no closest checkpoint for me"));
-                Info();
-            }
-            else
-            {
-                // Debug.Log(PrefixLogMessage($"Setting patroll checkpoint {pathCheckpoint}"));
-                patrolling.SetCheckpointFromPatrolPath(pathCheckpoint, pathCheckpoint.Rank == 0 && pathCheckpoint.Bounce ? -1 : 1);
-            }
-            */
-        }
-
         #region Save / Load
         public EnemySave Save()
         {
@@ -770,7 +760,7 @@ namespace LMCore.TiledDungeon.Enemies
                     {
                         activeState.Load(true, enemySave.activeStateActiveDuration);
                     }
-                    SynchActiveStateBehavior(false);
+                    SynchActiveStateBehavior(false, alwaysEnter: true);
                     OnChangeState?.Invoke(activeState.State);
                 }
 

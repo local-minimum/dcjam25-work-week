@@ -984,12 +984,15 @@ namespace LMCore.TiledDungeon
             _reservations.Add(entity);
         }
 
-        public void RemoveOccupant(GridEntity entity)
+        public void RemoveOccupant(GridEntity entity, bool transferEntity = true)
         {
             // Debug.Log($"Removing {entity.name} occupancy from {Coordinates}");
             _occupants.Remove(entity);
-            OccupationRules.HandleDeparture(entity, _occupants);
-            if (entity.transform.parent == transform)
+            if (OccupationRules != null)
+            {
+                OccupationRules.HandleDeparture(entity, _occupants);
+            }
+            if (entity.transform.parent == transform && transferEntity)
             {
                 entity.transform.SetParent(Dungeon.transform);
             }

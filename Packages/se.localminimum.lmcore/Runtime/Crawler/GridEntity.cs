@@ -94,7 +94,10 @@ namespace LMCore.Crawler
                     value.AddAnchor(this);
                     if (Node != value.Node)
                     {
-                        Node?.RemoveOccupant(this);
+                        if (Node != null)
+                        {
+                            Node.RemoveOccupant(this);
+                        }
                         addOccupant = true;
                     }
 
@@ -104,7 +107,10 @@ namespace LMCore.Crawler
                 }
                 else
                 {
-                    Node?.RemoveOccupant(this);
+                    if (Node != null)
+                    {
+                        Node.RemoveOccupant(this);
+                    }
                     // Only keep potential flying mode, we don't fly if we just fall
                     TransportationMode &= TransportationMode.Flying;
                 }
@@ -188,8 +194,14 @@ namespace LMCore.Crawler
                 {
                     if (Node != value)
                     {
-                        Node?.RemoveOccupant(this);
-                        _anchor?.RemoveAnchor(this);
+                        if (Node != null)
+                        {
+                            Node.RemoveOccupant(this);
+                        }
+                        if (_anchor != null)
+                        {
+                            _anchor.RemoveAnchor(this);
+                        }
                         newNode = true;
                     }
                     _node = value;
@@ -501,7 +513,7 @@ namespace LMCore.Crawler
             var n = Node;
             if (n != null)
             {
-                n.RemoveOccupant(this);
+                n.RemoveOccupant(this, transferEntity: false);
             }
         }
 

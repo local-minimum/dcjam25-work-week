@@ -204,6 +204,11 @@ public class StartPositionCustom : TDFeature, ITDCustom
             if (enemy != null)
             {
                 enemy.ForceActivity(LMCore.EntitySM.State.StateType.Patrolling);
+                var patrolling = enemy.ActivePatrolling;
+                if (patrolling != null)
+                {
+                    patrolling.ForceSetCheckpoint(0, 0, 1);
+                }
             } else
             {
                 Debug.LogError("The manager/enemy doesn't have an enemy script");

@@ -18,7 +18,12 @@ namespace LMCore.TiledDungeon.Enemies
         public override bool Passing {
             get
             {
-                var passing = isActive && state.ActiveDuration > duration;
+                if (!isActive)
+                {
+                    Debug.LogWarning($"Asking non active critera {name} if passing");
+                    return true;
+                }
+                var passing = state.ActiveDuration > duration;
                 if (OneTime && passing)
                 {
                     Debug.Log($"DurationCriteria {name}: Onetime passing check done");
@@ -28,6 +33,7 @@ namespace LMCore.TiledDungeon.Enemies
             }
         }
 
+        // This exists to mirror the CountDownCritera; to manually reuse of one shots
         public void Restore()
         {
             isActive = false;
@@ -61,7 +67,7 @@ namespace LMCore.TiledDungeon.Enemies
                     enabled = false;
                     Debug.Log($"DurationCriteria {name}: Used up");
                 }
-            } else
+            } else if (isActive)
             {
                 isActive = false;
             }

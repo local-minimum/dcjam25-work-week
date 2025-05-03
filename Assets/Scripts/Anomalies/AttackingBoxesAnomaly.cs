@@ -1,8 +1,9 @@
 using LMCore.Crawler;
 using LMCore.Extensions;
+using LMCore.TiledDungeon;
+using LMCore.TiledDungeon.DungeonFeatures;
 using System.Collections.Generic;
 using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class AttackingBoxesAnomaly : AbsAnomaly
@@ -21,6 +22,12 @@ public class AttackingBoxesAnomaly : AbsAnomaly
 
     [SerializeField]
     AudioSource speaker;
+
+    [SerializeField]
+    TDDecoration managerSpawn;
+
+    [SerializeField]
+    TDDecoration managerTarget;
 
     protected override void OnEnableExtra()
     {
@@ -58,6 +65,22 @@ public class AttackingBoxesAnomaly : AbsAnomaly
             if (speaker != null)
             {
                 speaker.Play();
+            }
+
+            if (WWSettings.ManagerPersonality.Value != ManagerPersonality.Golfer)
+            {
+                var manager = Dungeon.GetEntity("Manager", includeDisabled: true);
+                if (manager != null)
+                {
+                    var controller = manager.GetComponent<ManagerPersonalityController>();
+                    if (controller != null)
+                    {
+                        controller.RestoreEnemyAt(
+                            managerSpawn.GetComponentInParent<TDNode>(),
+                            Direction.West,
+                            managerTarget.GetComponentInParent<TDPathCheckpoint>());
+                    }
+                }
             }
         }
     }

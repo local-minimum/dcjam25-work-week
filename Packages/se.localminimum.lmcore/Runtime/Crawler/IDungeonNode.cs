@@ -52,7 +52,7 @@ namespace LMCore.Crawler
         public void Reserve(GridEntity entity);
         public void RemoveReservation(GridEntity entity);
         public void AddOccupant(GridEntity entity, bool push);
-        public void RemoveOccupant(GridEntity entity);
+        public void RemoveOccupant(GridEntity entity, bool transferEntity = true);
 
         bool PushOccupants(GridEntity activeEntity, Direction pushDirection);
 

@@ -17,7 +17,7 @@ namespace LMCore.Crawler
         public Vector3Int PlayerStartPosition { get; }
         public Direction PlayerStartDirection { get; }
 
-        public GridEntity GetEntity(string identifier);
+        public GridEntity GetEntity(string identifier, bool includeDisabled = false);
 
         /// <summary>
         /// The registered player entity
