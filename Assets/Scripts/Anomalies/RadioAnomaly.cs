@@ -1,5 +1,6 @@
 using LMCore.Crawler;
 using LMCore.TiledDungeon;
+using LMCore.TiledDungeon.DungeonFeatures;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -81,6 +82,12 @@ public class RadioAnomaly : AbsAnomaly
     [SerializeField]
     Jitter jitter = new Jitter();
 
+    [SerializeField]
+    TDDecoration managerSpawn;
+
+    [SerializeField]
+    TDDecoration managerTarget;
+
     bool anomalous;
     public bool Activated { get; private set; }
 
@@ -146,6 +153,22 @@ public class RadioAnomaly : AbsAnomaly
     void Activation()
     {
         PlayAnomalyTrack();
+
+        if (WWSettings.ManagerPersonality.Value != ManagerPersonality.Golfer)
+        {
+            var manager = Dungeon.GetEntity("Manager", includeDisabled: true);
+            if (manager != null)
+            {
+                var controller = manager.GetComponent<ManagerPersonalityController>();
+                if (controller != null)
+                {
+                    controller.RestoreEnemyAt(
+                        managerSpawn.GetComponentInParent<TDNode>(),
+                        Direction.West,
+                        managerTarget.GetComponentInParent<TDPathCheckpoint>());
+                }
+            }
+        }
     }
 
 
