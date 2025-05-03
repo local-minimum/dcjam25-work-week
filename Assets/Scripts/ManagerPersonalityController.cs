@@ -127,6 +127,8 @@ public class ManagerPersonalityController : MonoBehaviour, IOnLoadSave
 
     #region Save/Load
     bool managerIsRestored;
+    public bool ManagerIsRestored => managerIsRestored;
+
     public bool Save() => 
         managerIsRestored;
 

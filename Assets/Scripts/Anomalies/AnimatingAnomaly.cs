@@ -1,3 +1,6 @@
+using LMCore.Crawler;
+using LMCore.TiledDungeon;
+using LMCore.TiledDungeon.DungeonFeatures;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -18,12 +21,82 @@ public class AnimatingAnomaly : AbsAnomaly
     [SerializeField]
     List<GameObject> disabledObjects = new List<GameObject>();
 
+    [SerializeField, Header("Horror")]
+    TDDecoration managerSpawn;
+
+    [SerializeField]
+    TDDecoration managerTarget;
+
+    [SerializeField]
+    AudioSource speaker;
+
+
     protected override void OnDisableExtra()
     {
+        LevelRegion.OnEnterRegion -= LevelRegion_OnEnterRegion;
+        if (speaker != null) speaker.Stop();
     }
 
     protected override void OnEnableExtra()
     {
+        LevelRegion.OnEnterRegion += LevelRegion_OnEnterRegion;
+        if (speaker != null)
+        {
+            if (SpawnedManager)
+            {
+                speaker.Play();
+            } else
+            {
+                speaker.Stop();
+            }
+        }
+    }
+
+    bool SpawnedManager
+    {
+        get
+        {
+            var manager = Dungeon.GetEntity("Manager", includeDisabled: true);
+            if (manager.enabled)
+            {
+                var personality = manager.GetComponent<ManagerPersonalityController>();
+                if (personality != null)
+                {
+                    return personality.ManagerIsRestored;
+                }
+            }
+            return false;
+        }
+    }
+
+    private void LevelRegion_OnEnterRegion(GridEntity entity, string regionId)
+    {
+        if (SpawnedManager || managerSpawn == null || managerTarget == null) return;
+
+        var myRegion = GetComponentInParent<LevelRegion>();
+        if (myRegion == null || myRegion.RegionId != regionId) return;
+
+
+        if (WWSettings.ManagerPersonality.Value != ManagerPersonality.Golfer)
+        {
+            var manager = Dungeon.GetEntity("Manager", includeDisabled: true);
+            if (manager != null)
+            {
+                var controller = manager.GetComponent<ManagerPersonalityController>();
+                if (controller != null)
+                {
+                    controller.RestoreEnemyAt(
+                        managerSpawn.GetComponentInParent<TDNode>(),
+                        Direction.East,
+                        managerTarget.GetComponentInParent<TDPathCheckpoint>());
+                }
+            }
+        }
+
+        if (speaker != null)
+        {
+            speaker.Play();
+        }
     }
 
     protected override void SetAnomalyState()
