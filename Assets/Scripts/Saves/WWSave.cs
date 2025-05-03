@@ -69,6 +69,7 @@ public class WWSave : GameSave
     public BossBattleSave battle = new BossBattleSave();
     public List<string> visitedRegions = new List<string>();
     public List<Vector3Int> playerCoordsHistory = new List<Vector3Int>();
+    public bool managerTriggeredByAnomaly;
 
     public WWSave(GameSave save)
     {

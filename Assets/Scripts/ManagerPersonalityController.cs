@@ -1,11 +1,12 @@
 using LMCore.Crawler;
 using LMCore.Extensions;
+using LMCore.IO;
 using LMCore.TiledDungeon;
 using LMCore.TiledDungeon.DungeonFeatures;
 using LMCore.TiledDungeon.Enemies;
 using UnityEngine;
 
-public class ManagerPersonalityController : MonoBehaviour
+public class ManagerPersonalityController : MonoBehaviour, IOnLoadSave
 {
     private void Start()
     {
@@ -19,20 +20,20 @@ public class ManagerPersonalityController : MonoBehaviour
 
     private void OnEnable()
     {
-        WWSettings.ManagerPersonality.OnChange += ManagerPersonality_OnChange;
+        WWSettings.ManagerPersonality.OnChange += SyncManager;
     }
 
     private void OnDisable()
     {
-        WWSettings.ManagerPersonality.OnChange -= ManagerPersonality_OnChange;
+        WWSettings.ManagerPersonality.OnChange -= SyncManager;
     }
 
-    private void ManagerPersonality_OnChange(ManagerPersonality value)
+    private void SyncManager(ManagerPersonality value)
     {
-        if (value == ManagerPersonality.Golfer)
+        if (value == ManagerPersonality.Golfer || value == ManagerPersonality.Steward && !managerIsRestored)
         {
             DisableManager();
-        } else if (value == ManagerPersonality.Zealous) {
+        } else if (value == ManagerPersonality.Zealous || value == ManagerPersonality.Steward && managerIsRestored) {
             if (!Attentive)
             {
                 var enemy = EnableManager();
@@ -96,6 +97,7 @@ public class ManagerPersonalityController : MonoBehaviour
         return enemy;
     }
 
+
     public void RestoreEnemyAt(TDNode node, Direction lookDirection, TDPathCheckpoint checkpoint)
     {
         if (WWSettings.ManagerPersonality.Value == ManagerPersonality.Zealous)
@@ -118,5 +120,30 @@ public class ManagerPersonalityController : MonoBehaviour
 
         patrolling.ForceSetCheckpoint(checkpoint, 1);
         enemy.Paused = false;
+
+        managerIsRestored = true;
     }
+
+
+    #region Save/Load
+    bool managerIsRestored;
+    public bool Save() => 
+        managerIsRestored;
+
+    public int OnLoadPriority => 100;
+
+    void OnLoadWWSave(WWSave save)
+    {
+        managerIsRestored = save.managerTriggeredByAnomaly;
+        SyncManager(WWSettings.ManagerPersonality.Value);
+    }
+
+    public void OnLoad<T>(T save) where T : new()
+    {
+        if (save is WWSave)
+        {
+            OnLoadWWSave(save as WWSave);
+        }
+    }
+    #endregion
 }

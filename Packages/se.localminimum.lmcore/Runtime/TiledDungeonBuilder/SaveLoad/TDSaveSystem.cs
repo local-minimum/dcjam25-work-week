@@ -1,3 +1,4 @@
+using LMCore.Crawler;
 using LMCore.Inventory;
 using LMCore.IO;
 using LMCore.TiledDungeon.DungeonFeatures;
@@ -57,7 +58,7 @@ namespace LMCore.TiledDungeon.SaveLoad
     /// <typeparam name="T">The extended GameSave that the game saves</typeparam>
     public abstract class TDSaveSystem<T, TSelf> : SaveSystem<T, TSelf> where T : GameSave, new() where TSelf : TDSaveSystem<T, TSelf>
     {
-        public static GameSave CreateGameSave(GameSave active)
+        public static GameSave CreateGameSave(GameSave active, out TDPlayerEntity player)
         {
 
             var save = new GameSave();
@@ -70,7 +71,6 @@ namespace LMCore.TiledDungeon.SaveLoad
 
             foreach (var dungeon in UnityEngine.Object.FindObjectsByType<TiledDungeon>(FindObjectsInactive.Include, FindObjectsSortMode.None))
             {
-
                 if (!levels.ContainsKey(dungeon.MapName))
                 {
                     levels.Add(dungeon.MapName, new LevelSave());
@@ -168,7 +168,7 @@ namespace LMCore.TiledDungeon.SaveLoad
             save.deadEnimies = TDEnemyPool.instance?.Save() ?? active?.deadEnimies;
 
             // Save player;
-            var player = FindFirstObjectByType<TDPlayerEntity>();
+            player = FindFirstObjectByType<TDPlayerEntity>();
             if (player != null)
             {
                 save.player = player.Save();
@@ -184,7 +184,7 @@ namespace LMCore.TiledDungeon.SaveLoad
 
         protected override T CreateSaveState(T active)
         {
-            return (T)CreateGameSave(active);
+            return (T)CreateGameSave(active, out var _);
         }
 
         virtual public void LogStatus()

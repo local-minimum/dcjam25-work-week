@@ -22,7 +22,7 @@ public class WWSaveSystem : TDSaveSystem<WWSave, WWSaveSystem>
 
     protected override WWSave CreateSaveState(WWSave active)
     {
-        GameSave gameSave = TDSaveSystem.CreateGameSave(active);
+        GameSave gameSave = TDSaveSystem.CreateGameSave(active, out var player);
 
         var save = new WWSave(gameSave);
 
@@ -33,6 +33,18 @@ public class WWSaveSystem : TDSaveSystem<WWSave, WWSaveSystem>
 
         Debug.Log($"WWSaveSystem: saving anomalies {save.anomalies}");
 
+        if (player != null)
+        {
+            var manager = player.Dungeon.GetEntity("Manager", includeDisabled: true);
+            if (manager != null)
+            {
+                var personality = manager.GetComponent<ManagerPersonalityController>();
+                if (personality != null)
+                {
+                    save.managerTriggeredByAnomaly = personality.Save();
+                }
+            }
+        }
         return save;
     }
 
