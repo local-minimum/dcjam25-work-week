@@ -2009,6 +2009,7 @@ GameObject:
   m_Component:
   - component: {fileID: 457050166}
   - component: {fileID: 457050165}
+  - component: {fileID: 457050167}
   m_Layer: 0
   m_Name: WinTheme
   m_TagString: Untagged
@@ -2128,6 +2129,67 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &457050167
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 457050164}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 924e3ef162b24f445a88260f974b8d68, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fadedOutVolume: 0
+  fadeIn:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  fadeOut:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: -0.11868131
+      outSlope: -0.11868131
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.055555556
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: -0.3851747
+      outSlope: -0.3851747
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.048500896
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1001 &575628247
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2879,6 +2941,62 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1140484781959073701, guid: 2ed3ea204fbfde043b7b4dfe93f7a28e, type: 3}
+      propertyPath: OnFadeInStart.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1140484781959073701, guid: 2ed3ea204fbfde043b7b4dfe93f7a28e, type: 3}
+      propertyPath: OnFadeOutStart.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1140484781959073701, guid: 2ed3ea204fbfde043b7b4dfe93f7a28e, type: 3}
+      propertyPath: OnFadeInStart.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1140484781959073701, guid: 2ed3ea204fbfde043b7b4dfe93f7a28e, type: 3}
+      propertyPath: OnFadeOutStart.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1140484781959073701, guid: 2ed3ea204fbfde043b7b4dfe93f7a28e, type: 3}
+      propertyPath: OnFadeInStart.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 457050167}
+    - target: {fileID: 1140484781959073701, guid: 2ed3ea204fbfde043b7b4dfe93f7a28e, type: 3}
+      propertyPath: OnFadeOutStart.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 457050167}
+    - target: {fileID: 1140484781959073701, guid: 2ed3ea204fbfde043b7b4dfe93f7a28e, type: 3}
+      propertyPath: OnFadeInStart.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1140484781959073701, guid: 2ed3ea204fbfde043b7b4dfe93f7a28e, type: 3}
+      propertyPath: OnFadeInStart.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: FadeOut
+      objectReference: {fileID: 0}
+    - target: {fileID: 1140484781959073701, guid: 2ed3ea204fbfde043b7b4dfe93f7a28e, type: 3}
+      propertyPath: OnFadeOutStart.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1140484781959073701, guid: 2ed3ea204fbfde043b7b4dfe93f7a28e, type: 3}
+      propertyPath: OnFadeOutStart.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: FadeIn
+      objectReference: {fileID: 0}
+    - target: {fileID: 1140484781959073701, guid: 2ed3ea204fbfde043b7b4dfe93f7a28e, type: 3}
+      propertyPath: OnFadeInStart.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: LMCore.Juice.FadingSoundSource, se.localminimum.lmcore.juice
+      objectReference: {fileID: 0}
+    - target: {fileID: 1140484781959073701, guid: 2ed3ea204fbfde043b7b4dfe93f7a28e, type: 3}
+      propertyPath: OnFadeOutStart.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: LMCore.Juice.FadingSoundSource, se.localminimum.lmcore.juice
+      objectReference: {fileID: 0}
+    - target: {fileID: 1140484781959073701, guid: 2ed3ea204fbfde043b7b4dfe93f7a28e, type: 3}
+      propertyPath: OnFadeInStart.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 1140484781959073701, guid: 2ed3ea204fbfde043b7b4dfe93f7a28e, type: 3}
+      propertyPath: OnFadeOutStart.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 1317961991219788229, guid: 2ed3ea204fbfde043b7b4dfe93f7a28e, type: 3}
       propertyPath: m_Name
       value: CrossFader

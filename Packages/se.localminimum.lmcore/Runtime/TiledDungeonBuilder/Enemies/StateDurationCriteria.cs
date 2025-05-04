@@ -21,7 +21,7 @@ namespace LMCore.TiledDungeon.Enemies
                 if (!isActive)
                 {
                     Debug.LogWarning($"Asking non active critera {name} if passing");
-                    return true;
+                    return !OneTime || !passingChecked;
                 }
                 var passing = state.ActiveDuration > duration;
                 if (OneTime && passing)

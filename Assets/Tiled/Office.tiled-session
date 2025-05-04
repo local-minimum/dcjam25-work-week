@@ -30,8 +30,8 @@
             "expandedObjectLayers": [
                 9,
                 13,
-                7,
-                14
+                14,
+                7
             ],
             "scale": 0.33,
             "selectedLayer": 9,
@@ -76,11 +76,11 @@
                 22,
                 2
             ],
-            "scale": 0.5,
+            "scale": 1,
             "selectedLayer": 6,
             "viewCenter": {
-                "x": 513,
-                "y": 511
+                "x": 563,
+                "y": 648.5
             }
         },
         "Rules/AutomappingDungeons.tmx": {

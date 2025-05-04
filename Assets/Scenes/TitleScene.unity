@@ -474,32 +474,6 @@ MonoBehaviour:
   NewGameButton: {fileID: 1236522393}
   SettingsMenu: {fileID: 1419403139}
   intro: {fileID: 972446209}
-  musicPlayer: {fileID: 1894533788}
-  easeDownMusic:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: -1.1253846
-      outSlope: -1.1253846
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0.02734108
-    - serializedVersion: 3
-      time: 1
-      value: 0.4
-      inSlope: -0.3851747
-      outSlope: -0.3851747
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.048500896
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  easeDownMusicDuration: 0.5
   titleUI: {fileID: 12343909}
   OnNewGame:
     m_PersistentCalls:
@@ -516,6 +490,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  crossfader: {fileID: 1498866363}
+  introMusicLevel: 0.5
+  music: {fileID: 1894533789}
 --- !u!4 &15296912 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5400462075228593748, guid: 645228a7ff4160b47a1b76e3297a5f34, type: 3}
@@ -5657,6 +5634,17 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1477735417}
   m_CullTransparentMesh: 1
+--- !u!114 &1498866363 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1140484781959073701, guid: 2ed3ea204fbfde043b7b4dfe93f7a28e, type: 3}
+  m_PrefabInstance: {fileID: 3972873353659965125}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e345c3edc8283164183475579d226548, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &1512909667 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8881254192032637967, guid: 04e368774ce56494282c2bc7edddd923, type: 3}
@@ -6608,6 +6596,7 @@ GameObject:
   - component: {fileID: 1894533784}
   - component: {fileID: 1894533787}
   - component: {fileID: 1894533788}
+  - component: {fileID: 1894533789}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -6827,6 +6816,67 @@ AudioSource:
       weightedMode: 0
       inWeight: 0.33333334
       outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+--- !u!114 &1894533789
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1894533783}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 924e3ef162b24f445a88260f974b8d68, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fadedOutVolume: 0
+  fadeIn:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  fadeOut:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: -0.11868131
+      outSlope: -0.11868131
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.055555556
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: -1.0580546
+      outSlope: -1.0580546
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.035543382
+      outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
@@ -7790,6 +7840,62 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1140484781959073701, guid: 2ed3ea204fbfde043b7b4dfe93f7a28e, type: 3}
+      propertyPath: OnFadeInStart.m_PersistentCalls.m_Calls.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1140484781959073701, guid: 2ed3ea204fbfde043b7b4dfe93f7a28e, type: 3}
+      propertyPath: OnFadeOutStart.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1140484781959073701, guid: 2ed3ea204fbfde043b7b4dfe93f7a28e, type: 3}
+      propertyPath: OnFadeInStart.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1140484781959073701, guid: 2ed3ea204fbfde043b7b4dfe93f7a28e, type: 3}
+      propertyPath: OnFadeOutStart.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1140484781959073701, guid: 2ed3ea204fbfde043b7b4dfe93f7a28e, type: 3}
+      propertyPath: OnFadeInStart.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1894533789}
+    - target: {fileID: 1140484781959073701, guid: 2ed3ea204fbfde043b7b4dfe93f7a28e, type: 3}
+      propertyPath: OnFadeOutStart.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1894533789}
+    - target: {fileID: 1140484781959073701, guid: 2ed3ea204fbfde043b7b4dfe93f7a28e, type: 3}
+      propertyPath: OnFadeInStart.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1140484781959073701, guid: 2ed3ea204fbfde043b7b4dfe93f7a28e, type: 3}
+      propertyPath: OnFadeInStart.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: FadeOut
+      objectReference: {fileID: 0}
+    - target: {fileID: 1140484781959073701, guid: 2ed3ea204fbfde043b7b4dfe93f7a28e, type: 3}
+      propertyPath: OnFadeOutStart.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1140484781959073701, guid: 2ed3ea204fbfde043b7b4dfe93f7a28e, type: 3}
+      propertyPath: OnFadeOutStart.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: FadeIn
+      objectReference: {fileID: 0}
+    - target: {fileID: 1140484781959073701, guid: 2ed3ea204fbfde043b7b4dfe93f7a28e, type: 3}
+      propertyPath: OnFadeInStart.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: LMCore.Juice.FadingSoundSource, se.localminimum.lmcore.juice
+      objectReference: {fileID: 0}
+    - target: {fileID: 1140484781959073701, guid: 2ed3ea204fbfde043b7b4dfe93f7a28e, type: 3}
+      propertyPath: OnFadeOutStart.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: LMCore.Juice.FadingSoundSource, se.localminimum.lmcore.juice
+      objectReference: {fileID: 0}
+    - target: {fileID: 1140484781959073701, guid: 2ed3ea204fbfde043b7b4dfe93f7a28e, type: 3}
+      propertyPath: OnFadeInStart.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 1140484781959073701, guid: 2ed3ea204fbfde043b7b4dfe93f7a28e, type: 3}
+      propertyPath: OnFadeOutStart.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 1317961991219788229, guid: 2ed3ea204fbfde043b7b4dfe93f7a28e, type: 3}
       propertyPath: m_Name
       value: CrossFader

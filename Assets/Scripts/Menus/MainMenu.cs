@@ -1,4 +1,5 @@
 using LMCore.Extensions;
+using LMCore.Juice;
 using LMCore.UI;
 using TMPro;
 using UnityEngine;
@@ -22,27 +23,25 @@ public class MainMenu : MonoBehaviour
     IntroSlideshow intro;
 
     [SerializeField]
-    AudioSource musicPlayer;
-
-    [SerializeField]
-    AnimationCurve easeDownMusic;
-
-    [SerializeField]
-    float easeDownMusicDuration;
-
-    [SerializeField]
     TextMeshProUGUI titleUI;
 
     [SerializeField]
     UnityEvent OnNewGame;
 
+    [SerializeField]
+    Crossfader crossfader;
+
+    [SerializeField, Range(0, 1)]
+    float introMusicLevel = 0.3f;
+
+    [SerializeField]
+    FadingSoundSource music;
+
     public void LoadSave()
     {
+        music.FadeOut();
         WWSaveSystem.SafeInstance.LoadAutoSave();
     }
-
-    bool lowerMusic;
-    float lowerMusicStartTime;
 
     public void NewGame()
     {
@@ -56,13 +55,26 @@ public class MainMenu : MonoBehaviour
 
     public void ShowSlideshow()
     {
-        lowerMusic = true;
-        lowerMusicStartTime = Time.timeSinceLevelLoad;
+        music.FadeOut(toValue: introMusicLevel);
 
         Cursor.visible = false;
 
-        intro.Show(SwapToOfficeScene);
+        intro.Show(FadeToOfficeScene);
     }
+
+    void FadeToOfficeScene()
+    {
+        music.FadeOut();
+
+        if (crossfader != null)
+        {
+            crossfader.FadeIn(SwapToOfficeScene, keepUIAfterFaded: true);
+        } else
+        {
+            SwapToOfficeScene();
+        }
+    }
+
 
     void SwapToOfficeScene()
     {
@@ -105,18 +117,6 @@ public class MainMenu : MonoBehaviour
         if (anomalyManager != null)
         {
             anomalyManager.ResetProgress();
-        }
-    }
-
-    private void Update()
-    {
-        if (!lowerMusic) return;
-
-        var progress = Mathf.Clamp01((Time.timeSinceLevelLoad - lowerMusicStartTime) / easeDownMusicDuration);
-        musicPlayer.volume = easeDownMusic.Evaluate(progress);
-        if (progress == 1f)
-        {
-            lowerMusic = false;
         }
     }
 

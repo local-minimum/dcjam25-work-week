@@ -3114,6 +3114,62 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1140484781959073701, guid: 2ed3ea204fbfde043b7b4dfe93f7a28e, type: 3}
+      propertyPath: OnFadeInStart.m_PersistentCalls.m_Calls.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1140484781959073701, guid: 2ed3ea204fbfde043b7b4dfe93f7a28e, type: 3}
+      propertyPath: OnFadeOutStart.m_PersistentCalls.m_Calls.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1140484781959073701, guid: 2ed3ea204fbfde043b7b4dfe93f7a28e, type: 3}
+      propertyPath: OnFadeInStart.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1140484781959073701, guid: 2ed3ea204fbfde043b7b4dfe93f7a28e, type: 3}
+      propertyPath: OnFadeOutStart.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1140484781959073701, guid: 2ed3ea204fbfde043b7b4dfe93f7a28e, type: 3}
+      propertyPath: OnFadeInStart.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1534069615}
+    - target: {fileID: 1140484781959073701, guid: 2ed3ea204fbfde043b7b4dfe93f7a28e, type: 3}
+      propertyPath: OnFadeOutStart.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1534069615}
+    - target: {fileID: 1140484781959073701, guid: 2ed3ea204fbfde043b7b4dfe93f7a28e, type: 3}
+      propertyPath: OnFadeInStart.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1140484781959073701, guid: 2ed3ea204fbfde043b7b4dfe93f7a28e, type: 3}
+      propertyPath: OnFadeInStart.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: FadeOut
+      objectReference: {fileID: 0}
+    - target: {fileID: 1140484781959073701, guid: 2ed3ea204fbfde043b7b4dfe93f7a28e, type: 3}
+      propertyPath: OnFadeOutStart.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1140484781959073701, guid: 2ed3ea204fbfde043b7b4dfe93f7a28e, type: 3}
+      propertyPath: OnFadeOutStart.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: FadeIn
+      objectReference: {fileID: 0}
+    - target: {fileID: 1140484781959073701, guid: 2ed3ea204fbfde043b7b4dfe93f7a28e, type: 3}
+      propertyPath: OnFadeInStart.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: LMCore.Juice.FadingSoundSource, se.localminimum.lmcore.juice
+      objectReference: {fileID: 0}
+    - target: {fileID: 1140484781959073701, guid: 2ed3ea204fbfde043b7b4dfe93f7a28e, type: 3}
+      propertyPath: OnFadeOutStart.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: LMCore.Juice.FadingSoundSource, se.localminimum.lmcore.juice
+      objectReference: {fileID: 0}
+    - target: {fileID: 1140484781959073701, guid: 2ed3ea204fbfde043b7b4dfe93f7a28e, type: 3}
+      propertyPath: OnFadeInStart.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 1140484781959073701, guid: 2ed3ea204fbfde043b7b4dfe93f7a28e, type: 3}
+      propertyPath: OnFadeOutStart.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 1317961991219788229, guid: 2ed3ea204fbfde043b7b4dfe93f7a28e, type: 3}
       propertyPath: m_Name
       value: CrossFader
@@ -3866,6 +3922,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Settings
       objectReference: {fileID: 0}
+    - target: {fileID: 1678252724844032912, guid: cf0117534452ca948b28c10e3e22c493, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3253014246668174903, guid: cf0117534452ca948b28c10e3e22c493, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -3877,6 +3937,14 @@ PrefabInstance:
     - target: {fileID: 4342979740854772074, guid: cf0117534452ca948b28c10e3e22c493, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4450690256597871942, guid: cf0117534452ca948b28c10e3e22c493, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 15.526123
+      objectReference: {fileID: 0}
+    - target: {fileID: 4450690256597871942, guid: cf0117534452ca948b28c10e3e22c493, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -16.343414
       objectReference: {fileID: 0}
     - target: {fileID: 4808712237975218836, guid: cf0117534452ca948b28c10e3e22c493, type: 3}
       propertyPath: m_AnchorMax.y
@@ -3928,7 +3996,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7838754456076459028, guid: cf0117534452ca948b28c10e3e22c493, type: 3}
       propertyPath: m_SizeDelta.x
-      value: -100
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7838754456076459028, guid: cf0117534452ca948b28c10e3e22c493, type: 3}
       propertyPath: m_SizeDelta.y
@@ -6587,6 +6655,7 @@ GameObject:
   - component: {fileID: 1534069612}
   - component: {fileID: 1534069613}
   - component: {fileID: 1534069614}
+  - component: {fileID: 1534069615}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -6825,6 +6894,67 @@ MonoBehaviour:
   player: {fileID: 639530562}
   speed: 0.5
   initialDelay: 3
+--- !u!114 &1534069615
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1534069608}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 924e3ef162b24f445a88260f974b8d68, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fadedOutVolume: 0
+  fadeIn:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  fadeOut:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: -0.11868131
+      outSlope: -0.11868131
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.055555556
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: -0.8783804
+      outSlope: -0.8783804
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.033712983
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &1556416417
 GameObject:
   m_ObjectHideFlags: 0
@@ -8503,7 +8633,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 26.923065, y: -41.052948}
+  m_AnchoredPosition: {x: 26.923096, y: -41.052948}
   m_SizeDelta: {x: 410.3, y: 50}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &1954729971
