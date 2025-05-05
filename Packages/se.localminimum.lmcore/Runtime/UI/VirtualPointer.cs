@@ -43,6 +43,8 @@ namespace LMCore.UI
             Cursor.visible = true;
         }
 
+        GameObject hovered;
+
         void Update()
         {
             if (Cursor.visible) { Cursor.visible = false; }
@@ -58,7 +60,47 @@ namespace LMCore.UI
             anchor.x = Mathf.Clamp(anchor.x, -halfWidth + padding.x, halfWidth - padding.x);
             anchor.y = Mathf.Clamp(anchor.y, -halfHeight + padding.y, halfHeight - padding.y);
 
+            bool moved = rt.anchoredPosition != anchor;
             rt.anchoredPosition = anchor;
+
+            if (moved)
+            {
+                HandleHover();
+            }
+        }
+
+        void HandleHover()
+        {
+            if (GetHit(out GameObject hovered))
+            {
+                if (this.hovered != hovered)
+                {
+                    RemoveHover(this.hovered);
+                }
+
+                var vbutton = hovered.GetComponent<VirtualButton>();
+                if (vbutton != null)
+                {
+                    vbutton.PointerEnter();
+                }
+            } else if (this.hovered != null)
+            {
+                RemoveHover(this.hovered);
+            }
+
+            this.hovered = hovered;
+        }
+
+        void RemoveHover(GameObject go)
+        {
+            if (go != null)
+            {
+                var previousButton = go.GetComponent<VirtualButton>();
+                if (previousButton != null)
+                {
+                    previousButton.PointerExit();
+                }
+            }
         }
 
         bool GetHit(out GameObject go)
@@ -86,8 +128,9 @@ namespace LMCore.UI
 
             if (Time.realtimeSinceStartup > nextClickAllowedAt && GetHit(out var go))
             {
-                HandleHit(go);
                 nextClickAllowedAt = Time.realtimeSinceStartup + afterClickRespite;
+
+                HandleHit(go);
             }
         }
 
