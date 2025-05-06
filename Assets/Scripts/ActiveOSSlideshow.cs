@@ -3,22 +3,33 @@ using LMCore.UI;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class ActiveOSSlideshow : MonoBehaviour
 {
     [System.Serializable]
+    private struct Illustration
+    {
+        public Sprite baseColor;
+        public Sprite secondColor;
+        public Sprite thirdColor;
+    }
+
+    [System.Serializable]
     private class SlideData
     {
         [TextArea]
         public string description;
-        public List<Sprite> sprites = new List<Sprite>();
+        public List<Illustration> illustrations = new List<Illustration>();
     }
 
     [SerializeField, Header("Parts")]
-    Image image;
+    Image IllustrationBaseColor;
+    [SerializeField]
+    Image IllustrationSecondColor;
+    [SerializeField]
+    Image IllustrationThirdColor;
 
     [SerializeField]
     TextMeshProUGUI text;
@@ -66,26 +77,54 @@ public class ActiveOSSlideshow : MonoBehaviour
 
         if (slide == null)
         {
-            image.sprite = noImageFallback;
+            SetNoIllustration();
             text.text = noSlideText;
             spriteIndex = -1;
         } else
         {
-            image.sprite = slide.sprites.FirstOrDefault()  ?? noImageFallback;
+            if (slide.illustrations.Count == 0)
+            {
+                SetNoIllustration();
+            } else
+            {
+                SetIllustration(slide.illustrations.First());
+            }
             // -1 index means no need to cycle them
-            spriteIndex = slide.sprites.Count > 1 ? 0 : -1;
+            spriteIndex = slide.illustrations.Count > 1 ? 0 : -1;
             nextSpriteTime = Time.timeSinceLevelLoad + showSpriteTime;
+
             text.text = slide.description;
         }
-
-        image.enabled = image.sprite != null;
     }
 
-    int LastIndex => slides.Count - 1;
+    void SetIllustration(Illustration illustration)
+    {
+        IllustrationBaseColor.sprite = illustration.baseColor;
+        IllustrationSecondColor.sprite = illustration.secondColor;
+        IllustrationThirdColor.sprite = illustration.thirdColor;
+
+        IllustrationBaseColor.enabled = illustration.baseColor != null;
+        IllustrationSecondColor.enabled = illustration.secondColor != null;
+        IllustrationThirdColor.enabled = illustration.thirdColor != null;
+    }
+
+    void SetNoIllustration()
+    {
+        IllustrationBaseColor.sprite = noImageFallback;
+        IllustrationSecondColor.sprite = null;
+        IllustrationThirdColor.sprite = null;
+
+        IllustrationBaseColor.enabled = noImageFallback != null;
+        IllustrationSecondColor.enabled = false;
+        IllustrationThirdColor.enabled = false;
+    }
+
+    int LastSlideIndex => slides.Count - 1;
+    int LastIllustrationIndex => slide.illustrations.Count - 1;
 
     public void NextSlide()
     {
-        var lastIndex = LastIndex;
+        var lastIndex = LastSlideIndex;
 
         slideIndex = Mathf.Min(slideIndex + 1, lastIndex);
 
@@ -103,7 +142,7 @@ public class ActiveOSSlideshow : MonoBehaviour
 
     void SyncButtons()
     {
-        NextButton.Interactable = slideIndex < LastIndex;
+        NextButton.Interactable = slideIndex < LastSlideIndex;
         PreviousButton.Interactable = slideIndex > 0;
     }
 
@@ -112,13 +151,15 @@ public class ActiveOSSlideshow : MonoBehaviour
         if (spriteIndex < 0 || slide == null || Time.timeSinceLevelLoad < nextSpriteTime) return;
 
         spriteIndex++;
-        if (spriteIndex > LastIndex)
+        if (spriteIndex > LastIllustrationIndex)
         {
             spriteIndex = 0;
         }
 
-        image.sprite = slide.sprites.GetNthOrDefault(spriteIndex, noImageFallback);
-        image.enabled = image.sprite != null;
+        if (spriteIndex >= 0 && spriteIndex <= LastIllustrationIndex)
+        {
+            SetIllustration(slide.illustrations[spriteIndex]);
+        }
 
         nextSpriteTime = Time.timeSinceLevelLoad + showSpriteTime;
     }
