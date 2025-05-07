@@ -6990,7 +6990,7 @@ MonoBehaviour:
   pauseMenuManager: {fileID: 1193478135}
   player: {fileID: 639530562}
   RemainingUI: {fileID: 118654947}
-  survivalTime: 30
+  survivalTime: 25
   increaseDifficultyEvery: 7
   difficultyIncreaseDecay: 0.5
   minDifficultyIncreaseFreq: 2
@@ -7082,6 +7082,8 @@ MonoBehaviour:
   - DEADLINE
   - OVERTIME
   - COMPANY
+  - SYNERGY
+  - PROACTIVE
   letterPause: 0.35
   wordPause: 1.75
   mouthOpenDuration: 0.3
@@ -7107,6 +7109,8 @@ MonoBehaviour:
     prefab: {fileID: 6287662275970224408, guid: c3fb47d0332435c4c8075b6877cd5695, type: 3}
   - letter: E
     prefab: {fileID: 6287662275970224408, guid: 9005f0feaaae17347b9e5c4b04921a42, type: 3}
+  - letter: G
+    prefab: {fileID: 6287662275970224408, guid: 331550ef086d891459286509d4361b46, type: 3}
   - letter: I
     prefab: {fileID: 6287662275970224408, guid: 83d8c5ae6e0688c4a9fb60a3c7909718, type: 3}
   - letter: K
@@ -7121,6 +7125,8 @@ MonoBehaviour:
     prefab: {fileID: 6287662275970224408, guid: 002a93436644e6d4daed375bb0bbe222, type: 3}
   - letter: R
     prefab: {fileID: 3458325776637902202, guid: 16c802d9ea6f86e4cac5f2250dcc0e62, type: 3}
+  - letter: S
+    prefab: {fileID: 3458325776637902202, guid: d968fbe29de8a8846a5a649babffd834, type: 3}
   - letter: T
     prefab: {fileID: 6287662275970224408, guid: b99b3016f6bb80a459b663b0e383e068, type: 3}
   - letter: V
