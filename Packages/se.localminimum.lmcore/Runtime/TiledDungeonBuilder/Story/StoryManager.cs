@@ -556,7 +556,7 @@ namespace LMCore.TiledDungeon.Narrative
 
         private void Update()
         {
-            if (!AnimatingStory || Time.timeSinceLevelLoad < nextShowTime) return;
+            if ( !AnimatingStory || Time.timeSinceLevelLoad < nextShowTime || StoryUI != null) return;
 
             ShowNextPart();
 

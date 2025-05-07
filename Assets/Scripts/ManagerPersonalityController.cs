@@ -64,7 +64,7 @@ public class ManagerPersonalityController : MonoBehaviour, IOnLoadSave
 
         entity.Sync();
         entity.Moving = MovementType.Stationary;
-        entity.enabled = true;
+        entity.enabled = false;
 
         GetComponent<TDDangerZone>().enabled = false;
         GetComponentInChildren<TDEnemyPerception>(true).enabled = false;

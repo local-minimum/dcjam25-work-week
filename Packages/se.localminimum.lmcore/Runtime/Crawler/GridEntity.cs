@@ -502,6 +502,7 @@ namespace LMCore.Crawler
             var n = Node;
             if (n != null)
             {
+                Debug.Log(PrefixLogMessage($"Added occupancy from {n}"));
                 n.AddOccupant(this, true);
             }
         }
@@ -514,6 +515,7 @@ namespace LMCore.Crawler
             if (n != null)
             {
                 n.RemoveOccupant(this, transferEntity: false);
+                Debug.Log(PrefixLogMessage($"Removed occupancy from {n}"));
             }
         }
 
