@@ -71,7 +71,11 @@ public class AnimatingAnomaly : AbsAnomaly
 
     private void LevelRegion_OnEnterRegion(GridEntity entity, string regionId)
     {
-        if (SpawnedManager || managerSpawn == null || managerTarget == null) return;
+        if (SpawnedManager || 
+            managerSpawn == null || 
+            managerTarget == null || 
+            entity.EntityType != GridEntityType.PlayerCharacter || 
+            anomalyActive == false) return;
 
         var myRegion = GetComponentInParent<LevelRegion>();
         if (myRegion == null || myRegion.RegionId != regionId) return;
@@ -99,6 +103,8 @@ public class AnimatingAnomaly : AbsAnomaly
         }
     }
 
+    bool anomalyActive;
+
     protected override void SetAnomalyState()
     {
         anomalyRoot.SetActive(true);
@@ -107,12 +113,15 @@ public class AnimatingAnomaly : AbsAnomaly
             Debug.Log($"Anomaly '{anomalyId}' triggers '{startTrigger}' on {animator}");
             animator.SetTrigger(startTrigger);
         }
+
         ToggleSiblingByName(false);
 
         foreach (var obj in disabledObjects)
         {
             obj.SetActive(false);
         }
+
+        anomalyActive = true;
     }
 
     void ToggleSiblingByName(bool setActive)
@@ -140,7 +149,13 @@ public class AnimatingAnomaly : AbsAnomaly
 
     protected override void SetNormalState()
     {
+        anomalyActive = false;
         anomalyRoot.SetActive(false);
         ToggleSiblingByName(true);
+
+        if (speaker != null)
+        {
+            speaker.Stop();
+        }
     }
 }

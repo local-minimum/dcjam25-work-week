@@ -24,7 +24,7 @@ public class ActiveOS : MonoBehaviour, IOnLoadSave
     [SerializeField]
     Camera osCam;
 
-    [SerializeField]
+    [SerializeField, HelpBox("Hidden launchers get activated once you've completed the main game")]
     List<ActiveOSAppLauncher> hiddenLaunchers = new List<ActiveOSAppLauncher>();
 
     bool osActive;

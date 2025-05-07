@@ -137,6 +137,7 @@ public class ManagerPersonalityController : MonoBehaviour, IOnLoadSave
     void OnLoadWWSave(WWSave save)
     {
         managerIsRestored = save.managerTriggeredByAnomaly;
+        Debug.Log($"Manager is restored {managerIsRestored}");
         SyncManager(WWSettings.ManagerPersonality.Value);
     }
 
