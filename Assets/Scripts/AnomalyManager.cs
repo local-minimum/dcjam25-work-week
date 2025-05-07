@@ -83,16 +83,31 @@ public class AnomalyManager : Singleton<AnomalyManager, AnomalyManager>, IOnLoad
     bool anomalyLoaded;
 
     [SerializeField]
+    List<AnomalySetting> anomalies = new List<AnomalySetting>();
+
+    [SerializeField]
     Crossfader crossfader;
+
+    [SerializeField, Header("Selection")]
+    int selectFromFirstNCandidates = 3;
 
     [SerializeField]
     List<AnomalyPlan> weekPlans = new List<AnomalyPlan>();
 
-    [SerializeField]
-    List<AnomalySetting> anomalies = new List<AnomalySetting>();
+    [System.Serializable]
+    struct DifficultyAdjustment
+    {
+        [Range(0, 10)]
+        public int Success;
+        [Range(0, 10)]
+        public int Fail;
+    }
 
-    [SerializeField, Range(1, 10)]
+    [Header("Difficulties"), SerializeField, Range(1, 10)]
     int clearDifficultyBase = 1;
+
+    [SerializeField]
+    DifficultyAdjustment clearAdjustments = new DifficultyAdjustment() { Success = 1, Fail = 2 };
 
     [SerializeField, Range(1, 10)]
     int clearDifficultyMax = 5;
@@ -100,11 +115,17 @@ public class AnomalyManager : Singleton<AnomalyManager, AnomalyManager>, IOnLoad
     [SerializeField, Range(1, 10)]
     int balancedDifficultyBase = 4;
 
+    [SerializeField]
+    DifficultyAdjustment balancedAdjustment = new DifficultyAdjustment() { Success = 2, Fail = 2 };
+
     [SerializeField, Range(1, 10)]
     int sleuthyDifficultyBase = 8;
     
     [SerializeField, Range(1, 10)]
     int sleuthDifficultyMin = 5;
+
+    [SerializeField]
+    DifficultyAdjustment sleuthAdjustment = new DifficultyAdjustment() { Success = 2, Fail = 1 };
 
     public IEnumerable<string> GetCensuredAnomalies()
     {
@@ -191,11 +212,7 @@ public class AnomalyManager : Singleton<AnomalyManager, AnomalyManager>, IOnLoad
             .ThenBy(a => roomOrder(a.room));
     }
 
-
-    [SerializeField]
-    int selectFromFirstNCandidates = 3;
-
-    [SerializeField]
+    [SerializeField, Header("Debug")]
     string predefAnomaly;
 
     [ContextMenu("Load predefined anomaly")]
@@ -366,16 +383,16 @@ public class AnomalyManager : Singleton<AnomalyManager, AnomalyManager>, IOnLoad
         prevDayOutcome = save.anomalies.previousDayOutcome;
         prevDayExit = save.anomalies.previousDayExit;
 
+        difficultyOffset = anomalies.wantedDifficulty;
+
         if (BBFight.FightStatus == FightStatus.Died)
         {
-            difficultyOffset = anomalies.wantedDifficulty - 1;
+            // We died, this doesn't mean we need harder or easier difficulty on anomalies
             prevDayOutcome = PreviousDayOutcome.Negative;
             SetWeekPlan();
             SetAnomalyOfTheDay(false);
         } else
         {
-            difficultyOffset = anomalies.wantedDifficulty;
-
             activeAnomaly =
                 this.anomalies.FirstOrDefault(a => a.id == anomalies.activeAnomaly);
         }
@@ -383,11 +400,6 @@ public class AnomalyManager : Singleton<AnomalyManager, AnomalyManager>, IOnLoad
         won = anomalies.won;
 
         anomalyLoaded = true;
-
-        if (BBFight.FightStatus == FightStatus.Survived)
-        {
-            difficultyOffset++;
-        }
 
         Debug.Log($"AnomalyManager: Loaded save {save.anomalies} and it's {Weekday} in week {WeekNumber} with {(activeAnomaly == null ? "a regular office" : activeAnomaly.ToString())}");
         OnSetAnomaly?.Invoke(activeAnomaly?.id);
@@ -484,6 +496,21 @@ public class AnomalyManager : Singleton<AnomalyManager, AnomalyManager>, IOnLoad
     public void FailBossBattle() => 
         ExitTrigger_OnExitOffice(ExitType.BossDeath);
 
+    DifficultyAdjustment ActiveAdjustmentModel()
+    {
+        switch (WWSettings.AnomalyDifficulty.Value)
+        {
+            case AnomalyDifficulty.Clear:
+                return clearAdjustments;
+            case AnomalyDifficulty.Balanced:
+                return balancedAdjustment;
+            case AnomalyDifficulty.Sleuthy:
+                return sleuthAdjustment;
+        }
+
+        throw new System.ArgumentException($"{WWSettings.AnomalyDifficulty.Value} not supported");
+    }
+
     private void ExitTrigger_OnExitOffice(ExitType exitType)
     {
         anomalyLoaded = false;
@@ -512,7 +539,7 @@ public class AnomalyManager : Singleton<AnomalyManager, AnomalyManager>, IOnLoad
             _weekday = Weekday.NextDay();
 
             encounteredAnomalies.Add(activeAnomaly?.id);
-            difficultyOffset++;
+            difficultyOffset += ActiveAdjustmentModel().Success;
 
             activeAnomaly = null;
 
@@ -561,7 +588,7 @@ public class AnomalyManager : Singleton<AnomalyManager, AnomalyManager>, IOnLoad
             if (activeAnomaly != null)
             {
                 // Only lower anomaly difficulty when player misses one
-                difficultyOffset--;
+                difficultyOffset -= ActiveAdjustmentModel().Fail;
                 missedAnomalies.Add(activeAnomaly.id);
             }
 
