@@ -6,8 +6,8 @@
     "activeFile": "Office.tmx",
     "automapping.whileDrawing": true,
     "expandedProjectPaths": [
-        "Automapping",
-        "."
+        ".",
+        "Automapping"
     ],
     "file.lastUsedOpenFilter": "All Files (*)",
     "fileStates": {
@@ -76,11 +76,11 @@
                 22,
                 2
             ],
-            "scale": 1,
-            "selectedLayer": 6,
+            "scale": 4,
+            "selectedLayer": 3,
             "viewCenter": {
-                "x": 0,
-                "y": 0
+                "x": 662.75,
+                "y": 506.125
             }
         },
         "Rules/AutomappingDungeons.tmx": {
