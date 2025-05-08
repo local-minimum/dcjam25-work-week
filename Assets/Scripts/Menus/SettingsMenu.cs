@@ -30,6 +30,12 @@ public class SettingsMenu : MonoBehaviour
     [SerializeField]
     Button WindowedBtn;
 
+    [SerializeField]
+    TextMeshProUGUI VSyncText;
+
+    [SerializeField, Range(30, 244)]
+    int targetFrameRate = 60;
+
     [SerializeField, Header("Gameplay")]
     Button SmoothTransitionBtn;
 
@@ -135,14 +141,25 @@ public class SettingsMenu : MonoBehaviour
 
     private void OnEnable()
     {
-        GameSettings.InstantMovement.OnChange += InstantMovement_OnChange;
-        InstantMovement_OnChange(GameSettings.InstantMovement.Value);
-
+        // Video
         SyncVideoButtons(Screen.fullScreen);
 
+        var vSync = WWSettings.VSync.Value;
+        if (vSync != QualitySettings.vSyncCount)
+        {
+            QualitySettings.vSyncCount = vSync;
+        }
+
+        SyncVSync();
+
+        // Audio
         SyncAudioUI(MixerGroup.Music, MusicVolume, MusicMutedUI);
         SyncAudioUI(MixerGroup.Effects, EffectsVolume, EffectsMutedUI);
         SyncAudioUI(MixerGroup.Dialogue, DialogueVolume, DialogueMutedUI);
+
+        // Gameplay
+        GameSettings.InstantMovement.OnChange += InstantMovement_OnChange;
+        InstantMovement_OnChange(GameSettings.InstantMovement.Value);
 
         SyncEasyModeButtons();
         SyncMonologues();
@@ -184,6 +201,27 @@ public class SettingsMenu : MonoBehaviour
     {
         WindowedBtn.interactable = fullscreen;
         FullscreenBtn.interactable = !fullscreen;
+    }
+
+    public void ToggleVSync()
+    {
+        if (QualitySettings.vSyncCount == 0)
+        {
+            QualitySettings.vSyncCount = 1;
+            Application.targetFrameRate = targetFrameRate;
+        } else
+        {
+            QualitySettings.vSyncCount = 0;
+        }
+
+        Debug.Log($"V-sync updated to {QualitySettings.vSyncCount}");
+
+        SyncVSync();
+    }
+
+    void SyncVSync()
+    {
+        VSyncText.text = QualitySettings.vSyncCount > 0 ? "X" : "";
     }
 
     [SerializeField]

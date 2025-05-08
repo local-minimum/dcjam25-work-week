@@ -1,4 +1,5 @@
 using LMCore.IO;
+using UnityEngine;
 
 public enum AnomalyDifficulty
 {
@@ -54,4 +55,6 @@ public static class WWSettings
             return _managerPersonality;
         }
     }
+    public static GameSettings.IntSetting VSync => 
+        GameSettings.GetCustomInt("video.vsync", QualitySettings.vSyncCount);
 }
