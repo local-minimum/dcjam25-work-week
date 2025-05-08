@@ -50,6 +50,8 @@ namespace LMCore.Crawler
 
         public static IEnumerable<Vector3Int> Fill(IDungeon dungeon, Vector3Int origin, int depth, System.Func<IDungeonNode, Direction, IDungeonNode, bool> filter)
         {
+            if (dungeon == null) yield break;
+
             var depths = new Dictionary<Vector3Int, int>();
             var seen = new Queue<Vector3Int>();
             seen.Enqueue(origin);

@@ -189,6 +189,26 @@ namespace LMCore.TiledDungeon
             Zones.Remove(this);
         }
 
+        private void OnValidate()
+        {
+            if (DecayingCoordinates != null)
+            {
+                DecayingCoordinates.Clear();
+            }
+            if (_Coordinates != null)
+            {
+                _Coordinates.Clear();
+            } else
+            {
+                _Coordinates = new HashSet<Vector3Int>();
+            }
+
+            foreach (var coord in CalculateCurrentZone())
+            {
+                _Coordinates.Add(coord);
+            }
+        }
+
         private void OnDrawGizmosSelected()
         {
             var dungeon = Dungeon;
