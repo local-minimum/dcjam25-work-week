@@ -2471,8 +2471,8 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: -0.02}
-  m_Size: {x: 0.35, y: 0.58}
+  m_Offset: {x: -0.00081276894, y: -0.01592505}
+  m_Size: {x: 0.22268772, y: 0.50493646}
   m_Direction: 0
 --- !u!50 &639530559
 Rigidbody2D:
@@ -3926,6 +3926,14 @@ PrefabInstance:
       propertyPath: m_SizeDelta.x
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1678252724844032912, guid: cf0117534452ca948b28c10e3e22c493, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 15.205078
+      objectReference: {fileID: 0}
+    - target: {fileID: 1678252724844032912, guid: cf0117534452ca948b28c10e3e22c493, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -147.58984
+      objectReference: {fileID: 0}
     - target: {fileID: 3253014246668174903, guid: cf0117534452ca948b28c10e3e22c493, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -3970,6 +3978,14 @@ PrefabInstance:
       propertyPath: bindingConf
       value: 
       objectReference: {fileID: 1782152511}
+    - target: {fileID: 6485385648890189377, guid: cf0117534452ca948b28c10e3e22c493, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6485385648890189377, guid: cf0117534452ca948b28c10e3e22c493, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 14.886475
+      objectReference: {fileID: 0}
     - target: {fileID: 7838754456076459028, guid: cf0117534452ca948b28c10e3e22c493, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
