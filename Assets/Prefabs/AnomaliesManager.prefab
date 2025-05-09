@@ -44,7 +44,79 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0224995d498fde34d844d17bacf2eb45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  anomalies:
+  - id: reverse-clock
+    humanizedName: Time goes backwards
+    room: 66
+    difficulty: 7
+    horror: 0
+  - id: sinking-ship
+    humanizedName: Ship sinks in watercooler
+    room: 2
+    difficulty: 6
+    horror: 0
+  - id: bad-music
+    humanizedName: Bad music haunts me
+    room: 1
+    difficulty: 3
+    horror: 1
+  - id: kind-postits
+    humanizedName: Love is in the kitchen
+    room: 64
+    difficulty: 9
+    horror: 0
+  - id: bad-boxes
+    humanizedName: Swarm full of boxes
+    room: 16
+    difficulty: 2
+    horror: 1
+  - id: we-chick
+    humanizedName: We chicked so hard
+    room: 128
+    difficulty: 3
+    horror: 0
+  - id: window-eyes
+    humanizedName: Who watches the manager
+    room: 32
+    difficulty: 3
+    horror: 1
+  - id: office-goblin
+    humanizedName: The office golbin
+    room: 8
+    difficulty: 3
+    horror: 0
+  - id: stall-dungeon
+    humanizedName: What lurks behind the toilet
+    room: 128
+    difficulty: 4
+    horror: 0
+  - id: sword-boss
+    humanizedName: Swords for clubs
+    room: 32
+    difficulty: 3
+    horror: 0
+  - id: computer-exit
+    humanizedName: Computer tells the truth
+    room: 2
+    difficulty: 6
+    horror: 0
+  - id: wrong-rolls
+    humanizedName: Zero immersion rolls
+    room: 128
+    difficulty: 10
+    horror: 0
+  - id: everyone-bob
+    humanizedName: My name is Bob
+    room: 2
+    difficulty: 4
+    horror: 0
+  - id: evil-posters
+    humanizedName: Peripheral Posters
+    room: 50
+    difficulty: 5
+    horror: 0
   crossfader: {fileID: 0}
+  selectFromFirstNCandidates: 3
   weekPlans:
   - minWeek: 0
     maxWeek: 2
@@ -136,71 +208,18 @@ MonoBehaviour:
     Friday: 0
     Saturday: 2
     Sunday: 0
-  anomalies:
-  - id: reverse-clock
-    humanizedName: Time goes backwards
-    room: 66
-    difficulty: 7
-    horror: 0
-  - id: sinking-ship
-    humanizedName: Ship sinks in watercooler
-    room: 2
-    difficulty: 6
-    horror: 0
-  - id: bad-music
-    humanizedName: Bad music haunts me
-    room: 1
-    difficulty: 3
-    horror: 1
-  - id: kind-postits
-    humanizedName: Love is in the kitchen
-    room: 64
-    difficulty: 9
-    horror: 0
-  - id: bad-boxes
-    humanizedName: Swarm full of boxes
-    room: 16
-    difficulty: 2
-    horror: 1
-  - id: we-chick
-    humanizedName: We chicked so hard
-    room: 128
-    difficulty: 3
-    horror: 0
-  - id: window-eyes
-    humanizedName: Who watches the manager
-    room: 32
-    difficulty: 3
-    horror: 1
-  - id: office-goblin
-    humanizedName: The office golbin
-    room: 8
-    difficulty: 3
-    horror: 0
-  - id: stall-dungeon
-    humanizedName: What lurks behind the toilet
-    room: 128
-    difficulty: 4
-    horror: 0
-  - id: sword-boss
-    humanizedName: Swords for clubs
-    room: 32
-    difficulty: 3
-    horror: 0
-  - id: computer-exit
-    humanizedName: Computer tells the truth
-    room: 2
-    difficulty: 6
-    horror: 0
-  - id: wrong-rolls
-    humanizedName: Zero immersion rolls
-    room: 128
-    difficulty: 10
-    horror: 0
-  - id: everyone-bob
-    humanizedName: My name is Bob
-    room: 2
-    difficulty: 4
-    horror: 0
-  selectFromFirstNCandidates: 3
-  predefAnomaly: stall-dungeon
+  clearDifficultyBase: 1
+  clearAdjustments:
+    Success: 1
+    Fail: 2
+  clearDifficultyMax: 5
+  balancedDifficultyBase: 4
+  balancedAdjustment:
+    Success: 2
+    Fail: 2
+  sleuthyDifficultyBase: 8
+  sleuthDifficultyMin: 5
+  sleuthAdjustment:
+    Success: 2
+    Fail: 1
+  predefAnomaly: evil-posters
