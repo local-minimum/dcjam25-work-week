@@ -10,6 +10,9 @@ public class FinalScene : MonoBehaviour
     Transform dice;
 
     [SerializeField]
+    float ignoreInteractTime = 1f;
+
+    [SerializeField]
     float releaseDiceAfter;
 
     [SerializeField]
@@ -19,13 +22,20 @@ public class FinalScene : MonoBehaviour
 
     public void TransitionToOffice(InputAction.CallbackContext context)
     {
-        if (triggedContinue) return;
+        if (triggedContinue || Time.timeSinceLevelLoad < ignoreInteractTime) return;
 
         if (context.performed)
         {
-            triggedContinue = true;
+            if (!diceReleased)
+            {
+                ReleaseDice();
+            } else
+            {
 
-            crossfader.FadeIn(SwapScenes, "You are free to try finding all anomalies", keepUIAfterFaded: true);
+                triggedContinue = true;
+
+                crossfader.FadeIn(SwapScenes, "You are free to try finding all anomalies", keepUIAfterFaded: true);
+            }
         }
     }
 
@@ -45,9 +55,12 @@ public class FinalScene : MonoBehaviour
     {
         if (diceReleased || Time.timeSinceLevelLoad < releaseDiceAfter) return;
 
+        ReleaseDice();
+    }
+
+    void ReleaseDice()
+    {
         dice.ShowAllChildren();
         diceReleased = true;
-
-
     }
 }
