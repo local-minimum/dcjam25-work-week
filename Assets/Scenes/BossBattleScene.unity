@@ -7100,6 +7100,8 @@ MonoBehaviour:
   - COMPANY
   - SYNERGY
   - PROACTIVE
+  - AGILITY
+  - VISION
   letterPause: 0.35
   wordPause: 1.75
   mouthOpenDuration: 0.3
@@ -7139,6 +7141,8 @@ MonoBehaviour:
     prefab: {fileID: 6287662275970224408, guid: 8831a7a03157f32489cbbe10bf5cbec5, type: 3}
   - letter: O
     prefab: {fileID: 6287662275970224408, guid: 002a93436644e6d4daed375bb0bbe222, type: 3}
+  - letter: P
+    prefab: {fileID: 3458325776637902202, guid: c93f5cec715777f4fac77e642418d889, type: 3}
   - letter: R
     prefab: {fileID: 3458325776637902202, guid: 16c802d9ea6f86e4cac5f2250dcc0e62, type: 3}
   - letter: S
@@ -7151,8 +7155,6 @@ MonoBehaviour:
     prefab: {fileID: 5202705867889727615, guid: 32e22a4cf3f4c3f4f8ec0112c1d3fbfb, type: 3}
   - letter: Y
     prefab: {fileID: 6287662275970224408, guid: 31da01a1c8f617447aecd004d04665e9, type: 3}
-  - letter: P
-    prefab: {fileID: 3458325776637902202, guid: c93f5cec715777f4fac77e642418d889, type: 3}
 --- !u!82 &1591745022
 AudioSource:
   m_ObjectHideFlags: 0
