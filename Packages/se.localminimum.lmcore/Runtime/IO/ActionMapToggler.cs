@@ -29,8 +29,19 @@ namespace LMCore.IO
         public static InputActionMap EnabledMap => instance.enabledMap;
 
         SimplifiedDevice lastDevice = SimplifiedDevice.MouseAndKeyboard;
-        public static SimplifiedDevice LastDevice => 
-            instance != null ? instance.lastDevice : SimplifiedDevice.MouseAndKeyboard;
+        public static SimplifiedDevice LastDevice
+        {
+            get
+            {
+                if (instance == null)
+                {
+                    Debug.LogWarning("ActionMapToggler: There's no instance, guessing Mouse and keyboard");
+                    return SimplifiedDevice.MouseAndKeyboard;
+                }
+
+                return instance.lastDevice;
+            }
+        } 
 
         private void SetupPlayerInput(PlayerInput playerInput)
         {

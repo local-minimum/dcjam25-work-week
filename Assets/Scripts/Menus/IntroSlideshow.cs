@@ -51,12 +51,31 @@ public class IntroSlideshow : MonoBehaviour
         step = 0;
         PlayStep();
 
+        SyncSkipHint();
+    }
 
+    private void OnEnable()
+    {
+        ActionMapToggler.OnChangeControls += ActionMapToggler_OnChangeControls;
+    }
+
+    private void ActionMapToggler_OnChangeControls(PlayerInput input, string controlScheme, SimplifiedDevice device)
+    {
+        SyncSkipHint();
+    }
+
+    void SyncSkipHint()
+    {
         var keyHint = InputBindingsManager
             .InstanceOrResource("InputBindingsManager")
             .GetActiveActionHint(GamePlayAction.Interact);
 
         skipText.text = $"{keyHint} Skip";
+    }
+
+    private void OnDisable()
+    {
+        ActionMapToggler.OnChangeControls -= ActionMapToggler_OnChangeControls;
     }
 
     public void Skip(InputAction.CallbackContext context)
