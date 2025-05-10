@@ -99,7 +99,44 @@ namespace LMCore.Extensions
             return size;
         }
 
-        #region Humanize Input Binding Key
+        #region Input Binding
+        public static SimplifiedDevice GetLastDevice()
+        {
+            return PlayerInput
+                .all
+                .Select(pi =>
+                {
+                    var d = pi
+                    .devices
+                    .OrderByDescending(d => d.lastUpdateTime)
+                    .FirstOrDefault();
+                    return new { input = d.SimpleDevice(pi), time = d.lastUpdateTime };
+                })
+                .OrderByDescending(i => i.time)
+                .FirstOrDefault()
+                .input;
+                
+        }
+
+        public static SimplifiedDevice SimpleDevice(this InputDevice device, PlayerInput input)
+        {
+            var name = device.name;
+            if (name == "Mouse" || name == "Keyboard") return SimplifiedDevice.MouseAndKeyboard;
+
+            if (name.Contains("XInputController")) return SimplifiedDevice.XBoxController;
+            if (name.Contains("DualShock")) return SimplifiedDevice.PSController;
+            if (name.Contains("SwitchPro")) return SimplifiedDevice.SwitchController;
+
+            if (input.currentControlScheme.Contains("Gamepad"))
+            {
+                Debug.LogWarning($"Unknown gamepad: {name}");
+                return SimplifiedDevice.OtherController;
+            }
+
+            Debug.LogWarning($"Unknown device and control scheme: {name} / {input.currentControlScheme}");
+            return SimplifiedDevice.MouseAndKeyboard;
+        }
+
         private static string HumanizeXBoxPaths(string path)
         {
             switch (path)
@@ -194,6 +231,8 @@ namespace LMCore.Extensions
 
             var raw = part.ToUpper();
 
+            Debug.Log($"Humanize path '{raw}' for {device}");
+
             switch (device)
             {
                 case SimplifiedDevice.MouseAndKeyboard:
@@ -210,7 +249,7 @@ namespace LMCore.Extensions
         }
 
         public static string HumanizePath(this InputBinding binding, string unbound = null) =>
-            HumanizePath(binding.effectivePath, unbound);
+            HumanizePath(binding.effectivePath, unbound, device: GetLastDevice());
 
         #endregion
 

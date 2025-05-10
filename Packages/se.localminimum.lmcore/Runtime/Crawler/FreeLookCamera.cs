@@ -177,7 +177,10 @@ namespace LMCore.Crawler
         Vector2 PointerCoordinates;
         public void OnPointer(InputAction.CallbackContext context)
         {
-            PointerCoordinates = context.ReadValue<Vector2>();
+            var coords = context.ReadValue<Vector2>();
+            coords.x *= Screen.width;
+            coords.y *= Screen.height;
+            PointerCoordinates = coords;
         }
 
         private void Start()

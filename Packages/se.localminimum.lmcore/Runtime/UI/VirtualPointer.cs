@@ -1,10 +1,7 @@
-using LMCore.Extensions;
-using System.Collections.Generic;
-using System.Linq;
+using LMCore.IO;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
-using UnityEngine.UI;
 
 namespace LMCore.UI
 {
@@ -15,6 +12,9 @@ namespace LMCore.UI
 
         [SerializeField]
         Camera cam;
+
+        [SerializeField, Range(0, 30)]
+        float gamepadInputScale = 5f;
 
         [SerializeField, Range(0, 10)]
         float speedFactor = 1f;
@@ -43,16 +43,16 @@ namespace LMCore.UI
             Cursor.visible = true;
         }
 
+        
         GameObject hovered;
 
-        void Update()
+        public void HandleCursorDelta(Vector2 delta)
         {
-            if (Cursor.visible) { Cursor.visible = false; }
-
             var canvasRT = GetComponentInParent<Canvas>().transform as RectTransform;
             var halfWidth = canvasRT.rect.width / 2f;
             var halfHeight = canvasRT.rect.height / 2f;
-            var mouseDelta = Mouse.current.delta.value * speedFactor;
+
+            var mouseDelta = delta * speedFactor;
             var rt = transform as RectTransform;
 
             var anchor = rt.anchoredPosition;
@@ -66,6 +66,31 @@ namespace LMCore.UI
             if (moved)
             {
                 HandleHover();
+            }
+        }
+
+        Vector2 lastGamepadDirection;
+
+        public void HandleTranslate(InputAction.CallbackContext context)
+        {
+            lastGamepadDirection = context.ReadValue<Vector2>() * gamepadInputScale;
+        }
+
+        void Update()
+        {
+            if (Cursor.visible) { Cursor.visible = false; }
+
+            switch (ActionMapToggler.LastDevice)
+            {
+                case Extensions.SimplifiedDevice.XBoxController:
+                case Extensions.SimplifiedDevice.PSController:
+                case Extensions.SimplifiedDevice.SwitchController:
+                case Extensions.SimplifiedDevice.OtherController:
+                    HandleCursorDelta(lastGamepadDirection);
+                    break;
+                case Extensions.SimplifiedDevice.MouseAndKeyboard:
+                    HandleCursorDelta(Mouse.current.delta.value);
+                    break;
             }
         }
 

@@ -86,20 +86,10 @@ namespace LMCore.IO
 
         SimplifiedDevice GetDevice(PlayerInput input)
         {
-            var name = input.devices.OrderByDescending(d => d.lastUpdateTime).FirstOrDefault().name;
-            if (name == "Mouse" || name == "Keyboard") return SimplifiedDevice.MouseAndKeyboard;
-
-            if (name.Contains("XInputController")) return SimplifiedDevice.XBoxController;
-            if (name.Contains("DualShock")) return SimplifiedDevice.PSController;
-            if (name.Contains("SwitchPro")) return SimplifiedDevice.SwitchController;
-            if (input.currentControlScheme.Contains("Gamepad"))
-            {
-                Debug.LogWarning($"Unknown gamepad: {name}");
-                return SimplifiedDevice.OtherController;
-            }
-
-            Debug.LogWarning($"Unknown device and control scheme: {name} / {input.currentControlScheme}");
-            return SimplifiedDevice.MouseAndKeyboard;
+            return input.devices
+                .OrderByDescending(d => d.lastUpdateTime)
+                .FirstOrDefault()
+                .SimpleDevice(input);
         }
 
         private void PlayerInput_onControlsChanged(PlayerInput obj)

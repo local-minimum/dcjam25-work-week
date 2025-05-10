@@ -20,7 +20,7 @@ namespace LMCore.IO
                 case SimplifiedDevice.OtherController:
                 case SimplifiedDevice.SwitchController:
                 case SimplifiedDevice.XBoxController:
-                    return bindingGroup == "GamePad";
+                    return bindingGroup == "Gamepad";
                 case SimplifiedDevice.MouseAndKeyboard:
                     return bindingGroup == "Keyboard" || bindingGroup == "Mouse";
                 default:
