@@ -61,6 +61,8 @@ public class IntroSlideshow : MonoBehaviour
 
     public void Skip(InputAction.CallbackContext context)
     {
+        if (!playing) return;
+
         if (context.performed)
         {
             if (finalizing)

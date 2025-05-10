@@ -1,18 +1,19 @@
 using LMCore.Extensions;
-using LMCore.UI;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class NewGameAnomaliesSettings : MonoBehaviour
 {
     [SerializeField]
-    UICard clearCard;
+    Button clearCard;
 
     [SerializeField]
-    UICard balancedCard;
+    Button balancedCard;
 
     [SerializeField]
-    UICard sleuthyCard;
+    Button sleuthyCard;
 
     [SerializeField]
     UnityEvent OnSelectDifficulty;
@@ -25,9 +26,10 @@ public class NewGameAnomaliesSettings : MonoBehaviour
     public void Show()
     {
         transform.ShowAllChildren();
+        EventSystem.current.SetSelectedGameObject(balancedCard.gameObject);
     }
 
-    public void SetDifficulty(UICard selected)
+    public void SetDifficulty(Button selected)
     {
         if (selected == clearCard)
         {

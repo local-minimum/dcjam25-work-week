@@ -1,18 +1,19 @@
 using LMCore.Extensions;
-using LMCore.UI;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class NewGameManagerSettings : MonoBehaviour
 {
     [SerializeField]
-    UICard golfer;
+    Button golfer;
 
     [SerializeField]
-    UICard steward;
+    Button steward;
 
     [SerializeField]
-    UICard zealous;
+    Button zealous;
 
     [SerializeField]
     UnityEvent OnSelectPersonality;
@@ -25,9 +26,10 @@ public class NewGameManagerSettings : MonoBehaviour
     public void Show()
     {
         transform.ShowAllChildren();
+        EventSystem.current.SetSelectedGameObject(steward.gameObject);
     }
 
-    public void SetPersonality(UICard selected)
+    public void SetPersonality(Button selected)
     {
         if (selected == golfer)
         {

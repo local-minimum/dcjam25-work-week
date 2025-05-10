@@ -39,12 +39,14 @@ public class MainMenu : MonoBehaviour
 
     public void LoadSave()
     {
+        Debug.Log("MainMenu: Loading game");
         music.FadeOut();
         WWSaveSystem.SafeInstance.LoadAutoSave();
     }
 
     public void NewGame()
     {
+        Debug.Log("MainMenu: Starting new game");
         WWSaveSystem.SafeInstance.DeleteAutoSave();
 
         transform.HideAllChildren();
