@@ -20,13 +20,23 @@ public class PosterAnomalies : AbsAnomaly
 
     bool anomalyActive = false;
 
-    Renderer rend;
+    Renderer _rend;
+    Renderer rend
+    {
+        get
+        {
+            if (_rend == null)
+            {
+                _rend = GetComponent<Renderer>();
+            }
+            return _rend;
+        }
+    }
 
     Camera playerCam;
 
     private void Start()
     {
-        rend = GetComponent<Renderer>();
         playerCam = Dungeon.Player.GetComponentInChildren<Camera>(true);
     }
 

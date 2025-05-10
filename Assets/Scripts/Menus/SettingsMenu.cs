@@ -5,6 +5,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.Events;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class SettingsMenu : MonoBehaviour
@@ -14,6 +15,7 @@ public class SettingsMenu : MonoBehaviour
     {
         public Button sectionBtn;
         public List<GameObject> parts = new List<GameObject>();
+        public List<Selectable> firstSelected = new List<Selectable>();
     }
 
     [SerializeField]
@@ -110,6 +112,22 @@ public class SettingsMenu : MonoBehaviour
 
     void ShowActiveSubSettings()
     {
+        Selectable preSelected = null;
+        bool selected = false;
+        if (activeSubSetting.firstSelected != null)
+        {
+            foreach (var item in activeSubSetting.firstSelected)
+            {
+                if (item.interactable)
+                {
+                    preSelected = item;
+                    EventSystem.current.SetSelectedGameObject(item.gameObject);
+                    selected = true;
+                    break;
+                }
+            }
+        }
+
         foreach (var sub in subSettings)
         {
             bool active = activeSubSetting == sub;
@@ -117,6 +135,21 @@ public class SettingsMenu : MonoBehaviour
             foreach (var part in sub.parts)
             {
                 part.SetActive(active);
+            }
+
+            var nav = sub.sectionBtn.navigation;
+            nav.selectOnRight = preSelected;
+            sub.sectionBtn.navigation = nav;
+        }
+
+
+        if (!selected)
+        {
+            foreach (var subSetting in subSettings)
+            {
+                if (subSetting == activeSubSetting || subSetting.sectionBtn == null || !subSetting.sectionBtn.interactable) continue;
+
+                EventSystem.current.SetSelectedGameObject(subSetting.sectionBtn.gameObject);
             }
         }
     }

@@ -186,6 +186,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3834355428324769292, guid: 2cc88ab9521ad244890a821751cb6ee5, type: 3}
+      propertyPath: m_Transition
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3834355428324769292, guid: 2cc88ab9521ad244890a821751cb6ee5, type: 3}
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.size
       value: 1
       objectReference: {fileID: 0}
@@ -324,10 +328,288 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3636619583030666017, guid: 2cc88ab9521ad244890a821751cb6ee5, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 9056066252848315931}
+    - targetCorrespondingSourceObject: {fileID: 4121136164053920259, guid: 2cc88ab9521ad244890a821751cb6ee5, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5908987409729733210}
+    - targetCorrespondingSourceObject: {fileID: 1874017011662955311, guid: 2cc88ab9521ad244890a821751cb6ee5, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5170073209772154389}
   m_SourcePrefab: {fileID: 100100000, guid: 2cc88ab9521ad244890a821751cb6ee5, type: 3}
+--- !u!1 &410333498941036852 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4121136164053920259, guid: 2cc88ab9521ad244890a821751cb6ee5, type: 3}
+  m_PrefabInstance: {fileID: 4359761125426983735}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &5908987409729733210
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 410333498941036852}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81d34dab5750506448359c9cbfd5b288, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  source: {fileID: 699929686259699003}
+  syncSelectedOnEnable: 1
+  target: {fileID: 1943103881340817030}
+  defaultColor: {r: 0.039215688, g: 0.49411765, b: 0.54509807, a: 1}
+  selectedColor: {r: 0.78431374, g: 0.007843138, b: 0.3098039, a: 1}
+  hoveredColor: {r: 0.78431374, g: 0.007843138, b: 0.3098039, a: 1}
+  pressedColor: {r: 0.78431374, g: 0.007843138, b: 0.3098039, a: 1}
+  disabledColor: {r: 0.03529412, g: 0.22745098, b: 0.32941177, a: 1}
 --- !u!224 &652149869707305864 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 3858491403165847743, guid: 2cc88ab9521ad244890a821751cb6ee5, type: 3}
   m_PrefabInstance: {fileID: 4359761125426983735}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &699929686259699003 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3834355428324769292, guid: 2cc88ab9521ad244890a821751cb6ee5, type: 3}
+  m_PrefabInstance: {fileID: 4359761125426983735}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1078371984492220438}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1 &1078371984492220438 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3636619583030666017, guid: 2cc88ab9521ad244890a821751cb6ee5, type: 3}
+  m_PrefabInstance: {fileID: 4359761125426983735}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &9056066252848315931
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1078371984492220438}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 0
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 5908987409729733210}
+          m_TargetAssemblyTypeName: LMCore.UI.UIColorHighlight, se.localminimum.lmcore.ui
+          m_MethodName: PointerEnter
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+        - m_Target: {fileID: 5170073209772154389}
+          m_TargetAssemblyTypeName: LMCore.UI.UIColorHighlight, se.localminimum.lmcore.ui
+          m_MethodName: PointerEnter
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 1
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 5908987409729733210}
+          m_TargetAssemblyTypeName: LMCore.UI.UIColorHighlight, se.localminimum.lmcore.ui
+          m_MethodName: PointerExit
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+        - m_Target: {fileID: 5170073209772154389}
+          m_TargetAssemblyTypeName: LMCore.UI.UIColorHighlight, se.localminimum.lmcore.ui
+          m_MethodName: PointerExit
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 2
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 5908987409729733210}
+          m_TargetAssemblyTypeName: LMCore.UI.UIColorHighlight, se.localminimum.lmcore.ui
+          m_MethodName: PointerDown
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+        - m_Target: {fileID: 5170073209772154389}
+          m_TargetAssemblyTypeName: LMCore.UI.UIColorHighlight, se.localminimum.lmcore.ui
+          m_MethodName: PointerDown
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 3
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 5908987409729733210}
+          m_TargetAssemblyTypeName: LMCore.UI.UIColorHighlight, se.localminimum.lmcore.ui
+          m_MethodName: PointerUp
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+        - m_Target: {fileID: 5170073209772154389}
+          m_TargetAssemblyTypeName: LMCore.UI.UIColorHighlight, se.localminimum.lmcore.ui
+          m_MethodName: PointerUp
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 9
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 5908987409729733210}
+          m_TargetAssemblyTypeName: LMCore.UI.UIColorHighlight, se.localminimum.lmcore.ui
+          m_MethodName: Focus
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+        - m_Target: {fileID: 5170073209772154389}
+          m_TargetAssemblyTypeName: LMCore.UI.UIColorHighlight, se.localminimum.lmcore.ui
+          m_MethodName: Focus
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 10
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 5908987409729733210}
+          m_TargetAssemblyTypeName: LMCore.UI.UIColorHighlight, se.localminimum.lmcore.ui
+          m_MethodName: Blur
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+        - m_Target: {fileID: 5170073209772154389}
+          m_TargetAssemblyTypeName: LMCore.UI.UIColorHighlight, se.localminimum.lmcore.ui
+          m_MethodName: Blur
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+--- !u!114 &1885643033660600568 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2786564869802312655, guid: 2cc88ab9521ad244890a821751cb6ee5, type: 3}
+  m_PrefabInstance: {fileID: 4359761125426983735}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2774537526073118744}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1943103881340817030 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2771878753849146801, guid: 2cc88ab9521ad244890a821751cb6ee5, type: 3}
+  m_PrefabInstance: {fileID: 4359761125426983735}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 410333498941036852}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1 &2774537526073118744 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1874017011662955311, guid: 2cc88ab9521ad244890a821751cb6ee5, type: 3}
+  m_PrefabInstance: {fileID: 4359761125426983735}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &5170073209772154389
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2774537526073118744}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81d34dab5750506448359c9cbfd5b288, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  source: {fileID: 699929686259699003}
+  syncSelectedOnEnable: 1
+  target: {fileID: 1885643033660600568}
+  defaultColor: {r: 1, g: 0.34509805, b: 0.37254903, a: 1}
+  selectedColor: {r: 1, g: 0.34509805, b: 0.37254903, a: 1}
+  hoveredColor: {r: 0.74509805, g: 0.84313726, b: 0.9137255, a: 1}
+  pressedColor: {r: 0.74509805, g: 0.84313726, b: 0.9137255, a: 1}
+  disabledColor: {r: 0.03529412, g: 0.22745098, b: 0.32941177, a: 1}

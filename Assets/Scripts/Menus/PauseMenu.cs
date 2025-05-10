@@ -1,6 +1,7 @@
 using LMCore.Extensions;
 using LMCore.UI;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 
 public class PauseMenu : AbsMenu
@@ -10,6 +11,9 @@ public class PauseMenu : AbsMenu
 
     [SerializeField]
     GameObject actionsButtons;
+
+    [SerializeField]
+    GameObject preSelectedButton;
 
     [SerializeField]
     bool doSave = true;
@@ -65,6 +69,7 @@ public class PauseMenu : AbsMenu
     {
         transform.ShowAllChildren();
         Cursor.visible = true;
+        EventSystem.current.SetSelectedGameObject(preSelectedButton);
     }
 
     protected override void Blur()
