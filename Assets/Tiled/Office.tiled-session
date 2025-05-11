@@ -6,6 +6,7 @@
     "activeFile": "Office.tmx",
     "automapping.whileDrawing": true,
     "expandedProjectPaths": [
+        "Rules",
         "Automapping",
         "."
     ],
@@ -70,17 +71,18 @@
         "Office.tmx": {
             "expandedGroupLayers": [
                 12,
+                47,
                 2
             ],
             "expandedObjectLayers": [
                 22,
                 2
             ],
-            "scale": 4,
+            "scale": 1.5,
             "selectedLayer": 3,
             "viewCenter": {
-                "x": 512.625,
-                "y": 619.625
+                "x": 424.99999999999994,
+                "y": 616.9999999999999
             }
         },
         "Rules/AutomappingDungeons.tmx": {
