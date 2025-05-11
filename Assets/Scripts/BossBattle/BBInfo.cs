@@ -12,6 +12,23 @@ public class BBInfo : MonoBehaviour
 
     private void OnEnable()
     {
+        SyncHints();
+        ActionMapToggler.OnChangeControls += ActionMapToggler_OnChangeControls;
+    }
+
+    private void OnDisable()
+    {
+        ActionMapToggler.OnChangeControls -= ActionMapToggler_OnChangeControls;
+    }
+
+    private void ActionMapToggler_OnChangeControls(UnityEngine.InputSystem.PlayerInput input, string controlScheme, LMCore.Extensions.SimplifiedDevice device)
+    {
+        SyncHints();
+    }
+
+    void SyncHints()
+    {
+
         var keyHint = InputBindingsManager
             .InstanceOrResource("InputBindingsManager")
             .GetActiveActionHint(GamePlayAction.Interact);

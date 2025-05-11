@@ -57,6 +57,9 @@ public class BBPlayerController : MonoBehaviour
     [SerializeField]
     float invulnDuration = 0.4f;
 
+    [SerializeField, Range(0, 1)]
+    float translationDeadAxisMin = 0.2f;
+
     float invulnUntil;
 
     public bool Dashing { get; private set; }
@@ -88,13 +91,15 @@ public class BBPlayerController : MonoBehaviour
         transform.position = target; 
     }
 
+    string lastAnimTrigger;
     void HandleWalk(InputAction.CallbackContext context, string cardinal)
     {
         if (Time.timeSinceLevelLoad < initialNoInputTime || info.gameObject.activeSelf) return;
 
         if (context.performed)
         {
-            anim.SetTrigger(cardinal);
+            SetWalkTrigger(cardinal);
+
             switch (cardinal)
             {
                 case "North":
@@ -138,7 +143,7 @@ public class BBPlayerController : MonoBehaviour
 
             if (direction == Vector2.zero)
             {
-                anim.SetTrigger("Stand");
+                SetWalkTrigger("Stand");
             }
         }
     }
@@ -154,6 +159,61 @@ public class BBPlayerController : MonoBehaviour
 
     public void WalkEast(InputAction.CallbackContext context) =>
         HandleWalk(context, "East");
+
+    public void WalkTranslate(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            var value = context.ReadValue<Vector2>();
+            if (Mathf.Abs(value.x) < translationDeadAxisMin)
+            {
+                value.x = 0f;
+            }
+            if (Mathf.Abs(value.y) < translationDeadAxisMin)
+            {
+                value.y = 0f;
+            }
+
+            direction = value;
+            if (value.x != 0)
+            {
+                if (value.x > 0)
+                {
+                    SetWalkTrigger("East");
+                } else
+                {
+                    SetWalkTrigger("West");
+                }
+            } else if (value.y != 0)
+            {
+                if (value.y > 0)
+                {
+                    SetWalkTrigger("North");
+                } else
+                {
+                    SetWalkTrigger("South");
+                }
+                
+            } else
+            {
+                SetWalkTrigger("Stand");
+            }
+        } else if (context.canceled)
+        {
+            direction = Vector2.zero;
+            SetWalkTrigger("Stand");
+        }
+    }
+
+    void SetWalkTrigger(string cardinal)
+    {
+        if (lastAnimTrigger != cardinal)
+        {
+            anim.SetTrigger(cardinal);
+            lastAnimTrigger = cardinal;
+        }
+    }
+
 
     public void Dash(InputAction.CallbackContext context)
     {
