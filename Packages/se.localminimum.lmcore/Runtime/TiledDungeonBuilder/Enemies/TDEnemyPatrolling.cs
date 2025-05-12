@@ -4,6 +4,7 @@ using LMCore.Extensions;
 using LMCore.IO;
 using LMCore.TiledDungeon.DungeonFeatures;
 using LMCore.TiledDungeon.SaveLoad;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -84,7 +85,8 @@ namespace LMCore.TiledDungeon.Enemies
             var entity = Enemy.Entity;
             if (entity.Moving != MovementType.Stationary) return;
 
-            if (Time.timeSinceLevelLoad > nextUpdateActivity)
+            bool mayCheckActivity = Time.timeSinceLevelLoad > nextUpdateActivity;
+            if (mayCheckActivity)
             {
                 Enemy.UpdateActivity();
                 if (!enabled) return;
@@ -92,8 +94,12 @@ namespace LMCore.TiledDungeon.Enemies
 
             if (entity.Coordinates == target.Coordinates)
             {
-                SetNextCheckpoint();
-                if (!Patrolling) return;
+                if (mayCheckActivity)
+                {
+                    SetNextCheckpoint();
+                }
+
+                if (!mayCheckActivity || !Patrolling) return;
             }
 
             if (entity.Falling)
@@ -106,46 +112,56 @@ namespace LMCore.TiledDungeon.Enemies
             }
 
             var dungeon = Enemy.Dungeon;
-            if (dungeon.ClosestPath(entity, entity.Coordinates, target.Coordinates, Enemy.ArbitraryMaxPathSearchDepth, out var path, refuseSafeZones: true))
+            if (mayCheckActivity && 
+                dungeon.ClosestPath(entity, entity.Coordinates, target.Coordinates, Enemy.ArbitraryMaxPathSearchDepth, out var path, refuseSafeZones: true))
             {
                 previousPath = path;
 
                 if (path.Count > 1)
                 {
                     var translation = path[1];
-                    // Debug.Log(path.Debug());
-                    if (entity.Coordinates != translation.Checkpoint.Coordinates || translation.TranslationHere != entity.LookDirection)
-                    {
-                        InvokePathBasedMovement(
-                            translation.TranslationHere,
-                            target.Coordinates,
-                            movementDuration,
-                            prefixLogMessage: PrefixLogMessage);
-                    } else
-                    {
-                        Debug.LogWarning($"We got a dubious result where my coords {entity.Coordinates} equals {translation.Checkpoint.Coordinates} and " +
-                            $"we need to look {translation.TranslationHere} is same as my look direction {entity.LookDirection}");
-
-                        Debug.Log(path.Debug());
-                        entity.Coordinates = translation.Checkpoint.Coordinates;
-                        entity.LookDirection = translation.TranslationHere;
-                        entity.Sync();
-                    }
+                    Walk(entity, translation, path);
                 }
                 else
                 {
-                    // TODO: Consider better fallback / force getting off patroll
                     Debug.LogWarning(PrefixLogMessage("Didn't find a path to target"));
-                    entity.MovementInterpreter.InvokeMovement(
-                        Movement.Forward,
-                        movementDuration,
-                        false);
-                    Enemy.UpdateActivity();
+                    // We're just hoping we have better luck with next checkpoint I guess
+                    SetNextCheckpoint();
+
                     nextUpdateActivity = Time.timeSinceLevelLoad + checkActivityEvery;
+                    Enemy.UpdateActivity();
                 }
+            } else if (previousPath != null && previousPath.Count > 2)
+            {
+                previousPath = previousPath.Skip(1).ToList();
+                Walk(entity, previousPath[1], previousPath);
+            } else
+            {
+                Enemy.UpdateActivity(avoidActive: true);
             }
 
             Enemy.MayTaxStay = true;
+        }
+
+        void Walk(GridEntity entity, PathTranslation translation, List<PathTranslation> path)
+        {
+            if (entity.Coordinates != translation.Checkpoint.Coordinates || translation.TranslationHere != entity.LookDirection)
+            {
+                InvokePathBasedMovement(
+                    translation.TranslationHere,
+                    target.Coordinates,
+                    movementDuration,
+                    prefixLogMessage: PrefixLogMessage);
+            } else
+            {
+                Debug.LogWarning($"We got a dubious result where my coords {entity.Coordinates} equals {translation.Checkpoint.Coordinates} and " +
+                    $"we need to look {translation.TranslationHere} is same as my look direction {entity.LookDirection}");
+
+                Debug.Log(path.Debug());
+                entity.Coordinates = translation.Checkpoint.Coordinates;
+                entity.LookDirection = translation.TranslationHere;
+                entity.Sync();
+            }
         }
 
         float nextUpdateActivity;
@@ -170,7 +186,7 @@ namespace LMCore.TiledDungeon.Enemies
             else
             {
                 Debug.LogError(PrefixLogMessage($"Didn't find any new target after {target} in direction {direction}"));
-                Enemy.UpdateActivity();
+                Enemy.UpdateActivity(avoidActive: true);
                 nextUpdateActivity = Time.timeSinceLevelLoad + checkActivityEvery;
             }
         }

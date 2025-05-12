@@ -47,12 +47,19 @@ public class StartPositionCustom : TDFeature, ITDCustom
         Time.timeScale = 1f;
         GridEntity.OnPositionTransition += GridEntity_OnPositionTransition;
         ActiveOS.OnReleasePlayer += ReleasePlayer;
+        ActionMapToggler.OnChangeControls += ActionMapToggler_OnChangeControls;
     }
 
     private void OnDisable()
     {
         GridEntity.OnPositionTransition -= GridEntity_OnPositionTransition;
         ActiveOS.OnReleasePlayer -= ReleasePlayer;
+        ActionMapToggler.OnChangeControls -= ActionMapToggler_OnChangeControls;
+    }
+
+    private void ActionMapToggler_OnChangeControls(UnityEngine.InputSystem.PlayerInput input, string controlScheme, SimplifiedDevice device)
+    {
+        SyncPauseSettingsHint();
     }
 
     GridEntity player;
@@ -215,18 +222,36 @@ public class StartPositionCustom : TDFeature, ITDCustom
             }
         }
 
-        var keyHint = InputBindingsManager
-            .InstanceOrResource("InputBindingsManager")
-            .GetActiveCustomHint("Binding.ShowMenus");
-
         if (AnomalyManager.instance.Weekday == Weekday.Monday || notShownPauseHintToday)
         {
-            PromptUI.instance.ShowText($"{keyHint} Pause Game & Settings", showPauseHintDuration);
-            notShownPauseHintToday = false;
+            showingHint = true;
+            SyncPauseSettingsHint();
         }
 
         player = null;
         releasing = false;
+    }
+
+    bool showingHint = false;
+
+    void SyncPauseSettingsHint()
+    {
+        if (showingHint) {
+            var keyHint = InputBindingsManager
+                .InstanceOrResource("InputBindingsManager")
+                .GetActiveCustomHint("Binding.ShowMenus");
+
+            PromptUI.instance.ShowText($"{keyHint} Pause Game & Settings", showPauseHintDuration);
+            notShownPauseHintToday = false;
+
+            StartCoroutine(NoLiveUpdateHint());
+        }
+    }
+
+    IEnumerator<WaitForSeconds> NoLiveUpdateHint()
+    {
+        yield return new WaitForSeconds(showPauseHintDuration);
+        showingHint = false;
     }
 
     float releaseStart;
