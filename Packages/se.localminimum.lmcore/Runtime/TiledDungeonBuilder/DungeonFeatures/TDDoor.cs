@@ -134,7 +134,13 @@ namespace LMCore.TiledDungeon.DungeonFeatures
         float autoCloseTime = 0.5f;
 
         public override string ToString() =>
-            $"<{(isTrapdoor ? "Trap-" : "")}Door Axis({TraversalAxis}) Blocking({BlockingPassage}) Transition({ActiveTransition}) InteractionDirLim({interactionDirectionLimitation}) Open({isOpen})>";
+            $"<{(isTrapdoor ? "Trap-" : "")}Door " +
+            $"Axis({TraversalAxis}) " +
+            $"Blocking({BlockingPassage}) " +
+            $"Transition({ActiveTransition}) " +
+            $"InteractionDirLim({interactionDirectionLimitation}) " +
+            $"Open({isOpen})" +
+            $"{(managed ? " Managed": "")}>";
 
         protected string PrefixLogMessage(string message) => $"Door @ {Coordinates}: {message}";
 

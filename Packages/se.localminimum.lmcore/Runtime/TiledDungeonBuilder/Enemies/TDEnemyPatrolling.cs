@@ -37,8 +37,15 @@ namespace LMCore.TiledDungeon.Enemies
         [ContextMenu("Info")]
         void Info()
         {
-            Debug.Log(PrefixLogMessage(
-                $"Loop (direction {direction}) is {string.Join(" -> ", TDPathCheckpoint.GetLoop(Enemy, target.Loop))}"));
+            if (target == null)
+            {
+                Debug.LogWarning(PrefixLogMessage("Patrol has no target"));
+            } else
+            {
+
+                Debug.Log(PrefixLogMessage(
+                    $"Loop (direction {direction}) is {string.Join(" -> ", TDPathCheckpoint.GetLoop(Enemy, target.Loop))}"));
+            }
         }
 
         public void InitOrResumePatrol()

@@ -1,4 +1,5 @@
 using LMCore.Crawler;
+using LMCore.Extensions;
 using LMCore.TiledDungeon;
 using LMCore.TiledDungeon.DungeonFeatures;
 using LMCore.TiledImporter;
@@ -8,6 +9,7 @@ using UnityEngine;
 
 public class DoorAreaCustomOpeners : TDFeature, ITDCustom
 {
+    [HelpBox("These values should only be set in the prefab or in Tiled.", HelpBoxMessageType.Warning)]
     [SerializeField, Tooltip("Default value if not 'OpenForPlayer' or 'IngorePlayer' has been set in Tiled")]
     bool openForPlayer = true;
 
@@ -17,7 +19,7 @@ public class DoorAreaCustomOpeners : TDFeature, ITDCustom
     [SerializeField, HideInInspector]
     int areaId;
 
-    static Dictionary<int, bool> WasHere = new Dictionary<int, bool>();
+    static Dictionary<int, List<GridEntity>> WasHere = new Dictionary<int, List<GridEntity>>();
     static Dictionary<int, List<TDDoor>> Doors = new Dictionary<int, List<TDDoor>>();
     static Dictionary<int, List<DoorAreaCustomOpeners>> Areas = new Dictionary<int, List<DoorAreaCustomOpeners>>();
 
@@ -77,8 +79,8 @@ public class DoorAreaCustomOpeners : TDFeature, ITDCustom
         Areas[areaId].Remove(this);
     }
 
-    bool wasHere => 
-        WasHere.ContainsKey(areaId) ? WasHere[areaId] : false;
+    bool HasOccupants => 
+        WasHere.ContainsKey(areaId) ? (WasHere[areaId]?.Count ?? 0) > 0 : false;
 
     bool IsInArea(Vector3Int coordinates)
     {
@@ -109,7 +111,6 @@ public class DoorAreaCustomOpeners : TDFeature, ITDCustom
 
         if (!RelevantEntityType(entity)) return;
 
-        var wasHere = this.wasHere;
         var isHere = IsInArea(entity.Coordinates);
 
         var doors = Doors.ContainsKey(areaId) ? Doors[areaId] : null;
@@ -119,24 +120,47 @@ public class DoorAreaCustomOpeners : TDFeature, ITDCustom
             return;
         }
 
-        if (!wasHere && isHere)
+        if (isHere)
         {
-            WasHere[areaId] = true;
-            foreach (var door in doors)
+            if (!WasHere.ContainsKey(areaId))
             {
-                Debug.Log($"Custom area door opener opening {door}");
-                door.OpenDoor(entity);
+                WasHere[areaId] = new List<GridEntity>();
             }
-            Debug.Log($"Custom area door opener {name}: Opening doors");
-        } else if (wasHere && !isHere)
+
+            if (WasHere[areaId].Contains(entity)) return;
+
+            bool wasEmpty = !HasOccupants;
+
+            WasHere[areaId].Add(entity);
+
+            if (wasEmpty)
+            {
+                foreach (var door in doors)
+                {
+                    Debug.Log($"Custom area door opener opening {door}");
+                    door.OpenDoor(entity);
+                }
+
+                Debug.Log($"Custom area door opener {name}: Opening doors");
+            } else
+            {
+                Debug.Log($"Custom area door opener {name}: Not opening doors, becuase someone was here already");
+            }
+        } else
         {
-            WasHere[areaId] = false;
-            foreach (var door in doors)
+            if (WasHere.ContainsKey(areaId))
             {
-                Debug.Log($"Custom area door opener closing {door} ({door.Node.name})");
-                door.CloseDoor(entity);
+                if (WasHere[areaId].Remove(entity) && !HasOccupants)
+                {
+                    foreach (var door in doors)
+                    {
+                        Debug.Log($"Custom area door opener closing {door} ({door.Node.name})");
+                        door.CloseDoor(entity);
+                    }
+
+                    Debug.Log($"Custom area door opener {name}: Closing doors");
+                }
             }
-            Debug.Log($"Custom area door opener {name}: Closing doors");
         }
     }
 
@@ -146,7 +170,7 @@ public class DoorAreaCustomOpeners : TDFeature, ITDCustom
         var doors = Doors.ContainsKey(areaId) ? Doors[areaId].Count : 0;
 
         Debug.Log($"Custom area door opener '{name}' Area {areaId}:" +
-            $"{doors} doors known, was here: {wasHere}. " +
+            $"{doors} doors known, was here: {HasOccupants}. " +
             $"Opens for player({openForPlayer}), opens for enemy {openForEnemy}");
     }
 }

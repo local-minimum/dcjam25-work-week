@@ -45,6 +45,7 @@ namespace LMCore.Crawler
         {
             var interpreter = GetComponent<MovementInterpreter>();
             interpreter.OnMovement += Interpreter_OnMovement;
+            interpreter.OnCancelMovement += Interpreter_OnCancelMovement;
 
             ElasticGameClock.OnTickEnd += ElasticGameClock_OnTickEnd;
             ElasticGameClock.OnTickEndAdjustment += ElasticGameClock_OnTickEndAdjustment;
@@ -54,9 +55,16 @@ namespace LMCore.Crawler
         {
             var interpreter = GetComponent<MovementInterpreter>();
             interpreter.OnMovement -= Interpreter_OnMovement;
+            interpreter.OnCancelMovement -= Interpreter_OnCancelMovement;
 
             ElasticGameClock.OnTickEnd -= ElasticGameClock_OnTickEnd;
             ElasticGameClock.OnTickEndAdjustment -= ElasticGameClock_OnTickEndAdjustment;
+        }
+
+        private void Interpreter_OnCancelMovement(GridEntity entity)
+        {
+            FinalizeInterpretation();
+            activeInterpretation = null;
         }
 
         private void ElasticGameClock_OnTickEndAdjustment(int tickId, float unadjustedProgress, float adjustedProgress, float endTime)

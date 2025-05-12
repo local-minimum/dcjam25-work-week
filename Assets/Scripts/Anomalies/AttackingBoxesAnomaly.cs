@@ -38,6 +38,7 @@ public class AttackingBoxesAnomaly : AbsAnomaly
     protected override void OnDisableExtra()
     {
         GridEntity.OnPositionTransition -= GridEntity_OnPositionTransition;
+        if (speaker != null) speaker.Stop();
     }
 
 
@@ -93,6 +94,7 @@ public class AttackingBoxesAnomaly : AbsAnomaly
     protected override void SetNormalState()
     {
         activeAnomaly = false;
+        if (speaker != null) speaker.Stop();
     }
 
     List<GameObject> thrownBoxes = new List<GameObject>();

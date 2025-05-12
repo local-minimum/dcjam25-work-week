@@ -61,8 +61,16 @@ namespace LMCore.Crawler
             get => _moving;
             set
             {
+                var previousState = _moving;
                 _moving = value;
                 OnMove?.Invoke(this);
+                if (value == MovementType.Stationary)
+                {
+                    if (Node != null)
+                    {
+                        Node.AfterMovement(this, previousState);
+                    }
+                }
             }
         }
 
@@ -214,7 +222,10 @@ namespace LMCore.Crawler
                 if (newNode)
                 {
                     // This needs to happen last so that the entity is fully in sync
-                    Node?.AddOccupant(this, false);
+                    if (Node != null)
+                    {
+                        Node.AddOccupant(this, false);
+                    }
                     OnPositionTransition?.Invoke(this);
                 }
             }

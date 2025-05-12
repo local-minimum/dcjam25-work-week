@@ -115,6 +115,11 @@ MonoBehaviour:
     room: 50
     difficulty: 5
     horror: 0
+  - id: not-elevator
+    humanizedName: Office California
+    room: 2
+    difficulty: 1
+    horror: 1
   crossfader: {fileID: 0}
   selectFromFirstNCandidates: 3
   weekPlans:

@@ -467,6 +467,13 @@ public class AnomalyManager : Singleton<AnomalyManager, AnomalyManager>, IOnLoad
     private void Start()
     {
         DontDestroyOnLoad(gameObject);
+
+#if UNITY_EDITOR
+        if (!string.IsNullOrEmpty(predefAnomaly))
+        {
+            LoadPredef();
+        }
+#endif
     }
 
     private void OnEnable()

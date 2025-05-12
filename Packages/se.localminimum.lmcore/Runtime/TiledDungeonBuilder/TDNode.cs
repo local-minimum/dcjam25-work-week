@@ -287,20 +287,25 @@ namespace LMCore.TiledDungeon
             modifications.Any(m => m.Tile.CustomProperties.Bool(TiledConfiguration.instance.TrapKey));
 
         public bool IsTeleporter =>
-            modifications.Any(m => m.Tile.Type == TiledConfiguration.instance.TeleporterClass);
+            GetComponentInChildren<TDTeleporter>() != null;
 
-        public bool HasActiveTeleporter => modifications.Any(m =>
+        public bool HasActiveTeleporter {
+            get
+            {
+                var tele = GetComponentInChildren<TDTeleporter>();
+                return tele != null && tele.HasEntry;
+            }
+        }
+
+        public int TeleporterWormholeId
         {
-            if (m.Tile.Type != TiledConfiguration.instance.TeleporterClass) return false;
-            return m.Tile.CustomProperties.Transition(TiledConfiguration.instance.TransitionKey).HasEntry();
-        });
+            get
+            {
+                var tele = GetComponentInChildren<TDTeleporter>();
+                return tele == null ? 0 : tele.WormholeId;
+            }
 
-        public int TeleporterWormholdId =>
-            Config
-            .FirstValue(
-                TiledConfiguration.instance.TeleporterClass,
-                (props) => props == null ? 0 : props.Int(TiledConfiguration.instance.TeleporterIdProperty)
-            );
+        }
 
         public bool HasSpikes(Direction direction) =>
             modifications.Any(m =>
@@ -845,31 +850,22 @@ namespace LMCore.TiledDungeon
 
         IDungeonNode HandleTeleporter(GridEntity entity)
         {
-            if (entity.TransportationMode.HasFlag(TransportationMode.Teleporting))
-            {
-                Debug.Log(PrefixLogMessage($"Ignoring teleportation because {entity.name} was already teleporting here"));
-                entity.TransportationMode = entity.TransportationMode.RemoveFlag(TransportationMode.Teleporting);
-                return null;
-            }
 
             if (HasActiveTeleporter)
             {
                 var outlet = Dungeon
-                    .FindTeleportersById(TeleporterWormholdId)
+                    .FindTeleportersById(TeleporterWormholeId, onlyExit: true)
                     .FirstOrDefault(n => n.Coordinates != Coordinates);
 
                 if (outlet == null)
                 {
-                    Debug.LogWarning(PrefixLogMessage($"teleporter doesn't have a partner in their wormhole {TeleporterWormholdId}; ignoring teleportation"));
+                    Debug.LogWarning(PrefixLogMessage($"teleporter doesn't have a partner in their wormhole {TeleporterWormholeId}; ignoring teleportation"));
                     return null;
                 }
 
                 Debug.Log(PrefixLogMessage($"Teleporting {entity.name} to {outlet.Coordinates}"));
-                entity.Coordinates = outlet.Coordinates;
-                entity.AnchorDirection = Direction.Down;
-                entity.TransportationMode = entity.TransportationMode.RemoveFlag(TransportationMode.Climbing).AddFlag(TransportationMode.Teleporting);
-                entity.Sync();
-                return outlet;
+                outlet.ReceiveEntity(entity);
+                return outlet.Node;
             }
 
             return this;
@@ -897,11 +893,6 @@ namespace LMCore.TiledDungeon
         void HandleTraps(GridEntity entity, bool newOccupation)
         {
             IDungeonNode target = null;
-
-            if (IsTeleporter && newOccupation)
-            {
-                target = HandleTeleporter(entity);
-            }
 
             if (entity.AnchorDirection == Direction.Down)
             {
@@ -962,6 +953,23 @@ namespace LMCore.TiledDungeon
             }
 
             if (newOccupation) entity.transform.SetParent(transform);
+        }
+
+        public void AfterMovement(GridEntity entity, MovementType movementType)
+        {
+            if (movementType != MovementType.Translating) return;
+
+            if (entity.TransportationMode.HasFlag(TransportationMode.Teleporting))
+            {
+                Debug.Log(PrefixLogMessage($"Ignoring teleportation because {entity.name} was already teleporting here"));
+                entity.TransportationMode = entity.TransportationMode.RemoveFlag(TransportationMode.Teleporting);
+            }
+
+            var target = HandleTeleporter(entity);
+            if (target != null)
+            {
+                target.AddOccupant(entity, push: true);
+            }
         }
 
         public IEnumerable<GridEntity> Occupants => _occupants;

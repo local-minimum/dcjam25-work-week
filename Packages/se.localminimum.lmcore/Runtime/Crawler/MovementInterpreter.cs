@@ -11,9 +11,12 @@ namespace LMCore.Crawler
         bool forced,
         AnimationCurve easing = null);
 
+    public delegate void CancelMovementEvent(GridEntity entity);
+
     public class MovementInterpreter : MonoBehaviour
     {
         public event MovementInterpretationEvent OnMovement;
+        public event CancelMovementEvent OnCancelMovement;
 
         GridEntity _entity;
         GridEntity Entity
@@ -720,5 +723,7 @@ namespace LMCore.Crawler
             if (interpretation != null) OnMovement?.Invoke(Entity, interpretation, tickId, duration, false, easing);
             tickId++;
         }
+
+        public void CancelMovement() => OnCancelMovement?.Invoke(Entity);
     }
 }

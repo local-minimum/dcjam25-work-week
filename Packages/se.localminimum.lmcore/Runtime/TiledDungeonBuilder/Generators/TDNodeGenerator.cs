@@ -511,20 +511,27 @@ namespace LMCore.TiledDungeon
             return true;
         }
 
-        static void ConfigureTeleporter(TDNode node)
+        static void ConfigureTeleporter(TDNode node, TDNodeConfig config)
         {
             var teleporterMod = node.modifications.FirstOrDefault(m => m.Tile.Type == TiledConfiguration.instance.TeleporterClass);
 
             if (teleporterMod != null)
             {
+                var transition = teleporterMod.Tile.CustomProperties.Transition(TiledConfiguration.instance.TransitionKey);
+
                 var go = node.Dungeon.Style.Get(
                     node.transform,
                     TiledConfiguration.instance.TeleporterClass,
-                    teleporterMod.Tile.CustomProperties.Transition(TiledConfiguration.instance.TransitionKey),
+                    transition,
                     node.NodeStyle
                     );
 
-                node.Log($"Teleporter Entry({node.HasActiveTeleporter}) Id({node.TeleporterWormholdId})", Debug.Log);
+                var objectProps = config.FirstObjectProps(TiledConfiguration.instance.TeleporterClass);
+                if (objectProps != null)
+                {
+                    var teleporter = node.gameObject.AddComponent<TDTeleporter>();
+                    teleporter.Configure(objectProps, transition);
+                }
 
                 if (go != null)
                 {
@@ -1352,7 +1359,7 @@ namespace LMCore.TiledDungeon
             ConfigureLadders(node, config);
             ConfigureFireplace(node, down);
             ConfigureFencesAndThinWalls(node, down);
-            ConfigureTeleporter(node);
+            ConfigureTeleporter(node, config);
             ConfigureWallButtons(node);
             ConfigurePillar(node, config);
             ConfigurePedistal(node, config, down);

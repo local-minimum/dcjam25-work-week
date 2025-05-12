@@ -400,14 +400,12 @@ namespace LMCore.TiledDungeon
         public bool HasNodeAt(Vector3Int coordinates) => nodes.ContainsKey(coordinates);
 
 
-        public List<IDungeonNode> FindTeleportersById(int id)
+        public List<TDTeleporter> FindTeleportersById(int id, bool onlyExit = false)
         {
-            Func<TiledCustomProperties, bool> predicate = (props) =>
-                props.Ints.GetValueOrDefault(TiledConfiguration.instance.TeleporterIdProperty) == id;
-
             return nodes.Values
-                .Where(n => n.Config.HasObject(TiledConfiguration.instance.TeleporterClass, predicate))
-                .Select(n => (IDungeonNode)n)
+                .Where(n => n.GetComponentInChildren<TDTeleporter>() != null)
+                .SelectMany(n => n.GetComponentsInChildren<TDTeleporter>())
+                .Where(n => n.WormholeId == id && (!onlyExit || n.HasExit))
                 .ToList();
         }
 
