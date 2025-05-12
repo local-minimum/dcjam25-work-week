@@ -3,11 +3,11 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "Office.tmx",
+    "activeFile": "C:/Users/Admin/Documents/Unity/untitled-dungeon-crawler/Assets/Tiled/DemoLevel.tmx",
     "automapping.whileDrawing": true,
     "expandedProjectPaths": [
-        "Rules",
         "Automapping",
+        "Rules",
         "."
     ],
     "file.lastUsedOpenFilter": "All Files (*)",
@@ -37,7 +37,7 @@
             "scale": 3,
             "selectedLayer": 9,
             "viewCenter": {
-                "x": 454.33333333333337,
+                "x": 432.5,
                 "y": 429.16666666666663
             }
         },
@@ -80,11 +80,11 @@
                 53,
                 47
             ],
-            "scale": 3,
+            "scale": 8,
             "selectedLayer": 5,
             "viewCenter": {
-                "x": 399.33333333333337,
-                "y": 788.5
+                "x": 386.8125,
+                "y": 809.8125
             }
         },
         "Rules/AutomappingDungeons.tmx": {
@@ -287,16 +287,15 @@
     "openFiles": [
         "Office.tmx",
         "Mapping.tsx",
-        "C:/Users/Admin/Documents/Unity/untitled-dungeon-crawler/Assets/Tiled/DemoLevel.tmx",
-        "C:/Users/Admin/Documents/Unity/untitled-dungeon-crawler/Assets/Tiled/Level1.tmx"
+        "C:/Users/Admin/Documents/Unity/untitled-dungeon-crawler/Assets/Tiled/DemoLevel.tmx"
     ],
     "project": "Office.tiled-project",
     "property.type": "bool",
     "recentFiles": [
-        "C:/Users/Admin/Documents/Unity/untitled-dungeon-crawler/Assets/Tiled/Level1.tmx",
-        "C:/Users/Admin/Documents/Unity/untitled-dungeon-crawler/Assets/Tiled/DemoLevel.tmx",
-        "Mapping.tsx",
         "Office.tmx",
+        "Mapping.tsx",
+        "C:/Users/Admin/Documents/Unity/untitled-dungeon-crawler/Assets/Tiled/DemoLevel.tmx",
+        "C:/Users/Admin/Documents/Unity/untitled-dungeon-crawler/Assets/Tiled/Level1.tmx",
         "DemoLevel.tmx",
         "Level1.tmx",
         "Rules/ModernDungeonAutomapping0corners.tmx",
