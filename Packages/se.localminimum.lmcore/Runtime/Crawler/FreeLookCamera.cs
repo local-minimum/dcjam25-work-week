@@ -1,4 +1,5 @@
 using LMCore.Extensions;
+using LMCore.IO;
 using LMCore.UI;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -44,6 +45,9 @@ namespace LMCore.Crawler
 
         [SerializeField, Range(0, 1)]
         float translationLerp = 0.05f;
+
+        [SerializeField, Range(0, 1)]
+        float controllerLookSpeed = 0.05f;
 
         bool freeLooking;
 
@@ -124,6 +128,7 @@ namespace LMCore.Crawler
                     freeLooking = !freeLooking;
                     if (freeLooking)
                     {
+                        virtualPointerCoords = Vector2.one * 0.5f;
                         RememberCursorPosition();
                     }
                     else
@@ -137,6 +142,10 @@ namespace LMCore.Crawler
             {
                 if (context.performed)
                 {
+                    if (!freeLooking)
+                    {
+                        virtualPointerCoords = Vector2.one * 0.5f;
+                    }
                     freeLooking = true;
                     RememberCursorPosition();
                     SyncNativeCursor();
@@ -150,6 +159,10 @@ namespace LMCore.Crawler
             }
             else if (context.performed)
             {
+                if (!freeLooking)
+                {
+                    virtualPointerCoords = Vector2.one * 0.5f;
+                }
                 freeLooking = true;
                 RememberCursorPosition();
                 SyncNativeCursor();
@@ -175,12 +188,19 @@ namespace LMCore.Crawler
         }
 
         Vector2 PointerCoordinates;
+        Vector2 virtualPointerCoords;
         public void OnPointer(InputAction.CallbackContext context)
         {
             var coords = context.ReadValue<Vector2>();
-            coords.x *= Screen.width;
-            coords.y *= Screen.height;
-            PointerCoordinates = coords;
+            if (controllerMode)
+            {
+                virtualPointerCoords += coords * controllerLookSpeed;
+                virtualPointerCoords = virtualPointerCoords.ClampDimensions(0, 1);
+            } else
+            {
+                virtualPointerCoords = coords;  
+            }
+            PointerCoordinates = virtualPointerCoords.Scale(Screen.width, Screen.height);
         }
 
         private void Start()
@@ -192,12 +212,21 @@ namespace LMCore.Crawler
         {
             GridEntity.OnMove += GridEntity_OnMove;
             GridEntity.OnPositionTransition += GridEntity_OnPositionTransition;
+            ActionMapToggler.OnChangeControls += ActionMapToggler_OnChangeControls;
         }
 
         private void OnDisable()
         {
             GridEntity.OnMove -= GridEntity_OnMove;
             GridEntity.OnPositionTransition -= GridEntity_OnPositionTransition;
+            ActionMapToggler.OnChangeControls -= ActionMapToggler_OnChangeControls;
+        }
+
+        bool controllerMode;
+        private void ActionMapToggler_OnChangeControls(PlayerInput input, string controlScheme, SimplifiedDevice device)
+        {
+            virtualPointerCoords = Vector2.one * 0.5f;
+            controllerMode = device.IsController();
         }
 
         private void GridEntity_OnMove(GridEntity entity)

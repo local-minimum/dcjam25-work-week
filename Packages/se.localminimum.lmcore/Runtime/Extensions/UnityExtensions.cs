@@ -100,6 +100,20 @@ namespace LMCore.Extensions
         }
 
         #region Input Binding
+        public static bool IsController(this SimplifiedDevice device)
+        {
+            switch (device)
+            {
+                case SimplifiedDevice.XBoxController:
+                case SimplifiedDevice.PSController:
+                case SimplifiedDevice.SwitchController:
+                case SimplifiedDevice.OtherController:
+                    return true;
+                default:
+                    return false;
+            }
+        }
+
         public static SimplifiedDevice GetLastDevice()
         {
             return PlayerInput

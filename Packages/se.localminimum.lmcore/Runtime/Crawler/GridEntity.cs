@@ -545,6 +545,8 @@ namespace LMCore.Crawler
 
         public void Interact()
         {
+            if (AbsMenu.PausingGameplay || MovementBlocked) return;
+
             Debug.Log(PrefixLogMessage("Interacting"));
             OnInteract?.Invoke(this);
         }

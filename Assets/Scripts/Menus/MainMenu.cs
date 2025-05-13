@@ -123,7 +123,7 @@ public class MainMenu : MonoBehaviour
     {
         if (!focued) return;
 
-        if (device != SimplifiedDevice.MouseAndKeyboard)
+        if (device.IsController())
         {
             if (EventSystem.current.currentSelectedGameObject == null)
             {

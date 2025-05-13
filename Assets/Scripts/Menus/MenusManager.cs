@@ -119,6 +119,7 @@ public class MenusManager : Singleton<MenusManager, MenusManager>, IOnLoadSave
             }
             else
             {
+                Debug.Log("Showing menus");
                 showMenuTime = Time.realtimeSinceStartup;
                 if (stopTimeWhenPaused)
                 {
@@ -135,10 +136,13 @@ public class MenusManager : Singleton<MenusManager, MenusManager>, IOnLoadSave
     {
         if (StoryManager.instance != null && StoryManager.instance.Playing 
             || DevConsole.focused 
-            || Time.realtimeSinceStartup - showMenuTime < 0.25f) return;
+            || Time.realtimeSinceStartup - showMenuTime < 0.25f
+            || !AbsMenu.ShowingMenus) return;
 
         if (context.performed)
         {
+            Debug.Log("Exiting menus");
+
             AbsMenu.FocusedMenu?.Exit();
             if (!AbsMenu.ShowingMenus)
             {
