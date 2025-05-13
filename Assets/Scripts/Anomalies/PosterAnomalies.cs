@@ -33,11 +33,22 @@ public class PosterAnomalies : AbsAnomaly
         }
     }
 
-    Camera playerCam;
+    Camera _playerCam;
+    public Camera playerCam
+    {
+        get
+        {
+            if (_playerCam == null)
+            {
+                _playerCam = Dungeon.Player.GetComponentInChildren<Camera>(true);
+            }
+
+            return _playerCam;
+        }
+    }
 
     private void Start()
     {
-        playerCam = Dungeon.Player.GetComponentInChildren<Camera>(true);
     }
 
     protected override void OnDisableExtra()

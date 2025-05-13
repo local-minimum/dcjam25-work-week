@@ -51,6 +51,7 @@ public class MainMenu : MonoBehaviour
 
         transform.HideAllChildren();
         titleUI.enabled = false;
+        HideWipeWarning();
 
         OnNewGame?.Invoke();
     }
@@ -134,20 +135,23 @@ public class MainMenu : MonoBehaviour
     }
 
     string wipeWarning = "This will erase your previous progress!";
+    bool showingWarning;
 
     public void ShowWipeWarning()
     {
         if (WWSaveSystem.instance.HasAutoSave)
         {
             PromptUI.instance.ShowText(wipeWarning);
+            showingWarning = true;
         }
     }
 
     public void HideWipeWarning()
     {
-        if (WWSaveSystem.instance.HasAutoSave)
+        if (showingWarning)
         {
             PromptUI.instance.RemoveText(wipeWarning);
+            showingWarning = false;
         }
     }
 }

@@ -214,6 +214,13 @@ public class SettingsMenu : MonoBehaviour
     public void SetInstantMovement(bool instant) 
     {
         GameSettings.InstantMovement.Value = instant;
+        if (instant)
+        {
+            EventSystem.current.SetSelectedGameObject(SmoothTransitionBtn.gameObject);
+        } else
+        {
+            EventSystem.current.SetSelectedGameObject(InstantTransitionBtn.gameObject);
+        }
     }
 
     public void SetFullscreen()
@@ -221,6 +228,7 @@ public class SettingsMenu : MonoBehaviour
         if (Screen.fullScreen) return;
         Screen.fullScreen = true;
         SyncVideoButtons(true);
+        SetSelectedVideoBtn(true);
     }
 
     public void SetWindowed()
@@ -228,6 +236,19 @@ public class SettingsMenu : MonoBehaviour
         if (!Screen.fullScreen) return;
         Screen.fullScreen = false;
         SyncVideoButtons(false);
+        SetSelectedVideoBtn(false);
+    }
+
+    void SetSelectedVideoBtn(bool fullscreen)
+    {
+
+        if (fullscreen)
+        {
+            EventSystem.current.SetSelectedGameObject(WindowedBtn.gameObject);
+        } else
+        {
+            EventSystem.current.SetSelectedGameObject(FullscreenBtn.gameObject);
+        }
     }
 
     void SyncVideoButtons(bool fullscreen)
@@ -322,6 +343,13 @@ public class SettingsMenu : MonoBehaviour
     {
         WWSettings.EasyMode.Value = easymode;
         SyncEasyModeButtons();
+        if (easymode)
+        {
+            EventSystem.current.SetSelectedGameObject(NormalmodeBtn.gameObject);
+        } else
+        {
+            EventSystem.current.SetSelectedGameObject(EasymodeBtn.gameObject);
+        }
     }
 
     void SyncEasyModeButtons()
@@ -359,6 +387,19 @@ public class SettingsMenu : MonoBehaviour
         }
 
         SyncAnomalyDifficulty();
+        switch (WWSettings.AnomalyDifficulty.Value)
+        {
+            case AnomalyDifficulty.Clear:
+                EventSystem.current.SetSelectedGameObject(BalancedAnomaliesBtn.gameObject);
+                break;
+            case AnomalyDifficulty.Balanced:
+                EventSystem.current.SetSelectedGameObject(ClearAnomaliesBtn.gameObject);
+                break;
+            case AnomalyDifficulty.Sleuthy:
+                EventSystem.current.SetSelectedGameObject(BalancedAnomaliesBtn.gameObject);
+                break;
+        }
+        
     }
 
     void SyncAnomalyDifficulty()
@@ -400,6 +441,19 @@ public class SettingsMenu : MonoBehaviour
         }
 
         SyncManagerPersonality();
+
+        switch (WWSettings.ManagerPersonality.Value)
+        {
+            case ManagerPersonality.Golfer:
+                EventSystem.current.SetSelectedGameObject(StewardBtn.gameObject);
+                break;
+            case ManagerPersonality.Steward:
+                EventSystem.current.SetSelectedGameObject(GolferBtn.gameObject);
+                break;
+            case ManagerPersonality.Zealous:
+                EventSystem.current.SetSelectedGameObject(StewardBtn.gameObject);
+                break;
+        }
     }
 
     void SyncManagerPersonality()

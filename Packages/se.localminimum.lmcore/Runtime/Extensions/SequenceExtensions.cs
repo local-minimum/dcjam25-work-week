@@ -74,6 +74,17 @@ namespace LMCore.Extensions
             return sequence[Random.Range(0, n)];
         }
 
+        /// <summary>
+        /// Returns random item in sequence
+        /// </summary>
+        public static T GetRandomElementOrDefault<T>(this List<T> sequence, T defaultValue)
+        {
+            var n = sequence?.Count ?? 0;
+            if (n == 0) return defaultValue;
+
+            return sequence[Random.Range(0, n)];
+        }
+
         public static IEnumerable<T> Shuffle<T>(this IEnumerable<T> sequence)
         {
             return sequence.OrderBy(_ => Random.value);

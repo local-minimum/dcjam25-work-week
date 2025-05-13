@@ -73,6 +73,22 @@ public class AnomalyManager : Singleton<AnomalyManager, AnomalyManager>, IOnLoad
             Sunday = plan.GetNthOrDefault(6, AnomalyType.NormalOffice);
         }
 
+        public static AnomalyPlan RandomizedPlan(int anomalies = 4, int scary = 1)
+        {
+            var plan = new List<AnomalyType>();
+            for (int i = 0; i<Mathf.Min(anomalies, 7); i++)
+            {
+                plan.Add(i < scary ? AnomalyType.ScaryAnomaly : AnomalyType.Anomaly);
+            }
+
+            for (int i = plan.Count; i < 7; i++)
+            {
+                plan.Add(AnomalyType.NormalOffice);
+            }
+
+            return new AnomalyPlan(plan.Shuffle().ToList());
+        }
+
         public List<AnomalyType> Serialized() =>
             new List<AnomalyType>() { Monday, Tueday, Wednesday, Thursday, Friday, Saturday, Sunday };
 
@@ -153,10 +169,11 @@ public class AnomalyManager : Singleton<AnomalyManager, AnomalyManager>, IOnLoad
 
     IEnumerable<AnomalySetting> CandidateAnomalies(bool scary)
     {
-        var roomCount = new Dictionary<OfficeRoom, int>();
 
         var history = anomalyHistory.ToList();
 
+        // Count which rooms have gotten anomalis so far
+        var roomCount = new Dictionary<OfficeRoom, int>();
         foreach (var hist in history)
         {
             if (hist == null) continue;
@@ -191,23 +208,26 @@ public class AnomalyManager : Singleton<AnomalyManager, AnomalyManager>, IOnLoad
 
         if (unsued.Count > 0)
         {
+            Debug.Log("Still have unused anomalies");
             return unsued
-                .OrderBy(a => Mathf.Abs(a.difficulty - WantedDifficulty))
+                .OrderBy(a => a.horror != scary)
+                .ThenBy(a => Mathf.Abs(a.difficulty - WantedDifficulty))
                 .ThenBy(a => roomOrder(a.room));
         }
 
+        Debug.Log("Reusing anomalies");
         if (scary)
         {
             return anomalies
-                .OrderBy(a => history.LastIndexOf(a) / selectFromFirstNCandidates)
-                .ThenBy(a => !a.horror)
+                .OrderBy(a => !a.horror)
+                .ThenBy(a => history.LastIndexOf(a) / selectFromFirstNCandidates)
                 .ThenBy(a => Mathf.Abs(a.difficulty - WantedDifficulty))
                 .ThenBy(a => roomOrder(a.room));
         }
 
         return anomalies
-            .OrderBy(a => history.LastIndexOf(a) / selectFromFirstNCandidates)
-            .ThenBy(a => a.horror)
+            .OrderBy(a => a.horror)
+            .ThenBy(a => history.LastIndexOf(a) / selectFromFirstNCandidates)
             .ThenBy(a => Mathf.Abs(a.difficulty - WantedDifficulty))
             .ThenBy(a => roomOrder(a.room));
     }
@@ -337,7 +357,7 @@ public class AnomalyManager : Singleton<AnomalyManager, AnomalyManager>, IOnLoad
         activeAnomaly = null;
         anomalyLoaded = false;
         won = false;
-        weekPlan = new AnomalyPlan();
+        weekPlan = weekPlans.GetRandomElementOrDefault(AnomalyPlan.RandomizedPlan());
     }
 
     #endregion
@@ -362,7 +382,7 @@ public class AnomalyManager : Singleton<AnomalyManager, AnomalyManager>, IOnLoad
             }
         }
         encounteredAnomalies.Clear();
-        encounteredAnomalies.AddRange(anomalies.encounteredAnomalies);
+        encounteredAnomalies.AddRange(anomalies.encounteredAnomalies.Where(a => a != null));
 
         missedAnomalies.Clear();
         missedAnomalies.AddRange(anomalies.missedAnomalies);
@@ -413,9 +433,9 @@ public class AnomalyManager : Singleton<AnomalyManager, AnomalyManager>, IOnLoad
             options = weekPlans;
         }
 
-        weekPlan = options.GetRandomElementOrDefault();
+        weekPlan = options.GetRandomElementOrDefault(AnomalyPlan.RandomizedPlan());
         weekPlanSet = true;
-        Debug.Log($"AnomalyManager: {weekPlan}");
+        Debug.Log($"AnomalyManager: Set new week plan {weekPlan}");
     }
 
     void SetAnomalyOfTheDay(bool emitEvent = true)
@@ -426,6 +446,8 @@ public class AnomalyManager : Singleton<AnomalyManager, AnomalyManager>, IOnLoad
         }
 
         var type = weekPlan.GetPlan(Weekday);
+
+        Debug.Log($"Anomaly Manager: {Weekday} is {type}");
 
         switch (type)
         {
@@ -467,13 +489,6 @@ public class AnomalyManager : Singleton<AnomalyManager, AnomalyManager>, IOnLoad
     private void Start()
     {
         DontDestroyOnLoad(gameObject);
-
-#if UNITY_EDITOR
-        if (!string.IsNullOrEmpty(predefAnomaly))
-        {
-            LoadPredef();
-        }
-#endif
     }
 
     private void OnEnable()
@@ -531,7 +546,6 @@ public class AnomalyManager : Singleton<AnomalyManager, AnomalyManager>, IOnLoad
             success = exitType == ExitType.FireEscape;
         } else if (exitType.Either(ExitType.MainExit, ExitType.BossDeath) && activeAnomaly == null)
         {
-            encounteredAnomalies.Add(null);
             success = exitType == ExitType.MainExit;
         } else if (activeAnomaly != null)
         {
@@ -545,7 +559,6 @@ public class AnomalyManager : Singleton<AnomalyManager, AnomalyManager>, IOnLoad
             prevDayOutcome = PreviousDayOutcome.Positive;
             _weekday = Weekday.NextDay();
 
-            encounteredAnomalies.Add(activeAnomaly?.id);
             difficultyOffset += ActiveAdjustmentModel().Success;
 
             activeAnomaly = null;
