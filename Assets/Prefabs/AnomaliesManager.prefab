@@ -53,12 +53,12 @@ MonoBehaviour:
   - id: sinking-ship
     humanizedName: Ship sinks in watercooler
     room: 2
-    difficulty: 6
+    difficulty: 7
     horror: 0
   - id: bad-music
     humanizedName: Bad music haunts me
     room: 1
-    difficulty: 3
+    difficulty: 4
     horror: 1
   - id: kind-postits
     humanizedName: Love is in the kitchen
@@ -93,7 +93,7 @@ MonoBehaviour:
   - id: sword-boss
     humanizedName: Swords for clubs
     room: 32
-    difficulty: 3
+    difficulty: 4
     horror: 0
   - id: computer-exit
     humanizedName: Computer tells the truth
@@ -108,7 +108,7 @@ MonoBehaviour:
   - id: everyone-bob
     humanizedName: My name is Bob
     room: 2
-    difficulty: 4
+    difficulty: 3
     horror: 0
   - id: evil-posters
     humanizedName: Peripheral Posters
@@ -117,7 +117,7 @@ MonoBehaviour:
     horror: 0
   - id: not-elevator
     humanizedName: Office California
-    room: 2
+    room: 1
     difficulty: 1
     horror: 1
   crossfader: {fileID: 0}
