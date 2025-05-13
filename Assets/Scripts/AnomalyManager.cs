@@ -86,6 +86,7 @@ public class AnomalyManager : Singleton<AnomalyManager, AnomalyManager>, IOnLoad
                 plan.Add(AnomalyType.NormalOffice);
             }
 
+            Debug.LogWarning("AnomaliesManager: Random week plan created");
             return new AnomalyPlan(plan.Shuffle().ToList());
         }
 
@@ -357,7 +358,8 @@ public class AnomalyManager : Singleton<AnomalyManager, AnomalyManager>, IOnLoad
         activeAnomaly = null;
         anomalyLoaded = false;
         won = false;
-        weekPlan = weekPlans.GetRandomElementOrDefault(AnomalyPlan.RandomizedPlan());
+        SetWeekPlan();
+        Debug.Log($"AnomaliesManager: Set first week plan to {weekPlan}");
     }
 
     #endregion
@@ -393,6 +395,7 @@ public class AnomalyManager : Singleton<AnomalyManager, AnomalyManager>, IOnLoad
         if (anomalies.weekPlan != null)
         {
             weekPlan = new AnomalyPlan(anomalies.weekPlan);
+            Debug.Log("AnomalyManager: Loaded weekplan");
         } else
         {
             SetWeekPlan();
@@ -433,7 +436,8 @@ public class AnomalyManager : Singleton<AnomalyManager, AnomalyManager>, IOnLoad
             options = weekPlans;
         }
 
-        weekPlan = options.GetRandomElementOrDefault(AnomalyPlan.RandomizedPlan());
+        Debug.Log($"AnomalyManager: Seting new week plan");
+        weekPlan = options.GetRandomElementOrDefault(() => AnomalyPlan.RandomizedPlan());
         weekPlanSet = true;
         Debug.Log($"AnomalyManager: Set new week plan {weekPlan}");
     }
@@ -447,7 +451,7 @@ public class AnomalyManager : Singleton<AnomalyManager, AnomalyManager>, IOnLoad
 
         var type = weekPlan.GetPlan(Weekday);
 
-        Debug.Log($"Anomaly Manager: {Weekday} is {type}");
+        Debug.Log($"AnomalyManager: {Weekday} is {type}");
 
         switch (type)
         {

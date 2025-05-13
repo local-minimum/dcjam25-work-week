@@ -77,10 +77,10 @@ namespace LMCore.Extensions
         /// <summary>
         /// Returns random item in sequence
         /// </summary>
-        public static T GetRandomElementOrDefault<T>(this List<T> sequence, T defaultValue)
+        public static T GetRandomElementOrDefault<T>(this List<T> sequence, System.Func<T> defaultCreator)
         {
             var n = sequence?.Count ?? 0;
-            if (n == 0) return defaultValue;
+            if (n == 0) return defaultCreator();
 
             return sequence[Random.Range(0, n)];
         }
