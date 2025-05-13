@@ -174,6 +174,8 @@ public class SettingsMenu : MonoBehaviour
 
     private void OnEnable()
     {
+        ActionMapToggler.OnChangeControls += ActionMapToggler_OnChangeControls;
+
         // Video
         SyncVideoButtons(Screen.fullScreen);
 
@@ -202,7 +204,16 @@ public class SettingsMenu : MonoBehaviour
 
     private void OnDisable()
     {
+        ActionMapToggler.OnChangeControls -= ActionMapToggler_OnChangeControls;
         GameSettings.InstantMovement.OnChange -= InstantMovement_OnChange;
+    }
+
+    private void ActionMapToggler_OnChangeControls(UnityEngine.InputSystem.PlayerInput input, string controlScheme, LMCore.Extensions.SimplifiedDevice device)
+    {
+        if (EventSystem.current.currentSelectedGameObject == null)
+        {
+            ShowActiveSubSettings();
+        }
     }
 
     private void InstantMovement_OnChange(bool value)

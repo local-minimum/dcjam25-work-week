@@ -1,4 +1,5 @@
 using LMCore.Extensions;
+using LMCore.IO;
 using LMCore.Juice;
 using LMCore.UI;
 using TMPro;
@@ -37,8 +38,11 @@ public class MainMenu : MonoBehaviour
     [SerializeField]
     FadingSoundSource music;
 
+    bool focued = true;
+
     public void LoadSave()
     {
+        focued = false;
         Debug.Log("MainMenu: Loading game");
         music.FadeOut();
         WWSaveSystem.SafeInstance.LoadAutoSave();
@@ -46,6 +50,7 @@ public class MainMenu : MonoBehaviour
 
     public void NewGame()
     {
+        focued = false;
         Debug.Log("MainMenu: Starting new game");
         WWSaveSystem.SafeInstance.DeleteAutoSave();
 
@@ -58,6 +63,7 @@ public class MainMenu : MonoBehaviour
 
     public void ShowSlideshow()
     {
+        focued = false;
         music.FadeOut(toValue: introMusicLevel);
 
         Cursor.visible = false;
@@ -91,18 +97,44 @@ public class MainMenu : MonoBehaviour
 
     public void Settings()
     {
+        focued = false;
         transform.HideAllChildren();
         SettingsMenu.Show();
     }
 
     public void RegainFocus()
     {
+        focued = true;
         transform.ShowAllChildren();
         Start();
     }
 
+    private void OnEnable()
+    {
+        ActionMapToggler.OnChangeControls += ActionMapToggler_OnChangeControls; 
+    }
+
+    private void OnDisable()
+    {
+        ActionMapToggler.OnChangeControls += ActionMapToggler_OnChangeControls; 
+    }
+
+    private void ActionMapToggler_OnChangeControls(UnityEngine.InputSystem.PlayerInput input, string controlScheme, SimplifiedDevice device)
+    {
+        if (!focued) return;
+
+        if (device != SimplifiedDevice.MouseAndKeyboard)
+        {
+            if (EventSystem.current.currentSelectedGameObject == null)
+            {
+                SetDefaultSelectedButton();
+            }
+        }
+    }
+
     private void Start()
     {
+        focued = true;
         // Just in case, because there were nasty bugs with this before
         Time.timeScale = 1f;
 
