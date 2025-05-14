@@ -21,12 +21,14 @@ namespace LMCore.EntitySM.State.Critera
         public void Increase()
         {
             repititions++;
+            Debug.Log($"Repetition Criteria '{name}': Now at {repititions} reps");
             if (repititions == 1 || increaseResetsTickTime) SetNextTick();
         }
 
         public void Clear()
         {
             repititions = 0;
+            Debug.Log($"Repetition Criteria '{name}': Cleared to {repititions} reps");
             if (OneTime)
             {
                 enabled = false;
@@ -46,7 +48,7 @@ namespace LMCore.EntitySM.State.Critera
 
             repititions = Mathf.Max(0, repititions - 1);
 
-            if (repititions > 0) SetNextTick();
+            SetNextTick();
         }
 
         [ContextMenu("Info")]

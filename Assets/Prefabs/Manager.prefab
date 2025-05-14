@@ -770,11 +770,14 @@ MonoBehaviour:
   Transitions:
   - _Target: 7
     _CustomCriteria:
-    - Weight: 10
+    - Weight: 5
       criteria: {fileID: 1638064737645386510}
       Inverted: 0
   - _Target: 1
-    _CustomCriteria: []
+    _CustomCriteria:
+    - Weight: 100
+      criteria: {fileID: 1817409870007732169}
+      Inverted: 0
 --- !u!114 &4970551743712669383
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -137,7 +137,8 @@ namespace LMCore.TiledDungeon.Enemies
                 Walk(entity, previousPath[1], previousPath);
             } else
             {
-                Enemy.UpdateActivity(avoidActive: true);
+                Debug.LogWarning(PrefixLogMessage("We have nowhere to patrol to"));
+                TrySwappingPatrolLoop();
             }
 
             Enemy.MayTaxStay = true;

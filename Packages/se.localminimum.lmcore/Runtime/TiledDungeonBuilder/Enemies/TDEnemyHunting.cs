@@ -63,6 +63,7 @@ namespace LMCore.TiledDungeon.Enemies
 
         public void InitHunt(GridEntity target)
         {
+            Debug.Log(PrefixLogMessage($"Initing hunt on {target}"));
             if (FailedHuntCriteria != null) FailedHuntCriteria.Clear();
 
             if (target == null)
@@ -353,7 +354,7 @@ namespace LMCore.TiledDungeon.Enemies
                 Debug.LogError(PrefixLogMessage("Nothing to hunt"));
                 if (FailedHuntCriteria != null) FailedHuntCriteria.Increase();
                 Enemy.MayTaxStay = true;
-                Enemy.UpdateActivity();
+                Enemy.UpdateActivity(avoidActive: true);
                 return;
             }
 
@@ -452,7 +453,10 @@ namespace LMCore.TiledDungeon.Enemies
             Enemy.MayTaxStay = true;
             nextCheck = Time.timeSinceLevelLoad + movementDuration;
 
-            Enemy.UpdateActivity();
+            if (FailedHuntCriteria == null || FailedHuntCriteria.Passing)
+            {
+                Enemy.UpdateActivity(avoidActive: true);
+            }
         }
 
         [ContextMenu("Info")]

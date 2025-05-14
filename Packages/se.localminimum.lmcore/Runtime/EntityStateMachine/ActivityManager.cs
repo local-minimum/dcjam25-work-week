@@ -21,6 +21,9 @@ namespace LMCore.EntitySM
         protected string PrefixLogMessage(string message) =>
             $"ActivityManager {name}: {message}";
 
+        /// <summary>
+        /// Set an initial state. Returns true if new state was set
+        /// </summary>
         bool InitState()
         {
             if (ActiveState == null)
@@ -96,11 +99,14 @@ namespace LMCore.EntitySM
         /// </summary>
         public void CheckTransition(bool avoidActive = false)
         {
-            if (InitState()) return;
+            if (InitState() || ActiveState == null) return;
 
             if (ActiveState.CheckTransition(personality, avoidActive, out StateType newStateType))
             {
-                ForceState(newStateType);
+                if (newStateType != ActiveState.State)
+                {
+                    ForceState(newStateType);
+                }
             }
         }
 
@@ -114,7 +120,13 @@ namespace LMCore.EntitySM
         /// </summary>
         public void ForceState(StateType newStateType, bool allowNullState = false, bool emitEvents = true)
         {
-            var newState = States.FirstOrDefault(s => s.State == newStateType);
+            if (States == null)
+            {
+                Debug.LogError(PrefixLogMessage($"{ActiveState} wanted to transition to {newStateType}, but we have no states"));
+                return;
+            }
+
+            var newState = States.FirstOrDefault(s => s != null && s.State == newStateType);
 
             if (newState == null && !allowNullState)
             {
@@ -125,7 +137,10 @@ namespace LMCore.EntitySM
             if (ActiveState == newState)
             {
                 Debug.Log(PrefixLogMessage($"Already was {newStateType} - {ActiveState}, will still re-enter it"));
-                ActiveState.Enter(true);
+                if (ActiveState != null)
+                {
+                    ActiveState.Enter(true);
+                }
                 return;
             }
 
@@ -134,11 +149,13 @@ namespace LMCore.EntitySM
             {
                 ActiveState.Exit();
             }
+
             ActiveState = newState;
             if (ActiveState != null && emitEvents)
             {
                 ActiveState.Enter(true);
             }
+
             Debug.Log($"New state is {ActiveState} ({ActiveState.State})");
         }
 
