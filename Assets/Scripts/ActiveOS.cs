@@ -27,6 +27,12 @@ public class ActiveOS : MonoBehaviour, IOnLoadSave
     [SerializeField, HelpBox("Hidden launchers get activated once you've completed the main game")]
     List<ActiveOSAppLauncher> hiddenLaunchers = new List<ActiveOSAppLauncher>();
 
+    [SerializeField]
+    ActiveOSAppLauncher helpApp;
+
+    [SerializeField]
+    ActiveOSAppLauncher tutorialApp;
+
     bool osActive;
 
     private void OnEnable()
@@ -78,7 +84,18 @@ public class ActiveOS : MonoBehaviour, IOnLoadSave
                 launcher.gameObject.SetActive(false);
                 launcher.CloseApp();
             }
+
+            if (AnomalyManager.instance.WeekNumber > 1 && AnomalyManager.instance.Weekday == Weekday.Monday)
+            {
+                Debug.Log("ActiveOS: Showing help");
+                tutorialApp.CloseApp();
+                helpApp.OpenApp();
+            } else {
+                Debug.Log($"ActiveOS: {AnomalyManager.instance.WeekNumber} {AnomalyManager.instance.Weekday}");
+            }
+
         }
+
     }
 
     private void Start()

@@ -14,8 +14,12 @@ public class ActiveOSAppLauncher : MonoBehaviour
         OpenApp();
     }
 
+    bool initialStateSet;
+
     private void Start()
     {
+        if (initialStateSet) return;
+
         if (autoStart)
         {
             OpenApp();
@@ -25,7 +29,15 @@ public class ActiveOSAppLauncher : MonoBehaviour
         }
     }
 
-    public void OpenApp() => app.OpenApp();
+    public void OpenApp()
+    {
+        initialStateSet = true;
+        app.OpenApp();
+    }
 
-    public void CloseApp() => app.CloseApp();
+    public void CloseApp()
+    {
+        initialStateSet = true;
+        app.CloseApp();
+    }
 }
