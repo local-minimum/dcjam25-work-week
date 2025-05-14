@@ -118,6 +118,8 @@ public class SettingsMenu : MonoBehaviour
         {
             foreach (var item in activeSubSetting.firstSelected)
             {
+                if (item == null) continue;
+
                 if (item.interactable)
                 {
                     preSelected = item;
@@ -128,18 +130,29 @@ public class SettingsMenu : MonoBehaviour
             }
         }
 
+        if (subSettings == null) return;
+
         foreach (var sub in subSettings)
         {
+            if (sub == null) continue;
+            
             bool active = activeSubSetting == sub;
             sub.sectionBtn.interactable = !active;
-            foreach (var part in sub.parts)
+
+            if (sub.parts != null)
             {
-                part.SetActive(active);
+                foreach (var part in sub.parts)
+                {
+                    part.SetActive(active);
+                }
             }
 
-            var nav = sub.sectionBtn.navigation;
-            nav.selectOnRight = preSelected;
-            sub.sectionBtn.navigation = nav;
+            if (sub.sectionBtn != null)
+            {
+                var nav = sub.sectionBtn.navigation;
+                nav.selectOnRight = preSelected;
+                sub.sectionBtn.navigation = nav;
+            }
         }
 
 

@@ -59,6 +59,7 @@ public class PauseMenu : AbsMenu
     public void RegainFocus()
     {
         actionsButtons.SetActive(true);
+        EventSystem.current.SetSelectedGameObject(preSelectedButton);
     }
 
     bool unloaded;
