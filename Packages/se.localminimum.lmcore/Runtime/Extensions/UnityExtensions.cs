@@ -380,6 +380,30 @@ namespace LMCore.Extensions
         }
 
         /// <summary>
+        /// Return inactive item out of list and activate it or instanciate a new item from the prefab
+        /// and put it into the list
+        /// </summary>
+        public static T GetInactiveOrInstantiate<T>(
+            this List<T> list,
+            T prefab,
+            Transform parent,
+            System.Action<T> instanciationSetup = null) where T : MonoBehaviour
+        {
+            var recylced = list.FirstOrDefault(item => !item.gameObject.activeSelf);
+            if (recylced != null)
+            {
+                recylced.gameObject.SetActive(true);
+                return recylced;
+            }
+
+            var instance = GameObject.Instantiate(prefab, parent);
+            list.Add(instance);
+            instanciationSetup?.Invoke(instance);
+
+            return instance;
+        }
+
+        /// <summary>
         /// Populate list with specified number of copies of the prefab, all set as inactive
         /// </summary>
         public static void WarmUpFromPrefabs<T>(

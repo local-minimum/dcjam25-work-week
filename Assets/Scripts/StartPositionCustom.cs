@@ -228,6 +228,8 @@ public class StartPositionCustom : TDFeature, ITDCustom
             SyncPauseSettingsHint();
         }
 
+        AnomalyManager.instance.PrepareAnomalyOrNormalDay();
+
         player = null;
         releasing = false;
     }

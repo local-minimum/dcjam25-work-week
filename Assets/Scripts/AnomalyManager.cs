@@ -97,8 +97,6 @@ public class AnomalyManager : Singleton<AnomalyManager, AnomalyManager>, IOnLoad
             $"<Plan Mo:{Monday} Tu:{Tueday} We:{Wednesday} Th:{Thursday} Fr:{Friday} Sa:{Saturday} Su:{Sunday}>";
     }
 
-    bool anomalyLoaded;
-
     [SerializeField]
     List<AnomalySetting> anomalies = new List<AnomalySetting>();
 
@@ -147,7 +145,9 @@ public class AnomalyManager : Singleton<AnomalyManager, AnomalyManager>, IOnLoad
     public struct CensuredAnomaly
     {
         public string name;
+        public string id;
         public bool horror;
+        public string hint;
     }
 
     public IEnumerable<CensuredAnomaly> GetCensuredAnomalies()
@@ -156,11 +156,21 @@ public class AnomalyManager : Singleton<AnomalyManager, AnomalyManager>, IOnLoad
         {
             if (encounteredAnomalies.Contains(anomaly.id))
             {
-                yield return new CensuredAnomaly() { name = anomaly.humanizedName, horror = anomaly.horror };
+                yield return new CensuredAnomaly() { 
+                    name = anomaly.humanizedName, 
+                    id = anomaly.id,
+                    horror = anomaly.horror, 
+                    hint = anomaly.room.Humanize(),
+                };
             } else
             {
                 var name = anomaly.humanizedName;
-                yield return new CensuredAnomaly() { name = Regex.Replace(name, @"[A-Za-z0-9]", "?"), horror = anomaly.horror };
+                yield return new CensuredAnomaly() { 
+                    name = Regex.Replace(name, @"[A-Za-z0-9]", "?"), 
+                    id = anomaly.id,
+                    horror = anomaly.horror, 
+                    hint = anomaly.room.Humanize(),
+                };
             }
 
         }
@@ -247,6 +257,11 @@ public class AnomalyManager : Singleton<AnomalyManager, AnomalyManager>, IOnLoad
     {
         activeAnomaly = anomalies.FirstOrDefault(a => a.id == predefAnomaly);
         Debug.Log($"AnomalyManager: Hotloading '{predefAnomaly}' and it is {Weekday} in week {WeekNumber} with {(activeAnomaly == null ? "a regular office" : activeAnomaly.ToString())}");
+        OnSetAnomaly?.Invoke(activeAnomaly?.id);
+    }
+
+    public void PrepareAnomalyOrNormalDay()
+    {
         OnSetAnomaly?.Invoke(activeAnomaly?.id);
     }
 
@@ -362,7 +377,6 @@ public class AnomalyManager : Singleton<AnomalyManager, AnomalyManager>, IOnLoad
         missedAnomalies.Clear();
         encounteredAnomalies.Clear();
         activeAnomaly = null;
-        anomalyLoaded = false;
         won = false;
         SetWeekPlan();
         Debug.Log($"AnomaliesManager: Set first week plan to {weekPlan}");
@@ -428,8 +442,6 @@ public class AnomalyManager : Singleton<AnomalyManager, AnomalyManager>, IOnLoad
 
         won = anomalies.won;
 
-        anomalyLoaded = true;
-
         Debug.Log($"AnomalyManager: Loaded save {save.anomalies} and it's {Weekday} in week {WeekNumber} with {(activeAnomaly == null ? "a regular office" : activeAnomaly.ToString())}");
         OnSetAnomaly?.Invoke(activeAnomaly?.id);
     }
@@ -447,6 +459,25 @@ public class AnomalyManager : Singleton<AnomalyManager, AnomalyManager>, IOnLoad
         weekPlanSet = true;
         Debug.Log($"AnomalyManager: Set new week plan {weekPlan}");
     }
+
+    public void OverrideAnomalyOfTheDay(string id)
+    {
+        if (string.IsNullOrEmpty(id))
+        {
+            activeAnomaly = null;
+        }
+        else
+        {
+            activeAnomaly = anomalies.FirstOrDefault(a => a.id == id);
+            if (activeAnomaly == null)
+            {
+                Debug.LogWarning($"AnomalyManger: Don't know anomaly '{id}'");
+            }
+        }
+    }
+
+    public void RemoveAnomalyOveride() =>
+        SetAnomalyOfTheDay(false);
 
     void SetAnomalyOfTheDay(bool emitEvent = true)
     {
@@ -504,23 +535,12 @@ public class AnomalyManager : Singleton<AnomalyManager, AnomalyManager>, IOnLoad
     private void OnEnable()
     {
         ExitTrigger.OnExitOffice += ExitTrigger_OnExitOffice;
-        TiledDungeon.OnDungeonLoad += TiledDungeon_OnDungeonLoad;
     }
 
     private void OnDisable()
     {
         ExitTrigger.OnExitOffice -= ExitTrigger_OnExitOffice;
-        TiledDungeon.OnDungeonLoad -= TiledDungeon_OnDungeonLoad;
     }
-
-    private void TiledDungeon_OnDungeonLoad(TiledDungeon dungeon, bool fromSave)
-    {
-        if (!anomalyLoaded)
-        {
-            SetAnomalyOfTheDay();
-        }
-    }
-
 
     public void DeathByAnomaly() =>
         ExitTrigger_OnExitOffice(ExitType.AnomalyDeath);
@@ -545,7 +565,6 @@ public class AnomalyManager : Singleton<AnomalyManager, AnomalyManager>, IOnLoad
 
     private void ExitTrigger_OnExitOffice(ExitType exitType)
     {
-        anomalyLoaded = false;
         bool success = false;
 
         prevDayExit = exitType;

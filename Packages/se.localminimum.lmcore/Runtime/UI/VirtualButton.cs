@@ -24,6 +24,9 @@ namespace LMCore.UI
         [SerializeField]
         Color disabledColor;
 
+        [SerializeField]
+        bool disableGameObjectNonInteractable = true;
+
         public void Click()
         {
             if (Interactable && enabled)
@@ -69,6 +72,11 @@ namespace LMCore.UI
                 RaycastTarget.enabled = value;
 
                 SyncColor();
+
+                if (disableGameObjectNonInteractable)
+                {
+                    gameObject.SetActive(value);
+                }
             }
         }
 

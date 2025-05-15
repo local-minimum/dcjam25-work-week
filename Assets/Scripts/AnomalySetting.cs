@@ -1,4 +1,6 @@
+using LMCore.Extensions;
 using System;
+using System.Linq;
 using UnityEngine;
 
 [Serializable, Flags]
@@ -13,6 +15,37 @@ public enum OfficeRoom
     LunchRoom = 64,
     Restrooms = 128,
     ExitCorridor = 256,
+}
+
+public static class OfficeRoomExtensions
+{
+    private static string HumanizeRoomFlag(OfficeRoom room)
+    {
+        switch (room)
+        {
+            case OfficeRoom.Entrance:
+                return "Entrance";
+            case OfficeRoom.Main:
+                return "Cubicles Area";
+            case OfficeRoom.MeetingRoom1:
+            case OfficeRoom.MeetingRoom2:
+                return "Meeting Room";
+            case OfficeRoom.BossRoom:
+                return "Managers Office";
+            case OfficeRoom.LunchRoom:
+                return "Lunchroom";
+            case OfficeRoom.Restrooms:
+                return "Restroom";
+            case OfficeRoom.StorageRoom:
+                return "Storage Room";
+            case OfficeRoom.ExitCorridor:
+                return "Fire Exit Corridor";
+            default:
+                return null;
+        }
+    }
+    public static string Humanize(this OfficeRoom room) =>
+        string.Join(", ", room.AllFlags().Select(r => HumanizeRoomFlag(r)).Where(r => !string.IsNullOrEmpty(r)));
 }
 
 [Serializable]
