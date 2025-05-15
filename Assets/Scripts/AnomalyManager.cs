@@ -144,17 +144,23 @@ public class AnomalyManager : Singleton<AnomalyManager, AnomalyManager>, IOnLoad
     [SerializeField]
     DifficultyAdjustment sleuthAdjustment = new DifficultyAdjustment() { Success = 2, Fail = 1 };
 
-    public IEnumerable<string> GetCensuredAnomalies()
+    public struct CensuredAnomaly
+    {
+        public string name;
+        public bool horror;
+    }
+
+    public IEnumerable<CensuredAnomaly> GetCensuredAnomalies()
     {
         foreach (var anomaly in anomalies)
         {
             if (encounteredAnomalies.Contains(anomaly.id))
             {
-                yield return anomaly.humanizedName;
+                yield return new CensuredAnomaly() { name = anomaly.humanizedName, horror = anomaly.horror };
             } else
             {
                 var name = anomaly.humanizedName;
-                yield return Regex.Replace(name, @"[A-Za-z0-9]", "?");
+                yield return new CensuredAnomaly() { name = Regex.Replace(name, @"[A-Za-z0-9]", "?"), horror = anomaly.horror };
             }
 
         }
