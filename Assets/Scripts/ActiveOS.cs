@@ -77,6 +77,7 @@ public class ActiveOS : MonoBehaviour, IOnLoadSave
                     launcher.OpenApp();
                 }
             }
+            tutorialApp.CloseApp();
         } else
         {
             foreach (var launcher in hiddenLaunchers)

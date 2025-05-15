@@ -62,7 +62,7 @@ public class ActiveOSAnomalies : MonoBehaviour
         SyncButtons();
         SyncText();
 
-        forceNormalDayBtn.Interactable = false;
+        forceNormalDayBtn.Interactable = true;
         letGameDecideBtn.Interactable = false;
     }
 

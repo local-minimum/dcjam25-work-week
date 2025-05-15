@@ -222,12 +222,14 @@ public class AnomalyManager : Singleton<AnomalyManager, AnomalyManager>, IOnLoad
         };
 
         var unsued = anomalies.Where(a => !history.Contains(a)).ToList();
+        var nUnused = unsued.Count;
 
-        if (unsued.Count > 0)
+        if (nUnused >= selectFromFirstNCandidates || nUnused > 0 && won)
         {
             Debug.Log("Still have unused anomalies");
             return unsued
                 .OrderBy(a => a.horror != scary)
+                .ThenBy(a => missedAnomalies.Count(m => m == a.id))
                 .ThenBy(a => Mathf.Abs(a.difficulty - WantedDifficulty))
                 .ThenBy(a => roomOrder(a.room));
         }
@@ -668,6 +670,12 @@ public class AnomalyManager : Singleton<AnomalyManager, AnomalyManager>, IOnLoad
     void LoadVictoryScene()
     {
         SceneManager.LoadScene("VictoryScene");
+    }
+
+    [ContextMenu("Claim Won")]
+    void ClaimWon()
+    {
+        won = true;
     }
 
     [ContextMenu("Info")]

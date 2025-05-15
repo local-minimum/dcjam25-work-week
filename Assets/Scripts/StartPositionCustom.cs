@@ -172,6 +172,8 @@ public class StartPositionCustom : TDFeature, ITDCustom
     {
         releasing = true;
         releaseStart = Time.timeSinceLevelLoad;
+
+        AnomalyManager.instance.PrepareAnomalyOrNormalDay();
     }
 
     [SerializeField]
@@ -227,8 +229,6 @@ public class StartPositionCustom : TDFeature, ITDCustom
             showingHint = true;
             SyncPauseSettingsHint();
         }
-
-        AnomalyManager.instance.PrepareAnomalyOrNormalDay();
 
         player = null;
         releasing = false;

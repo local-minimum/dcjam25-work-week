@@ -13,6 +13,12 @@ public class ActiveOSAnomalyListing : MonoBehaviour
     [SerializeField]
     VirtualButton HintButton;
 
+    [SerializeField]
+    Color defaultColor;
+
+    [SerializeField]
+    Color selectedColor;
+
     AnomalyManager.CensuredAnomaly anomaly;
 
     public string AnomalyId => anomaly.id;
@@ -30,6 +36,7 @@ public class ActiveOSAnomalyListing : MonoBehaviour
     public void Unselect()
     {
         selected = false;
+
         Sync();
     }
 
@@ -64,7 +71,9 @@ public class ActiveOSAnomalyListing : MonoBehaviour
     void Sync()
     {
         DescriptionUI.text = hinting ? anomaly.hint : $"{(anomaly.horror ? "[HORROR] " : "")}{anomaly.name}";
+        DescriptionUI.color = selected ? selectedColor : defaultColor;
         ActivateButton.GetComponentInChildren<TextMeshProUGUI>(true).text = selected ? "X" : "-";
+        ActivateButton.Interactable = !selected;
     }
 
     public void ShowHint()
