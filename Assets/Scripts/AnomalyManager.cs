@@ -1,7 +1,6 @@
 using LMCore.AbstractClasses;
 using LMCore.Extensions;
 using LMCore.IO;
-using LMCore.TiledDungeon;
 using LMCore.UI;
 using System.Collections.Generic;
 using System.Linq;
@@ -64,6 +63,10 @@ public class AnomalyManager : Singleton<AnomalyManager, AnomalyManager>, IOnLoad
         {
             this.minWeek = minWeek;
             this.maxWeek = maxWeek;
+            if (plan.Count < 7)
+            {
+                Debug.LogWarning($"Weekplan is only {plan.Count} days long");
+            }
             Monday = plan.GetNthOrDefault(0, AnomalyType.NormalOffice);
             Tueday = plan.GetNthOrDefault(1, AnomalyType.Anomaly);
             Wednesday = plan.GetNthOrDefault(2, AnomalyType.ScaryAnomaly);
@@ -300,6 +303,16 @@ public class AnomalyManager : Singleton<AnomalyManager, AnomalyManager>, IOnLoad
             previousDayOutcome = manager.prevDayOutcome;
             previousDayExit = manager.prevDayExit;
             weekPlan = manager.weekPlanSet ? manager.weekPlan.Serialized() : null;
+            if (!manager.weekPlanSet)
+            {
+                Debug.LogError($"Saving without having a week plan set is no good {manager.weekPlan}");
+            } else if (weekPlan == null)
+            {
+                Debug.LogError($"Week plan {manager.weekPlan} serialized to null");
+            } else if (weekPlan.Count != 7)
+            {
+                Debug.LogError($"Week plan {manager.weekPlan} serialized {weekPlan.Count} days, should be 7");
+            }
         }
 
         public AnomalyManagerSaveData()
@@ -317,7 +330,7 @@ public class AnomalyManager : Singleton<AnomalyManager, AnomalyManager>, IOnLoad
         }
 
         public override string ToString() =>
-            $"<AnomSave {weekday} {weekNumber} Anom:{activeAnomaly}>";
+            $"<AnomSave {weekday} {weekNumber} Anom:{activeAnomaly} Plan:{(weekPlan == null ? "NOPLAN" : string.Join(", ", weekPlan))}>";
     }
 
     List<string> encounteredAnomalies = new List<string>();
@@ -417,11 +430,11 @@ public class AnomalyManager : Singleton<AnomalyManager, AnomalyManager>, IOnLoad
         if (anomalies.weekPlan != null)
         {
             weekPlan = new AnomalyPlan(anomalies.weekPlan);
-            Debug.Log("AnomalyManager: Loaded weekplan");
+            Debug.Log($"AnomalyManager: Loaded weekplan {weekPlan}");
         } else
         {
             SetWeekPlan();
-            Debug.LogWarning("AnomalyManager: There was no weekplan in the save");
+            Debug.LogWarning($"AnomalyManager: There was no weekplan in the save, set it to {weekPlan}");
         }
         weekPlanSet = true;
 
@@ -681,7 +694,10 @@ public class AnomalyManager : Singleton<AnomalyManager, AnomalyManager>, IOnLoad
     [ContextMenu("Info")]
     void Info()
     {
-        Debug.Log($"AnomalyManager: {Weekday} week {WeekNumber} prev day was {prevDayExit} {prevDayOutcome} {activeAnomaly}\nEncountered: {string.Join(", ", encounteredAnomalies)}\nMissed: {string.Join(", ", missedAnomalies)}");
+        Debug.Log($"AnomalyManager: {Weekday} week {WeekNumber} prev day was {prevDayExit} {prevDayOutcome} {activeAnomaly}\n" +
+            $"Plan: {weekPlan}\n" +
+            $"Encountered: {string.Join(", ", encounteredAnomalies)}\n" +
+            $"Missed: {string.Join(", ", missedAnomalies)}");
     }
 
     [ContextMenu("Summarize anomalies")]
