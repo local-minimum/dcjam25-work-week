@@ -321,6 +321,7 @@ MonoBehaviour:
   _animator: {fileID: 3606948077468300064}
   deathAnimationTrigger: 
   instaDeathAnimationTrigger: 
+  ElevationLocked: 1
   forceDirection: 6
 --- !u!114 &7503502182624770007
 MonoBehaviour:

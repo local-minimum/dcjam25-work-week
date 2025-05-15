@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="32" height="32" tilewidth="32" tileheight="32" infinite="0" nextlayerid="54" nextobjectid="140">
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="32" height="32" tilewidth="32" tileheight="32" infinite="0" nextlayerid="54" nextobjectid="142">
  <tileset firstgid="1" source="Mapping.tsx"/>
  <group id="47" name="ElevatorAnomalyPart1">
   <properties>
@@ -253,7 +253,7 @@
      <property name="OpenForEnemy" type="bool" value="true"/>
     </properties>
    </object>
-   <object id="135" name="Path: Anomaly No Elevator" type="Path" x="527.875" y="751.625">
+   <object id="135" name="Path: Anomaly No Elevator" type="Path" x="627.5" y="651.25">
     <properties>
      <property name="EnemyId" value="Manager"/>
      <property name="PathLoop" type="int" value="1003"/>
@@ -265,7 +265,7 @@
     <properties>
      <property name="EnemyId" value="Manager"/>
      <property name="PathLoop" type="int" value="1003"/>
-     <property name="Rank" type="int" value="2"/>
+     <property name="Rank" type="int" value="3"/>
     </properties>
     <point/>
    </object>
@@ -273,7 +273,7 @@
     <properties>
      <property name="EnemyId" value="Manager"/>
      <property name="PathLoop" type="int" value="1003"/>
-     <property name="Rank" type="int" value="3"/>
+     <property name="Rank" type="int" value="4"/>
     </properties>
     <point/>
    </object>
@@ -281,7 +281,7 @@
     <properties>
      <property name="EnemyId" value="Manager"/>
      <property name="PathLoop" type="int" value="1003"/>
-     <property name="Rank" type="int" value="4"/>
+     <property name="Rank" type="int" value="5"/>
     </properties>
     <point/>
    </object>
@@ -289,7 +289,15 @@
     <properties>
      <property name="EnemyId" value="Manager"/>
      <property name="PathLoop" type="int" value="1003"/>
-     <property name="Rank" type="int" value="5"/>
+     <property name="Rank" type="int" value="6"/>
+    </properties>
+    <point/>
+   </object>
+   <object id="141" name="Path: Anomaly No Elevator" type="Path" x="529.375" y="753">
+    <properties>
+     <property name="EnemyId" value="Manager"/>
+     <property name="PathLoop" type="int" value="1003"/>
+     <property name="Rank" type="int" value="2"/>
     </properties>
     <point/>
    </object>

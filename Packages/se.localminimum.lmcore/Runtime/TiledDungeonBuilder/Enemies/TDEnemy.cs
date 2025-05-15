@@ -116,6 +116,9 @@ namespace LMCore.TiledDungeon.Enemies
         [SerializeField]
         string instaDeathAnimationTrigger;
 
+        [SerializeField]
+        bool ElevationLocked = false;
+
         #region Lazy Refs
         ActivityManager _ActivityManager;
         ActivityManager ActivityManager
@@ -592,10 +595,14 @@ namespace LMCore.TiledDungeon.Enemies
         }
 
         TDPathCheckpoint ClosestCheckpoint(int loop = -1) =>
-            ClosestCheckpoint(pt => loop == -1 || pt.Loop == loop);
+            ClosestCheckpoint(pt => 
+                (!ElevationLocked || pt.Coordinates.y == Entity.Coordinates.y) && 
+                (loop == -1 || pt.Loop == loop));
 
         public TDPathCheckpoint ClosestCheckpointOnOtherLoop(TDPathCheckpoint current) =>
-            ClosestCheckpoint(pt => current == null || pt.Loop != current.Loop);
+            ClosestCheckpoint(pt => 
+                (!ElevationLocked || pt.Coordinates.y == Entity.Coordinates.y) && 
+                (current == null || pt.Loop != current.Loop));
 
         TDPathCheckpoint ClosestCheckpoint(System.Func<TDPathCheckpoint, bool> predicate)
         {

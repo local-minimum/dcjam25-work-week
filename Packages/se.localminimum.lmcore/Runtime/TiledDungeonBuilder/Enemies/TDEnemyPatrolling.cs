@@ -78,6 +78,9 @@ namespace LMCore.TiledDungeon.Enemies
             nextUpdateActivity = Time.timeSinceLevelLoad + checkActivityEvery;
         }
 
+        bool pathingFailiure;
+        float pathingFailiureStart;
+
         private void Update()
         {
             if (Paused || !Patrolling) return;
@@ -115,6 +118,7 @@ namespace LMCore.TiledDungeon.Enemies
             if (mayCheckActivity && 
                 dungeon.ClosestPath(entity, entity.Coordinates, target.Coordinates, Enemy.ArbitraryMaxPathSearchDepth, out var path, refuseSafeZones: true))
             {
+                pathingFailiure = false;
                 previousPath = path;
 
                 if (path.Count > 1)
@@ -133,12 +137,26 @@ namespace LMCore.TiledDungeon.Enemies
                 }
             } else if (previousPath != null && previousPath.Count > 2)
             {
+                pathingFailiure = false;
                 previousPath = previousPath.Skip(1).ToList();
                 Walk(entity, previousPath[1], previousPath);
             } else
             {
-                Debug.LogWarning(PrefixLogMessage("We have nowhere to patrol to"));
-                TrySwappingPatrolLoop();
+                Debug.LogWarning(PrefixLogMessage($"We have nowhere to patrol to {target} MayCheckActivity({mayCheckActivity})"));
+                if (!pathingFailiure)
+                {
+                    pathingFailiureStart = Time.timeSinceLevelLoad;
+                    pathingFailiure = true;
+                }
+
+                if (!TrySwappingPatrolLoop(Time.timeSinceLevelLoad - pathingFailiureStart > 2f))
+                {
+                    InvokePathBasedMovement(
+                        entity.LookDirection,
+                        target.Coordinates,
+                        movementDuration,
+                        prefixLogMessage: PrefixLogMessage);
+                }
             }
 
             Enemy.MayTaxStay = true;
@@ -167,7 +185,7 @@ namespace LMCore.TiledDungeon.Enemies
 
         float nextUpdateActivity;
 
-        void TrySwappingPatrolLoop()
+        bool TrySwappingPatrolLoop(bool updateActivity = true)
         {
             // We have nothing on current loop, lets see if there's another loop
             var newTarget = Enemy.ClosestCheckpointOnOtherLoop(target);
@@ -183,13 +201,18 @@ namespace LMCore.TiledDungeon.Enemies
                 {
                     direction = -1;
                 }
+                return true;
             }
             else
             {
                 Debug.LogError(PrefixLogMessage($"Didn't find any new target after {target} in direction {direction}"));
-                Enemy.UpdateActivity(avoidActive: true);
+                if (updateActivity)
+                {
+                    Enemy.UpdateActivity(avoidActive: true);
+                }
                 nextUpdateActivity = Time.timeSinceLevelLoad + checkActivityEvery;
             }
+            return false;
         }
 
         void ResetTargetAndDirection()
