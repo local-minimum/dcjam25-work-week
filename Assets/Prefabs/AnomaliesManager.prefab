@@ -120,6 +120,11 @@ MonoBehaviour:
     room: 1
     difficulty: 1
     horror: 1
+  - id: printer-mimic
+    humanizedName: Printer Loves Papers
+    room: 2
+    difficulty: 4
+    horror: 0
   crossfader: {fileID: 0}
   selectFromFirstNCandidates: 3
   weekPlans:

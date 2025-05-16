@@ -25,8 +25,13 @@ public class AnimatingAnomaly : AbsAnomaly
     [SerializeField]
     string disableSiblingByName;
 
+    [HelpBox("These objects gets disabled in anomaly state and enabled in normal state")]
     [SerializeField]
     List<GameObject> disabledObjects = new List<GameObject>();
+
+    [HelpBox("These objects gets enabled in anomaly state and disabled in normal state")]
+    [SerializeField]
+    List<GameObject> enabledObjects = new List<GameObject>();
 
     [SerializeField, Header("Horror")]
     TDDecoration managerSpawn;
@@ -42,6 +47,7 @@ public class AnimatingAnomaly : AbsAnomaly
         GridEntity.OnPositionTransition -= GridEntity_OnPositionTransition;
         LevelRegion.OnEnterRegion -= LevelRegion_OnEnterRegion;
         if (speaker != null) speaker.Stop();
+
     }
 
     protected override void OnEnableExtra()
@@ -57,6 +63,11 @@ public class AnimatingAnomaly : AbsAnomaly
             {
                 speaker.Stop();
             }
+        }
+
+        foreach (var obj in enabledObjects)
+        {
+            obj.SetActive(false);
         }
     }
 
@@ -117,11 +128,19 @@ public class AnimatingAnomaly : AbsAnomaly
     {
         GridEntity.OnPositionTransition += GridEntity_OnPositionTransition;
 
-        anomalyRoot.SetActive(true);
+        if (anomalyRoot != null)
+        {
+            anomalyRoot.SetActive(true);
+        }
         if (animator != null && !triggerWhenEnterArea)
         {
             Debug.Log($"Anomaly '{anomalyId}' triggers '{startTrigger}' on {animator}");
             animator.SetTrigger(startTrigger);
+        }
+       
+        if (animator != null)
+        {
+            animator.enabled = true;
         }
 
         ToggleSiblingByName(false);
@@ -129,6 +148,11 @@ public class AnimatingAnomaly : AbsAnomaly
         foreach (var obj in disabledObjects)
         {
             obj.SetActive(false);
+        }
+
+        foreach (var obj in enabledObjects)
+        {
+            obj.SetActive(true);
         }
 
         anomalyActive = true;
@@ -180,12 +204,30 @@ public class AnimatingAnomaly : AbsAnomaly
     protected override void SetNormalState()
     {
         anomalyActive = false;
-        anomalyRoot.SetActive(false);
+        if (anomalyRoot != null)
+        {
+            anomalyRoot.SetActive(false);
+        }
         ToggleSiblingByName(true);
 
         if (speaker != null)
         {
             speaker.Stop();
+        }
+
+        foreach (var obj in disabledObjects)
+        {
+            obj.SetActive(true);
+        }
+
+        foreach (var obj in enabledObjects)
+        {
+            obj.SetActive(false);
+        }
+       
+        if (animator != null)
+        {
+            animator.enabled = false;
         }
 
         GridEntity.OnPositionTransition -= GridEntity_OnPositionTransition;

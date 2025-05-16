@@ -7,7 +7,17 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
+      name: EyeGlass
+    second: {fileID: 2100000, guid: 0819cbf19defd994186627e32046a649, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
       name: Material
+    second: {fileID: 2100000, guid: 25a5097c6e344db45877a3d9633aa7c0, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material.001
     second: {fileID: 2100000, guid: 25a5097c6e344db45877a3d9633aa7c0, type: 2}
   materials:
     materialImportMode: 2
