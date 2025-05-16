@@ -1,4 +1,5 @@
 using LMCore.Crawler;
+using LMCore.Extensions;
 using LMCore.TiledDungeon;
 using LMCore.TiledDungeon.DungeonFeatures;
 using System.Collections.Generic;
@@ -16,6 +17,12 @@ public class AnimatingAnomaly : AbsAnomaly
     string startTrigger;
 
     [SerializeField]
+    bool triggerWhenEnterArea;
+
+    [SerializeField]
+    int retriggerAreaSize = 2;
+
+    [SerializeField]
     string disableSiblingByName;
 
     [SerializeField]
@@ -30,9 +37,9 @@ public class AnimatingAnomaly : AbsAnomaly
     [SerializeField]
     AudioSource speaker;
 
-
     protected override void OnDisableExtra()
     {
+        GridEntity.OnPositionTransition -= GridEntity_OnPositionTransition;
         LevelRegion.OnEnterRegion -= LevelRegion_OnEnterRegion;
         if (speaker != null) speaker.Stop();
     }
@@ -40,6 +47,7 @@ public class AnimatingAnomaly : AbsAnomaly
     protected override void OnEnableExtra()
     {
         LevelRegion.OnEnterRegion += LevelRegion_OnEnterRegion;
+
         if (speaker != null)
         {
             if (SpawnedManager)
@@ -107,8 +115,10 @@ public class AnimatingAnomaly : AbsAnomaly
 
     protected override void SetAnomalyState()
     {
+        GridEntity.OnPositionTransition += GridEntity_OnPositionTransition;
+
         anomalyRoot.SetActive(true);
-        if (animator != null)
+        if (animator != null && !triggerWhenEnterArea)
         {
             Debug.Log($"Anomaly '{anomalyId}' triggers '{startTrigger}' on {animator}");
             animator.SetTrigger(startTrigger);
@@ -122,6 +132,26 @@ public class AnimatingAnomaly : AbsAnomaly
         }
 
         anomalyActive = true;
+    }
+
+    bool wasInTriggerArea;
+
+    private void GridEntity_OnPositionTransition(GridEntity entity)
+    {
+        if (!triggerWhenEnterArea || entity.EntityType != GridEntityType.PlayerCharacter) return;
+
+        bool inTriggerArea = Coordinates.ManhattanDistance(entity.Coordinates) <= retriggerAreaSize;
+
+        if (inTriggerArea && !wasInTriggerArea)
+        {
+            if (animator != null)
+            {
+                Debug.Log($"Anomaly '{anomalyId}' area re-triggers '{startTrigger}' on {animator}");
+                animator.SetTrigger(startTrigger);
+            }
+        }
+
+        wasInTriggerArea = inTriggerArea;
     }
 
     void ToggleSiblingByName(bool setActive)
@@ -157,5 +187,7 @@ public class AnimatingAnomaly : AbsAnomaly
         {
             speaker.Stop();
         }
+
+        GridEntity.OnPositionTransition -= GridEntity_OnPositionTransition;
     }
 }
