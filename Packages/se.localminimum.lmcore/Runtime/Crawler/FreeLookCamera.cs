@@ -1,6 +1,7 @@
 using LMCore.Extensions;
 using LMCore.IO;
 using LMCore.UI;
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -8,6 +9,7 @@ namespace LMCore.Crawler
 {
     public class FreeLookCamera : MonoBehaviour
     {
+        [Flags]
         public enum SnapbackMode
         {
             None,
@@ -19,17 +21,28 @@ namespace LMCore.Crawler
 
         [HelpBox("This script should be on a parent to the camera itself to work properly", HelpBoxMessageType.Warning)]
         [SerializeField, Header("Snapback")]
-        protected SnapbackMode Snapback = SnapbackMode.ByActivationToggle;
+        protected SnapbackMode MouseSnapBack = SnapbackMode.ByActivationRelease;
+        [SerializeField]
+        protected SnapbackMode ControllerSnapBack = SnapbackMode.ByActivationToggle;
+
+        protected SnapbackMode SnapBack => controllerMode ? ControllerSnapBack : MouseSnapBack;
+
         [SerializeField, Range(0, 1), Tooltip("0 = No snapback, 1 = Instant")]
         float snapbackLerp = 0.2f;
         [SerializeField, Tooltip("If angle from resting rotation is less than this, stop lerping / reset")]
         float identityThreshold = 1f;
 
-        [SerializeField, Header("Freedom cone"), Tooltip("0=No looking 1=Crazy spinny"), Range(0, 1)]
-        float lookAmount = 1f;
+        [SerializeField]
+        float controllerNoLookAroundTime = 0.5f;
 
-        [SerializeField, Range(0, 0.5f), Tooltip("The higher look amount is the lower this must be to avoid spinning bug")]
-        float verticalLookClamp = 0.1f;
+        [SerializeField, Header("Freedom cone"), Range(0, 1)]
+        float lookEasingSpeed = 0.01f;
+
+        [SerializeField, Range(0, 90f)]
+        float verticalLookMaxAngle = 40f;
+
+        [SerializeField, Range(0, 90f)]
+        float horizontalLookMaxAngle = 60f;
 
         [SerializeField, Range(0f, 3f)]
         float forwardTranslation = 1f;
@@ -47,9 +60,29 @@ namespace LMCore.Crawler
         float translationLerp = 0.05f;
 
         [SerializeField, Range(0, 1)]
-        float controllerLookSpeed = 0.05f;
+        float controllerSensitivity = 0.05f;
 
-        bool freeLooking;
+        [SerializeField, Range(0, 1)]
+        float mouseSensitivity = 0.05f;
+
+        float _controllerLookAroundTime;
+        bool _freeLooking;
+        bool freeLooking
+        {
+            get => _freeLooking;
+
+            set
+            {
+                _freeLooking = value;
+                _controllerLookAroundTime = Time.timeSinceLevelLoad + controllerNoLookAroundTime;
+                if (value)
+                {
+                    virtualPointerCoords = Vector2.zero;
+                }
+
+                Debug.Log($"Looking {freeLooking} at {virtualPointerCoords}");
+            }
+        }
 
         GridEntity _entity;
         GridEntity Entity
@@ -121,14 +154,13 @@ namespace LMCore.Crawler
 
             bool allowNative = NativeCursorAllowed;
 
-            if (Snapback == SnapbackMode.ByActivationToggle)
+            if (SnapBack.HasFlag(SnapbackMode.ByActivationToggle))
             {
                 if (context.performed)
                 {
                     freeLooking = !freeLooking;
                     if (freeLooking)
                     {
-                        virtualPointerCoords = Vector2.one * 0.5f;
                         RememberCursorPosition();
                     }
                     else
@@ -138,14 +170,10 @@ namespace LMCore.Crawler
                     SyncNativeCursor();
                 }
             }
-            else if (Snapback == SnapbackMode.ByActivationRelease)
+            else if (SnapBack.HasFlag(SnapbackMode.ByActivationRelease))
             {
                 if (context.performed)
                 {
-                    if (!freeLooking)
-                    {
-                        virtualPointerCoords = Vector2.one * 0.5f;
-                    }
                     freeLooking = true;
                     RememberCursorPosition();
                     SyncNativeCursor();
@@ -159,16 +187,10 @@ namespace LMCore.Crawler
             }
             else if (context.performed)
             {
-                if (!freeLooking)
-                {
-                    virtualPointerCoords = Vector2.one * 0.5f;
-                }
                 freeLooking = true;
                 RememberCursorPosition();
                 SyncNativeCursor();
             }
-
-            Debug.Log($"Looking {freeLooking}");
         }
 
         public void RefuseFreelook()
@@ -187,20 +209,18 @@ namespace LMCore.Crawler
             SyncNativeCursor();
         }
 
-        Vector2 PointerCoordinates;
         Vector2 virtualPointerCoords;
         public void OnPointer(InputAction.CallbackContext context)
         {
-            var coords = context.ReadValue<Vector2>();
-            if (controllerMode)
-            {
-                virtualPointerCoords += coords * controllerLookSpeed;
-                virtualPointerCoords = virtualPointerCoords.ClampDimensions(0, 1);
-            } else
-            {
-                virtualPointerCoords = coords;  
-            }
-            PointerCoordinates = virtualPointerCoords.Scale(Screen.width, Screen.height);
+            if (!allowed || !enabled || !freeLooking) return;
+            if (controllerMode && Time.timeSinceLevelLoad < _controllerLookAroundTime) return;
+
+            var centerOffset = context.ReadValue<Vector2>();
+
+            virtualPointerCoords += centerOffset * (controllerMode ? controllerSensitivity : mouseSensitivity);
+
+            virtualPointerCoords = virtualPointerCoords.ClampDimensions(-1, 1);
+            Debug.Log($"{centerOffset} -> {virtualPointerCoords}");
         }
 
         private void Start()
@@ -225,7 +245,7 @@ namespace LMCore.Crawler
         bool controllerMode;
         private void ActionMapToggler_OnChangeControls(PlayerInput input, string controlScheme, SimplifiedDevice device)
         {
-            virtualPointerCoords = Vector2.one * 0.5f;
+            virtualPointerCoords = Vector2.zero;
             controllerMode = device.IsController();
         }
 
@@ -233,7 +253,7 @@ namespace LMCore.Crawler
         {
             if (!enabled) return;
 
-            if (Entity == entity && Snapback == SnapbackMode.ByMovement)
+            if (Entity == entity && SnapBack.HasFlag(SnapbackMode.ByMovement))
             {
                 if (freeLooking) RestoreCursorPosition();
                 freeLooking = false;
@@ -270,14 +290,9 @@ namespace LMCore.Crawler
             var entity = Entity;
             if (allowed && freeLooking)
             {
-                var lookat = cam.ScreenToWorldPoint(
-                    new Vector3(
-                        PointerCoordinates.x,
-                        Mathf.Clamp(PointerCoordinates.y, Screen.height * -verticalLookClamp, Screen.height * (1f + verticalLookClamp)),
-                        Entity.Dungeon.GridSize));
-
-                var target = Quaternion.LookRotation(lookat - transform.position, transform.up);
-                cam.transform.rotation = Quaternion.Lerp(transform.rotation, target, lookAmount);
+                var euler = transform.eulerAngles;
+                var target = Quaternion.Euler(euler.x + (virtualPointerCoords.y) * -verticalLookMaxAngle, euler.y + (virtualPointerCoords.x) * horizontalLookMaxAngle, euler.z);
+                cam.transform.rotation = Quaternion.Lerp(cam.transform.rotation, target, lookEasingSpeed);
 
                 // Only translate forward when not on wall
                 var z = cam.transform.localPosition.z;

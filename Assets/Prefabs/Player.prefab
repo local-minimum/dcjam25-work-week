@@ -631,7 +631,7 @@ MonoBehaviour:
   anomalyId: monster-manager
   LOSFilter:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 449
   maxDistance: 10
   lookDuration: 0.5
 --- !u!114 &2052305777037944072
@@ -702,6 +702,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6557f60b13d7ab04da82dca1d7680647, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  alwaysActive: 0
 --- !u!114 &3845747431073454359
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -791,14 +792,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4dc367f094d13e348924b543bdd28d89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Snapback: 2
+  MouseSnapBack: 2
+  ControllerSnapBack: 5
   snapbackLerp: 0.049
   identityThreshold: 1
-  lookAmount: 0.5
-  verticalLookClamp: 0.1
+  controllerNoLookAroundTime: 0.5
+  lookEasingSpeed: 0.15
+  verticalLookMaxAngle: 40
+  horizontalLookMaxAngle: 60
   forwardTranslation: 0.6
   manageNativeCursor: 0
   translationLerp: 0.05
+  controllerSensitivity: 0.05
+  mouseSensitivity: 0.01
 --- !u!1 &6964800340789305541
 GameObject:
   m_ObjectHideFlags: 0

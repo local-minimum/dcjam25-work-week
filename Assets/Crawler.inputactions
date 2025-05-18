@@ -250,7 +250,7 @@
                 {
                     "name": "",
                     "id": "daf1bc10-c8c4-498b-b50f-1c1a7a1caeb0",
-                    "path": "<Pointer>/position",
+                    "path": "<Mouse>/delta",
                     "interactions": "",
                     "processors": "NormalizeVector2",
                     "groups": "Keyboard&Mouse",
