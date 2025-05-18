@@ -125,6 +125,11 @@ MonoBehaviour:
     room: 2
     difficulty: 4
     horror: 0
+  - id: chicken-farm
+    humanizedName: Our Workers Are Chicken
+    room: 8
+    difficulty: 6
+    horror: 0
   crossfader: {fileID: 0}
   selectFromFirstNCandidates: 3
   weekPlans:
