@@ -17,6 +17,9 @@ public class AnimatingAnomaly : AbsAnomaly
     string startTrigger;
 
     [SerializeField]
+    string stopTrigger;
+
+    [SerializeField]
     bool triggerWhenEnterArea;
 
     [SerializeField]
@@ -32,6 +35,10 @@ public class AnimatingAnomaly : AbsAnomaly
     [HelpBox("These objects gets enabled in anomaly state and disabled in normal state")]
     [SerializeField]
     List<GameObject> enabledObjects = new List<GameObject>();
+
+    [SerializeField]
+    bool enableWithTrigger;
+
 
     [SerializeField, Header("Horror")]
     TDDecoration managerSpawn;
@@ -68,6 +75,12 @@ public class AnimatingAnomaly : AbsAnomaly
         foreach (var obj in enabledObjects)
         {
             obj.SetActive(false);
+        }
+
+        if (animator != null && !string.IsNullOrEmpty(stopTrigger))
+        {
+            Debug.Log($"Anomaly '{anomalyId}' loads and triggers '{stopTrigger}' on {animator}");
+            animator.SetTrigger(stopTrigger);
         }
     }
 
@@ -135,6 +148,10 @@ public class AnimatingAnomaly : AbsAnomaly
         if (animator != null && !triggerWhenEnterArea)
         {
             Debug.Log($"Anomaly '{anomalyId}' triggers '{startTrigger}' on {animator}");
+            if (!string.IsNullOrEmpty(stopTrigger))
+            {
+                animator.ResetTrigger(stopTrigger);
+            }
             animator.SetTrigger(startTrigger);
         }
        
@@ -150,9 +167,12 @@ public class AnimatingAnomaly : AbsAnomaly
             obj.SetActive(false);
         }
 
-        foreach (var obj in enabledObjects)
+        if (!enableWithTrigger)
         {
-            obj.SetActive(true);
+            foreach (var obj in enabledObjects)
+            {
+                obj.SetActive(true);
+            }
         }
 
         anomalyActive = true;
@@ -171,7 +191,35 @@ public class AnimatingAnomaly : AbsAnomaly
             if (animator != null)
             {
                 Debug.Log($"Anomaly '{anomalyId}' area re-triggers '{startTrigger}' on {animator}");
+                if (!string.IsNullOrEmpty(stopTrigger))
+                {
+                    animator.ResetTrigger(stopTrigger);
+                }
+
                 animator.SetTrigger(startTrigger);
+            }
+
+            if (enableWithTrigger)
+            {
+                foreach (var obj in enabledObjects)
+                {
+                    obj.SetActive(true);
+                }
+            }
+        } else if (!inTriggerArea && wasInTriggerArea)
+        {
+            if (animator != null && !string.IsNullOrEmpty(stopTrigger))
+            {
+                Debug.Log($"Anomaly '{anomalyId}' area exits and triggers '{stopTrigger}' on {animator}");
+                animator.SetTrigger(stopTrigger);
+            }
+
+            if (enableWithTrigger)
+            {
+                foreach (var obj in enabledObjects)
+                {
+                    obj.SetActive(false);
+                }
             }
         }
 
@@ -225,7 +273,11 @@ public class AnimatingAnomaly : AbsAnomaly
             obj.SetActive(false);
         }
        
-        if (animator != null)
+        if (animator != null && !string.IsNullOrEmpty(stopTrigger))
+        {
+            Debug.Log($"Anomaly '{anomalyId}' becomes normal and triggers '{stopTrigger}' on {animator}");
+            animator.SetTrigger(stopTrigger);
+        } else if (animator != null)
         {
             animator.enabled = false;
         }
