@@ -80,6 +80,11 @@ MonoBehaviour:
     room: 32
     difficulty: 3
     horror: 1
+  - id: computer-exit
+    humanizedName: Computer tells the truth
+    room: 2
+    difficulty: 6
+    horror: 0
   - id: office-goblin
     humanizedName: The office golbin
     room: 8
@@ -94,16 +99,6 @@ MonoBehaviour:
     humanizedName: Swords for clubs
     room: 32
     difficulty: 4
-    horror: 0
-  - id: computer-exit
-    humanizedName: Computer tells the truth
-    room: 2
-    difficulty: 6
-    horror: 0
-  - id: wrong-rolls
-    humanizedName: Zero immersion rolls
-    room: 128
-    difficulty: 10
     horror: 0
   - id: everyone-bob
     humanizedName: My name is Bob
@@ -129,6 +124,11 @@ MonoBehaviour:
     humanizedName: Our Workers Are Chicken
     room: 8
     difficulty: 6
+    horror: 0
+  - id: fishes-in-micro
+    humanizedName: No Fish In The Microwave
+    room: 64
+    difficulty: 5
     horror: 0
   crossfader: {fileID: 0}
   selectFromFirstNCandidates: 3
