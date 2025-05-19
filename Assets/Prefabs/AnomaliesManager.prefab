@@ -125,6 +125,11 @@ MonoBehaviour:
     room: 8
     difficulty: 6
     horror: 0
+  - id: ceiling-speakers
+    humanizedName: Sound Proofing
+    room: 2
+    difficulty: 5
+    horror: 0
   - id: fishes-in-micro
     humanizedName: No Fish In The Microwave
     room: 64

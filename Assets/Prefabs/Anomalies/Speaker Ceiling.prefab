@@ -1,0 +1,168 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1120313988175710246
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8680356891656855942}
+  - component: {fileID: 6092702109664124550}
+  - component: {fileID: 459761917487265884}
+  m_Layer: 9
+  m_Name: Speaker Ceiling
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8680356891656855942
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1120313988175710246}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 3100887450983253645}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6092702109664124550
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1120313988175710246}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2cc7019ac5200648af2e8f4d844a771, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Coordinates: {x: 15, y: 0, z: 13}
+  AnchorDirection: 6
+--- !u!114 &459761917487265884
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1120313988175710246}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17a58b9ea37b05b49be7370a9ea66d65, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  anomalyId: ceiling-speakers
+  anomalyRoot: {fileID: 2324772311034666039}
+  animator: {fileID: 0}
+  startTrigger: 
+  stopTrigger: 
+  triggerWhenEnterArea: 0
+  retriggerAreaSize: 2
+  disableSiblingByName: ceiling
+  disabledObjects: []
+  enabledObjects: []
+  enableWithTrigger: 0
+  managerSpawn: {fileID: 0}
+  managerTarget: {fileID: 0}
+  speaker: {fileID: 0}
+--- !u!1001 &3207171825271284070
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 8680356891656855942}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: 9556ee50b39f3a548affeafb1fefb69e, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 9556ee50b39f3a548affeafb1fefb69e, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 2.6
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 9556ee50b39f3a548affeafb1fefb69e, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 9556ee50b39f3a548affeafb1fefb69e, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 9556ee50b39f3a548affeafb1fefb69e, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 9556ee50b39f3a548affeafb1fefb69e, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 9556ee50b39f3a548affeafb1fefb69e, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 9556ee50b39f3a548affeafb1fefb69e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 9556ee50b39f3a548affeafb1fefb69e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 9556ee50b39f3a548affeafb1fefb69e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 9556ee50b39f3a548affeafb1fefb69e, type: 3}
+      propertyPath: m_Name
+      value: ceiling-speakers
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 9556ee50b39f3a548affeafb1fefb69e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3983173073515676434}
+  m_SourcePrefab: {fileID: 100100000, guid: 9556ee50b39f3a548affeafb1fefb69e, type: 3}
+--- !u!1 &2324772311034666039 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 9556ee50b39f3a548affeafb1fefb69e, type: 3}
+  m_PrefabInstance: {fileID: 3207171825271284070}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &3983173073515676434
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2324772311034666039}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 9663e66274dddb5458e48d92662a0e9e, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!4 &3100887450983253645 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 9556ee50b39f3a548affeafb1fefb69e, type: 3}
+  m_PrefabInstance: {fileID: 3207171825271284070}
+  m_PrefabAsset: {fileID: 0}
