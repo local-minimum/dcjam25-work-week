@@ -1,6 +1,8 @@
 using LMCore.Crawler;
+using LMCore.Extensions;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class OverheadAnomaly : AbsAnomaly
@@ -10,6 +12,9 @@ public class OverheadAnomaly : AbsAnomaly
 
     [SerializeField]
     AudioSource speaker;
+
+    [SerializeField]
+    List<OverheadAnomalyAnimEvents> eventRecievers = new List<OverheadAnomalyAnimEvents>();
 
     [SerializeField, Header("Walking")]
     Animator walkAnim;
@@ -44,6 +49,9 @@ public class OverheadAnomaly : AbsAnomaly
     [SerializeField]
     string silentTrigger;
 
+    [SerializeField]
+    List<AudioClip> words = new List<AudioClip>();
+
     public void PlayLand(bool big)
     {
         if (big)
@@ -55,6 +63,11 @@ public class OverheadAnomaly : AbsAnomaly
         }
     }
 
+    public void Talk()
+    {
+        speaker.PlayOneShot(words.GetRandomElement());
+    }
+
     protected override void OnEnableExtra()
     {
     }
@@ -62,18 +75,48 @@ public class OverheadAnomaly : AbsAnomaly
     protected override void OnDisableExtra()
     {
         GridEntity.OnPositionTransition -= GridEntity_OnPositionTransition;
+        LevelRegion.OnEnterRegion -= LevelRegion_OnEnterRegion;
+        LevelRegion.OnExitRegion -= LevelRegion_OnExitRegion;
     }
 
 
     protected override void SetAnomalyState()
     {
         GridEntity.OnPositionTransition += GridEntity_OnPositionTransition;
+        LevelRegion.OnEnterRegion += LevelRegion_OnEnterRegion;
+        LevelRegion.OnExitRegion += LevelRegion_OnExitRegion;
         triggered = false;
+    }
+
+    private void LevelRegion_OnExitRegion(GridEntity entity, string regionId)
+    {
+        var myRegion = GetComponentInParent<LevelRegion>();
+        if (myRegion.RegionId == regionId)
+        {
+            foreach (var eventReceiver in eventRecievers)
+            {
+                eventReceiver.enabled = false;
+            }
+        }
+    }
+
+    private void LevelRegion_OnEnterRegion(GridEntity entity, string regionId)
+    {
+        var myRegion = GetComponentInParent<LevelRegion>();
+        if (myRegion.RegionId == regionId)
+        {
+            foreach (var eventReceiver in eventRecievers)
+            {
+                eventReceiver.enabled = true;
+            }
+        }
     }
 
     protected override void SetNormalState()
     {
         GridEntity.OnPositionTransition -= GridEntity_OnPositionTransition;
+        LevelRegion.OnEnterRegion -= LevelRegion_OnEnterRegion;
+        LevelRegion.OnExitRegion -= LevelRegion_OnExitRegion;
 
         walkAnim.SetTrigger(idleTrigger);
         talkAnim.SetTrigger(silentTrigger);
