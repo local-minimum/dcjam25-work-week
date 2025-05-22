@@ -199,6 +199,7 @@ public class StartPositionCustom : TDFeature, ITDCustom
             capturedCamera.localRotation = capturedCameraOriginalLocalRotation;
         }
 
+        GridEntity.OnPositionTransition += SaveAfterMove;
         player.InjectForcedMovement(releaseMovement);
 
         OnReleasePlayer?.Invoke(player);
@@ -232,6 +233,14 @@ public class StartPositionCustom : TDFeature, ITDCustom
 
         player = null;
         releasing = false;
+    }
+
+    private void SaveAfterMove(GridEntity entity)
+    {
+        if (entity.EntityType != GridEntityType.PlayerCharacter) return;
+
+        WWSaveSystem.SafeInstance.AutoSave();
+        GridEntity.OnPositionTransition -= SaveAfterMove;
     }
 
     bool showingHint = false;

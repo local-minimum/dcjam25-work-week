@@ -36,6 +36,15 @@ public class AnomalyManager : Singleton<AnomalyManager, AnomalyManager>, IOnLoad
         public bool AppliesToWeek(int week) => 
             minWeek <= week && week <= maxWeek;
 
+        public bool EmptyWeek => 
+            Monday == AnomalyType.NormalOffice
+            && Tueday == AnomalyType.NormalOffice
+            && Wednesday == AnomalyType.NormalOffice
+            && Thursday == AnomalyType.NormalOffice
+            && Friday == AnomalyType.NormalOffice
+            && Saturday == AnomalyType.NormalOffice
+            && Sunday == AnomalyType.NormalOffice;
+
         public AnomalyType GetPlan(Weekday day)
         {
             switch (day)
@@ -267,6 +276,49 @@ public class AnomalyManager : Singleton<AnomalyManager, AnomalyManager>, IOnLoad
 
     public void PrepareAnomalyOrNormalDay()
     {
+        if (!overridingAnomaly)
+        {
+            var plan = weekPlan.GetPlan(Weekday);
+            switch (plan)
+            {
+                case AnomalyType.NormalOffice:
+                    if (activeAnomaly != null)
+                    {
+                        Debug.LogError($"AnomalyManager: Plan is {plan} but anomaly was '{activeAnomaly}', should be empty");
+                        activeAnomaly = null;
+                    }
+                    break;
+                case AnomalyType.Anomaly:
+                    if (activeAnomaly == null)
+                    {
+                        Debug.LogError($"AnomalyManager: Plan is {plan} but anomaly was there was no anomaly loaded");
+                        SetAnomalyOfTheDay(false);
+                    }
+                    else if (activeAnomaly.horror)
+                    {
+                        Debug.Log($"AnomalyManager: Plan is {plan} using a horror anomaly, probably all normal have been used");
+                    }
+                    break;
+                case AnomalyType.ScaryAnomaly:
+                    if (activeAnomaly == null)
+                    {
+                        Debug.LogError($"AnomalyManager: Plan is {plan} but anomaly was there was no anomaly loaded");
+                        SetAnomalyOfTheDay(false);
+                    }
+                    else if (!activeAnomaly.horror)
+                    {
+                        Debug.Log($"AnomalyManager: Plan is {plan} using a normal anomaly, probably all scary have been used");
+                    }
+                    break;
+
+            }
+
+            Debug.Log($"AnomalyManager: {plan} with {(activeAnomaly == null ? "no anomaly" : activeAnomaly.id)}");
+        } else
+        {
+            Debug.Log($"AnomalyManager: Using override {(activeAnomaly == null ? "no anomaly" : activeAnomaly.id)}");
+        }
+
         OnSetAnomaly?.Invoke(activeAnomaly?.id);
     }
 
@@ -302,16 +354,16 @@ public class AnomalyManager : Singleton<AnomalyManager, AnomalyManager>, IOnLoad
             won = manager.won;
             previousDayOutcome = manager.prevDayOutcome;
             previousDayExit = manager.prevDayExit;
-            weekPlan = manager.weekPlanSet ? manager.weekPlan.Serialized() : null;
+            weekPlan = manager.weekPlan.Serialized();
             if (!manager.weekPlanSet)
             {
-                Debug.LogError($"Saving without having a week plan set is no good {manager.weekPlan}");
+                Debug.LogError($"AnomaliesManager: Saving without having a week plan set is no good {manager.weekPlan}");
             } else if (weekPlan == null)
             {
-                Debug.LogError($"Week plan {manager.weekPlan} serialized to null");
+                Debug.LogError($"AnomaliesManager: Week plan {manager.weekPlan} serialized to null");
             } else if (weekPlan.Count != 7)
             {
-                Debug.LogError($"Week plan {manager.weekPlan} serialized {weekPlan.Count} days, should be 7");
+                Debug.LogError($"AnomaliesManager: Week plan {manager.weekPlan} serialized {weekPlan.Count} days, should be 7");
             }
         }
 
@@ -373,7 +425,24 @@ public class AnomalyManager : Singleton<AnomalyManager, AnomalyManager>, IOnLoad
     public Weekday Weekday => _weekday;
 
     bool weekPlanSet;
-    AnomalyPlan weekPlan;
+    AnomalyPlan _weekPlan;
+    AnomalyPlan weekPlan
+    {
+        get
+        {
+            if (!weekPlanSet || _weekPlan.EmptyWeek)
+            {
+                SetWeekPlan();
+            }
+            return _weekPlan;
+        }
+
+        set
+        {
+            _weekPlan = value;
+            weekPlanSet = true;
+        }
+    }
 
     bool won;
     public bool WonGame => won;
@@ -392,6 +461,7 @@ public class AnomalyManager : Singleton<AnomalyManager, AnomalyManager>, IOnLoad
         missedAnomalies.Clear();
         encounteredAnomalies.Clear();
         activeAnomaly = null;
+        overridingAnomaly = false;
         won = false;
         SetWeekPlan();
         Debug.Log($"AnomaliesManager: Set first week plan to {weekPlan}");
@@ -436,7 +506,6 @@ public class AnomalyManager : Singleton<AnomalyManager, AnomalyManager>, IOnLoad
             SetWeekPlan();
             Debug.LogWarning($"AnomalyManager: There was no weekplan in the save, set it to {weekPlan}");
         }
-        weekPlanSet = true;
 
         prevDayOutcome = save.anomalies.previousDayOutcome;
         prevDayExit = save.anomalies.previousDayExit;
@@ -471,12 +540,13 @@ public class AnomalyManager : Singleton<AnomalyManager, AnomalyManager>, IOnLoad
 
         Debug.Log($"AnomalyManager: Seting new week plan");
         weekPlan = options.GetRandomElementOrDefault(() => AnomalyPlan.RandomizedPlan());
-        weekPlanSet = true;
         Debug.Log($"AnomalyManager: Set new week plan {weekPlan}");
     }
 
+    bool overridingAnomaly;
     public void OverrideAnomalyOfTheDay(string id)
     {
+        overridingAnomaly = true;
         if (string.IsNullOrEmpty(id))
         {
             activeAnomaly = null;
@@ -491,16 +561,14 @@ public class AnomalyManager : Singleton<AnomalyManager, AnomalyManager>, IOnLoad
         }
     }
 
-    public void RemoveAnomalyOveride() =>
+    public void RemoveAnomalyOveride()
+    {
+        overridingAnomaly = false;
         SetAnomalyOfTheDay(false);
+    }
 
     void SetAnomalyOfTheDay(bool emitEvent = true)
     {
-        if (!weekPlanSet)
-        {
-            SetWeekPlan();
-        }
-
         var type = weekPlan.GetPlan(Weekday);
 
         Debug.Log($"AnomalyManager: {Weekday} is {type}");

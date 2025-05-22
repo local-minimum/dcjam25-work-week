@@ -225,7 +225,10 @@ public class SettingsMenu : MonoBehaviour
     {
         if (EventSystem.current.currentSelectedGameObject == null)
         {
-            ShowActiveSubSettings();
+            if (showing)
+            {
+                ShowActiveSubSettings();
+            }
         }
     }
 

@@ -67,6 +67,8 @@ public class ActiveOS : MonoBehaviour, IOnLoadSave
         osCam.gameObject.SetActive(true);
         transform.ShowAllChildren();
 
+        AnomalyManager.instance.RemoveAnomalyOveride();
+
         if (AnomalyManager.instance.WonGame)
         {
             foreach (var launcher in hiddenLaunchers)
