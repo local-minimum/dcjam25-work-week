@@ -86,7 +86,7 @@ MonoBehaviour:
     difficulty: 6
     horror: 0
   - id: office-goblin
-    humanizedName: The office golbin
+    humanizedName: Gobble up the office
     room: 8
     difficulty: 3
     horror: 0
@@ -106,7 +106,7 @@ MonoBehaviour:
     difficulty: 3
     horror: 0
   - id: evil-posters
-    humanizedName: Peripheral Posters
+    humanizedName: Peripheral posters
     room: 50
     difficulty: 5
     horror: 0
@@ -116,23 +116,28 @@ MonoBehaviour:
     difficulty: 1
     horror: 1
   - id: printer-mimic
-    humanizedName: Printer Loves Papers
+    humanizedName: Printers love papers
     room: 2
     difficulty: 4
     horror: 0
   - id: chicken-farm
-    humanizedName: Our Workers Are Chicken
+    humanizedName: Our workers are chicken
     room: 8
     difficulty: 6
     horror: 0
   - id: ceiling-speakers
-    humanizedName: Sound Proofing
+    humanizedName: Sound proofing
     room: 2
-    difficulty: 5
+    difficulty: 3
     horror: 0
   - id: fishes-in-micro
-    humanizedName: No Fish In The Microwave
+    humanizedName: No fish in the microwave
     room: 64
+    difficulty: 5
+    horror: 0
+  - id: alive-overhead
+    humanizedName: 'Befriend the overhead '
+    room: 4
     difficulty: 5
     horror: 0
   crossfader: {fileID: 0}

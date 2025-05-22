@@ -9,6 +9,7 @@ namespace LMCore.TiledDungeon
 {
     public class TDPlayerEntity : MonoBehaviour, IOnLoadSave
     {
+        public FreeLookCamera FreeLookCamera;
         public GridEntity Entity;
         public List<TDPlayerCharacter> Members;
 

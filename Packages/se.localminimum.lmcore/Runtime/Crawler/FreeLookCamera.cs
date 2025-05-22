@@ -7,6 +7,8 @@ using UnityEngine.InputSystem;
 
 namespace LMCore.Crawler
 {
+    public delegate void FreeLookCameraEvent();
+
     public class FreeLookCamera : MonoBehaviour
     {
         [Flags]
@@ -18,6 +20,9 @@ namespace LMCore.Crawler
             ByManualReset,
             ByMovement
         };
+
+        public event FreeLookCameraEvent OnFreeLookCameraEnable;
+        public event FreeLookCameraEvent OnFreeLookCameraDisable;
 
         [HelpBox("This script should be on a parent to the camera itself to work properly", HelpBoxMessageType.Warning)]
         [SerializeField, Header("Snapback")]
@@ -78,6 +83,10 @@ namespace LMCore.Crawler
                 if (value)
                 {
                     virtualPointerCoords = Vector2.zero;
+                    OnFreeLookCameraEnable?.Invoke();
+                } else
+                {
+                    OnFreeLookCameraDisable?.Invoke();
                 }
 
                 Debug.Log($"Looking {freeLooking} at {virtualPointerCoords}");
@@ -133,7 +142,7 @@ namespace LMCore.Crawler
             }
         }
 
-        Camera cam;
+        public Camera cam { get; private set; }
 
         bool allowed = true;
 
@@ -220,7 +229,6 @@ namespace LMCore.Crawler
             virtualPointerCoords += centerOffset * (controllerMode ? controllerSensitivity : mouseSensitivity);
 
             virtualPointerCoords = virtualPointerCoords.ClampDimensions(-1, 1);
-            Debug.Log($"{centerOffset} -> {virtualPointerCoords}");
         }
 
         private void Start()

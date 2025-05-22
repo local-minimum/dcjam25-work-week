@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 8680356891656855942}
   - component: {fileID: 6092702109664124550}
   - component: {fileID: 459761917487265884}
+  - component: {fileID: 5732589358293353756}
+  - component: {fileID: 7365574801028574527}
   m_Layer: 9
   m_Name: Speaker Ceiling
   m_TagString: Untagged
@@ -74,6 +76,123 @@ MonoBehaviour:
   managerSpawn: {fileID: 0}
   managerTarget: {fileID: 0}
   speaker: {fileID: 0}
+--- !u!114 &5732589358293353756
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1120313988175710246}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1cf4f4a66a90bc54b9d289229d7d37eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  anomalyId: ceiling-speakers
+  speakersModel: {fileID: 3100887450983253645}
+  pitchThreshold: -20
+  maxAngle: 20
+  speakers: {fileID: 7365574801028574527}
+  sounds:
+  - {fileID: 8300000, guid: 3d247952cb8f212499efdfa26ccb78c6, type: 3}
+  - {fileID: 8300000, guid: f3721cdb83475c64ca4e67c4b27bbf69, type: 3}
+--- !u!82 &7365574801028574527
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1120313988175710246}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: -7547545068485481456, guid: c9736687044cc2f409eb17245f6d39ba, type: 2}
+  m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 0}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 0
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1001 &3207171825271284070
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -122,9 +241,73 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -8627970549766250270, guid: 9556ee50b39f3a548affeafb1fefb69e, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: -8108085122129792975, guid: 9556ee50b39f3a548affeafb1fefb69e, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: -7034275042784125572, guid: 9556ee50b39f3a548affeafb1fefb69e, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: -6754674874353905211, guid: 9556ee50b39f3a548affeafb1fefb69e, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: -5657796289137197415, guid: 9556ee50b39f3a548affeafb1fefb69e, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: -5626346735500169174, guid: 9556ee50b39f3a548affeafb1fefb69e, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: -5252641681934469463, guid: 9556ee50b39f3a548affeafb1fefb69e, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: -1164853623373192153, guid: 9556ee50b39f3a548affeafb1fefb69e, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 496743664783778070, guid: 9556ee50b39f3a548affeafb1fefb69e, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 9556ee50b39f3a548affeafb1fefb69e, type: 3}
       propertyPath: m_Name
       value: ceiling-speakers
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 9556ee50b39f3a548affeafb1fefb69e, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 3401295520522084737, guid: 9556ee50b39f3a548affeafb1fefb69e, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 3467241580968041847, guid: 9556ee50b39f3a548affeafb1fefb69e, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 4210217794332366647, guid: 9556ee50b39f3a548affeafb1fefb69e, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 6905609870639353253, guid: 9556ee50b39f3a548affeafb1fefb69e, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 7036213049465896255, guid: 9556ee50b39f3a548affeafb1fefb69e, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 7242810543795332687, guid: 9556ee50b39f3a548affeafb1fefb69e, type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

@@ -662,6 +662,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23b149f950d758941abbc2ff484c7e1a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  FreeLookCamera: {fileID: 8813067194493852235}
   Entity: {fileID: 229770331026211457}
   Members:
   - {fileID: 1660412629900158567}
