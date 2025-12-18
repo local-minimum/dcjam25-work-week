@@ -15,7 +15,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &8255046267767477538
 Transform:
@@ -105,9 +105,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -92.615
       objectReference: {fileID: 0}
+    - target: {fileID: -3181452503744645242, guid: 42f2bfd02830eaf4a8076baf7956e367, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 42f2bfd02830eaf4a8076baf7956e367, type: 3}
       propertyPath: m_Name
       value: regularchair (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 42f2bfd02830eaf4a8076baf7956e367, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -171,6 +179,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: conferancetable
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: ad9398416d2fea34d9cf681591fdbeea, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: 1131774471668849816, guid: ad9398416d2fea34d9cf681591fdbeea, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: 7314268940414153448, guid: ad9398416d2fea34d9cf681591fdbeea, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -229,9 +249,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -276.352
       objectReference: {fileID: 0}
+    - target: {fileID: -3181452503744645242, guid: 42f2bfd02830eaf4a8076baf7956e367, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 42f2bfd02830eaf4a8076baf7956e367, type: 3}
       propertyPath: m_Name
       value: regularchair (6)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 42f2bfd02830eaf4a8076baf7956e367, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -291,9 +319,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 90
       objectReference: {fileID: 0}
+    - target: {fileID: -8391193718175552794, guid: 9cf080e4d7a339b4192d3322a23e1885, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 9cf080e4d7a339b4192d3322a23e1885, type: 3}
       propertyPath: m_Name
       value: marker (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 9cf080e4d7a339b4192d3322a23e1885, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -353,9 +389,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -276.306
       objectReference: {fileID: 0}
+    - target: {fileID: -3181452503744645242, guid: 42f2bfd02830eaf4a8076baf7956e367, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 42f2bfd02830eaf4a8076baf7956e367, type: 3}
       propertyPath: m_Name
       value: regularchair (4)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 42f2bfd02830eaf4a8076baf7956e367, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -415,9 +459,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 90
       objectReference: {fileID: 0}
+    - target: {fileID: -8391193718175552794, guid: 9cf080e4d7a339b4192d3322a23e1885, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 9cf080e4d7a339b4192d3322a23e1885, type: 3}
       propertyPath: m_Name
       value: marker
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 9cf080e4d7a339b4192d3322a23e1885, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -477,9 +529,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -69.581
       objectReference: {fileID: 0}
+    - target: {fileID: -3181452503744645242, guid: 42f2bfd02830eaf4a8076baf7956e367, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 42f2bfd02830eaf4a8076baf7956e367, type: 3}
       propertyPath: m_Name
       value: regularchair
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 42f2bfd02830eaf4a8076baf7956e367, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -539,9 +599,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -92.615
       objectReference: {fileID: 0}
+    - target: {fileID: -3181452503744645242, guid: 42f2bfd02830eaf4a8076baf7956e367, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 42f2bfd02830eaf4a8076baf7956e367, type: 3}
       propertyPath: m_Name
       value: regularchair (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 42f2bfd02830eaf4a8076baf7956e367, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -601,9 +669,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -265.017
       objectReference: {fileID: 0}
+    - target: {fileID: -3181452503744645242, guid: 42f2bfd02830eaf4a8076baf7956e367, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 42f2bfd02830eaf4a8076baf7956e367, type: 3}
       propertyPath: m_Name
       value: regularchair (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 42f2bfd02830eaf4a8076baf7956e367, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -663,9 +739,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 90
       objectReference: {fileID: 0}
+    - target: {fileID: -8391193718175552794, guid: 9cf080e4d7a339b4192d3322a23e1885, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 9cf080e4d7a339b4192d3322a23e1885, type: 3}
       propertyPath: m_Name
       value: marker (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 9cf080e4d7a339b4192d3322a23e1885, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -725,9 +809,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -276.352
       objectReference: {fileID: 0}
+    - target: {fileID: -3181452503744645242, guid: 42f2bfd02830eaf4a8076baf7956e367, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 42f2bfd02830eaf4a8076baf7956e367, type: 3}
       propertyPath: m_Name
       value: regularchair (5)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 42f2bfd02830eaf4a8076baf7956e367, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

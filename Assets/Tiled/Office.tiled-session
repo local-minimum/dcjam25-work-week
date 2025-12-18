@@ -6,9 +6,9 @@
     "activeFile": "Office.tmx",
     "automapping.whileDrawing": true,
     "expandedProjectPaths": [
-        "Rules",
         ".",
-        "Automapping"
+        "Automapping",
+        "Rules"
     ],
     "file.lastUsedOpenFilter": "All Files (*)",
     "fileStates": {
@@ -25,14 +25,14 @@
         },
         "C:/Users/Admin/Documents/Unity/untitled-dungeon-crawler/Assets/Tiled/DemoLevel.tmx": {
             "expandedGroupLayers": [
-                9,
-                7
+                7,
+                9
             ],
             "expandedObjectLayers": [
                 14,
-                9,
+                13,
                 7,
-                13
+                9
             ],
             "scale": 3,
             "selectedLayer": 9,
@@ -65,26 +65,26 @@
             "scaleInDock": 1
         },
         "Mapping.tsx": {
-            "scaleInDock": 1,
+            "scaleInDock": 3,
             "scaleInEditor": 2
         },
         "Office.tmx": {
             "expandedGroupLayers": [
-                2,
                 12,
-                47
+                47,
+                2
             ],
             "expandedObjectLayers": [
-                53,
-                2,
                 22,
-                47
+                53,
+                47,
+                2
             ],
-            "scale": 3,
+            "scale": 8,
             "selectedLayer": 5,
             "viewCenter": {
-                "x": 465.3333333333333,
-                "y": 725.5
+                "x": 476.1875,
+                "y": 887.9375
             }
         },
         "Rules/AutomappingDungeons.tmx": {
